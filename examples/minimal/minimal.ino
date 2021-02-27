@@ -1,5 +1,5 @@
 #include <Arduino.h>
-// This is a test example for LibraryName
+// This is a test example for MathVec
 
 void setup()
 {

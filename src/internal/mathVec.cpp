@@ -1,6 +1,6 @@
-#include "libraryName.h"
+#include "MathVec.h"
 
-// using stevesch::LibraryName::foo;
+// using stevesch::MathVec::foo;
 
 namespace {
   // local/static data and functions
