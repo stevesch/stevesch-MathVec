@@ -8,7 +8,7 @@ namespace {
 } // namespace
 
 namespace stevesch {
-namespace PageHandler {
+namespace MathVec {
 
   // void setup()
   // {
@@ -18,5 +18,5 @@ namespace PageHandler {
   // {
   // }
 
-} // namespace PageHandler
+} // namespace MathVec
 } // namespace stevesch
