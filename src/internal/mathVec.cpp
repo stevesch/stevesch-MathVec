@@ -2,21 +2,24 @@
 
 // using stevesch::MathVec::foo;
 
-namespace {
+namespace
+{
   // local/static data and functions
 
 } // namespace
 
-namespace stevesch {
-namespace MathVec {
+namespace stevesch
+{
+  namespace MathVec
+  {
 
-  // void setup()
-  // {
-  // }
+    // void setup()
+    // {
+    // }
 
-  // void loop()
-  // {
-  // }
+    // void loop()
+    // {
+    // }
 
-} // namespace MathVec
+  } // namespace MathVec
 } // namespace stevesch
