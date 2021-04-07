@@ -1,6 +1,6 @@
 #include "vector3.h"
 //
-// Copyright © 2002, PulseCode Interactive LLC, All Rights Reserved
+// Copyright © 2002, Stephen Schlueter, All Rights Reserved
 //
 namespace stevesch
 {

@@ -2,7 +2,7 @@
 #define STEVESCH_MATHVEC_INTERNAL_VECTOR4_REF_INLINE_H_
 // inline functions for vector4
 //
-// Copyright © 2002, PulseCode Interactive LLC, All Rights Reserved
+// Copyright © 2002, Stephen Schlueter, All Rights Reserved
 //
 
 namespace stevesch

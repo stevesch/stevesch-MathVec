@@ -3,7 +3,7 @@
 
 // Quaternion library header
 //
-// Copyright © 2002, PulseCode Interactive LLC, All Rights Reserved
+// Copyright © 2002, Stephen Schlueter, All Rights Reserved
 //
 // History:
 //	Created:	4/30/2002, Stephen Schlueter
@@ -81,7 +81,7 @@ namespace stevesch
 
     SQUATINLINE quat &scale(float fScale); // same as *=(scalar)
 
-    SQUATINLINE void conj();                          // Conjugate (self): q* = (t, -v)
+    SQUATINLINE void conj();                // Conjugate (self): q* = (t, -v)
     SQUATINLINE void conj(quat &dst) const; // Conjugate
 
     SQUATINLINE float norm() const;    // (q)(q*) == t*t + v.v
@@ -93,26 +93,26 @@ namespace stevesch
     SQUATINLINE float det() const;    // (t*t + v.v)^2
     SQUATINLINE float invDet() const; // 1.0 / [(t*t + v.v)^2]
 
-    SQUATINLINE void adj();                          // Adjunct (self)-- (q*)[(q)(q*)]
+    SQUATINLINE void adj();                // Adjunct (self)-- (q*)[(q)(q*)]
     SQUATINLINE void adj(quat &dst) const; // Adjunct
 
     SQUATINLINE void invert();
     SQUATINLINE void invert(quat &dst) const;
 
-    void ln();                          // natural log (self)
+    void ln();                // natural log (self)
     void ln(quat &dst) const; // natural log
 
-    void exp();                          // exponential (self)-- e^(this)
+    void exp();                // exponential (self)-- e^(this)
     void exp(quat &dst) const; // exponential-- dst = e^(this)
 
-    SQUATINLINE void pow(const quat &q);                                                        // power (self)-- this = this^q
+    SQUATINLINE void pow(const quat &q);                                    // power (self)-- this = this^q
     static SQUATINLINE void pow(quat &dst, const quat &q1, const quat &q2); // power-- dst = q1^q2
 
-    SQUATINLINE void pow(float fPower);              // power (self)-- this = this^fPower
-    SQUATINLINE void normalize();                    // normalize (self)-- this = this/|this|
+    SQUATINLINE void pow(float fPower);    // power (self)-- this = this^fPower
+    SQUATINLINE void normalize();          // normalize (self)-- this = this/|this|
     SQUATINLINE void normalize(quat &dst); // normalize-- dst = this/|this|
 
-    bool safeNormalize();                          // normalize (self), setting value to identity if near 0.  returns 'true' if quaternion needed normalization
+    bool safeNormalize();                // normalize (self), setting value to identity if near 0.  returns 'true' if quaternion needed normalization
     bool safeNormalize(quat &dst) const; // normalize, setting value to identity if near 0.  returns 'true' if quaternion needed normalization
 
     SQUATINLINE void rotate(stevesch::vector4 &dst, const stevesch::vector4 &src) const; // dst = q * src * ~q
@@ -133,12 +133,12 @@ namespace stevesch
 
     SQUATINLINE void cross(const quat &q);   // cross product (self)-- this = this x q (Grassman outer product)
     SQUATINLINE void dotQuat(const quat &q); // quaternion-result dot product (self)-- this = this . q (Euclidean inner product)
-                                                       // (results in <0 0 0 scalar-dot>
+                                             // (results in <0 0 0 scalar-dot>
 
     SQUATINLINE float dot(const quat &q) const; // standard euclidean inner (even) product
-                                                          // [(q1*)(q2) + (q2)(q1*)] / 2
-                                                          // == ( t*t' + v.v', 0 )
-                                                          // *** Common dot product ***
+                                                // [(q1*)(q2) + (q2)(q1*)] / 2
+                                                // == ( t*t' + v.v', 0 )
+                                                // *** Common dot product ***
 
     //		void ToBasisMatrix(stevesch::matrix4& dst) const;
 

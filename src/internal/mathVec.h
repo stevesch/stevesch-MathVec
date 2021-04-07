@@ -7,10 +7,11 @@
 
 namespace stevesch
 {
-namespace MathVec {
-  // void setup();
-  // void loop();
-}
+  namespace MathVec
+  {
+    // void setup();
+    // void loop();
+  }
 }
 
 #endif

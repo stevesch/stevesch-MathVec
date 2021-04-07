@@ -1,6 +1,6 @@
 #ifndef STEVESCH_MATHVEC_INTERNAL_VECTOR3_H_
 #define STEVESCH_MATHVEC_INTERNAL_VECTOR3_H_
-// Copyright © 2002, PulseCode Interactive LLC, All Rights Reserved
+// Copyright © 2002, Stephen Schlueter, All Rights Reserved
 
 #include "mathVec.h"
 #include "stevesch-MathBase.h"
@@ -36,7 +36,7 @@ namespace stevesch
     SVECINLINE operator const SVec3_t *() const { return reinterpret_cast<const SVec3_t *>(this); }
     SVECINLINE operator SVec3_t *() { return reinterpret_cast<SVec3_t *>(this); }
 
-    SVECINLINE const vector3 &copy(const vector3 &v);  // copy (all memebers)
+    SVECINLINE const vector3 &copy(const vector3 &v);            // copy (all memebers)
     SVECINLINE const vector3 &set(float _x, float _y, float _z); // w=1.0
 
     SVECINLINE const vector3 &add(const vector3 &v);   // member-wise addition
@@ -44,7 +44,7 @@ namespace stevesch
     SVECINLINE const vector3 &mul(const vector3 &v);   // member-wise multiplication
     SVECINLINE const vector3 &cross(const vector3 &v); // 3-element cross (outer) product
 
-    SVECINLINE const vector3 &negate();                             // 3-element negation (x=-x, y=-y, z=-z)
+    SVECINLINE const vector3 &negate();                   // 3-element negation (x=-x, y=-y, z=-z)
     SVECINLINE const vector3 &negate(vector3 &dst) const; // 3-element negation (dst.x=-x, dst.y=-y, dst.z=-z)
 
     SVECINLINE const vector3 &scale(float scale); // multiply by scalar
@@ -52,18 +52,18 @@ namespace stevesch
     SVECINLINE const vector3 &div(float scale);   // divide by scalar
 
     SVECINLINE float dot(const vector3 &v) const; // dot (inner) product
-    SVECINLINE float squareMag() const;                     // squared magnitude
-    SVECINLINE float abs() const;                           // magnitude
+    SVECINLINE float squareMag() const;           // squared magnitude
+    SVECINLINE float abs() const;                 // magnitude
 
     SVECINLINE const vector3 &normalize() { return mul(rsqrtf(squareMag())); }
 
     SVECINLINE const vector3 &operator=(const vector3 &v);  // copy
     SVECINLINE const vector3 &operator+=(const vector3 &v); // add
     SVECINLINE const vector3 &operator-=(const vector3 &v); // sub
-    SVECINLINE const vector3 &operator*=(float scale);                // scale
-    SVECINLINE const vector3 &operator/=(float scale);                // scale(1/scale)
-    SVECINLINE const float &operator[](int n) const;                            // 0->x, 1->y, 2->z
-    SVECINLINE float &operator[](int n);                                        // 0->x, 1->y, 2->z
+    SVECINLINE const vector3 &operator*=(float scale);      // scale
+    SVECINLINE const vector3 &operator/=(float scale);      // scale(1/scale)
+    SVECINLINE const float &operator[](int n) const;        // 0->x, 1->y, 2->z
+    SVECINLINE float &operator[](int n);                    // 0->x, 1->y, 2->z
 
     ////////////////////////////////////////////////////
 
@@ -72,10 +72,10 @@ namespace stevesch
 
     //SVECINLINE const vector3& operator *=(const stevesch::matrix4& mLeft);	// transform (full 4x4)
 
-    SVECINLINE void rand();                                                         // 3-element randomize (0.0f, 1.0f)
+    SVECINLINE void rand();                                     // 3-element randomize (0.0f, 1.0f)
     SVECINLINE void randAB(const vector3 &a, const vector3 &b); // 3-element randomize (a.*, b.*)
 
-    void randSpherical();            // produce random spherical distribution on unit sphere
+    void randSpherical();                     // produce random spherical distribution on unit sphere
     void randSpherical(stevesch::RandGen &r); // produce random spherical distribution on unit sphere
 
     ////////////////////////////////////////////////////
@@ -84,9 +84,9 @@ namespace stevesch
     static SVECINLINE void add(vector3 &dst, const vector3 &v1, const vector3 &v2); // dst = v1 + v2
     static SVECINLINE void sub(vector3 &dst, const vector3 &v1, const vector3 &v2); // dst = v1 - v2
     static SVECINLINE void mul(vector3 &dst, const vector3 &v1, const vector3 &v2); // dst = v1 * v2
-    static SVECINLINE void div(vector3 &dst, const vector3 &v1, float s);                     // dst = v1 / s
-    static SVECINLINE void scale(vector3 &dst, const vector3 &v1, float s);                   // dst = v1 * s
-    static SVECINLINE float dot(const vector3 &v1, const vector3 &v2);                        // dot (inner) product of v1 and v2
+    static SVECINLINE void div(vector3 &dst, const vector3 &v1, float s);           // dst = v1 / s
+    static SVECINLINE void scale(vector3 &dst, const vector3 &v1, float s);         // dst = v1 * s
+    static SVECINLINE float dot(const vector3 &v1, const vector3 &v2);              // dot (inner) product of v1 and v2
 
     static SVECINLINE void transform(vector3 &dst, const stevesch::matrix4 &m, const vector3 &v);    // dst = m * v (4x4)
     static SVECINLINE void transformSub(vector3 &dst, const stevesch::matrix4 &m, const vector3 &v); // dst = m * v (4x4, as if v.w = 0.0)

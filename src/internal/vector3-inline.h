@@ -1,6 +1,6 @@
 #ifndef STEVESCH_MATHVEC_INTERNAL_VECTOR3_INLINE_H_
 #define STEVESCH_MATHVEC_INTERNAL_VECTOR3_INLINE_H_
-// Copyright © 2002, PulseCode Interactive LLC, All Rights Reserved
+// Copyright © 2002, Stephen Schlueter, All Rights Reserved
 
 //#include "vector4.h"
 #include "matrix4.h"

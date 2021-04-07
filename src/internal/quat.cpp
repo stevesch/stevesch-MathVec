@@ -1,6 +1,6 @@
 #include "quat.h"
 //
-// Copyright © 2002, PulseCode Interactive LLC, All Rights Reserved
+// Copyright © 2002, Stephen Schlueter, All Rights Reserved
 //
 
 namespace stevesch
@@ -142,7 +142,7 @@ namespace stevesch
     float s = sinf(a);
 
     vector4::scale(V(), vAxis, s); // v = sin(angle/2) * axis
-    A() = cosf(a);              // t = cos(angle/2)
+    A() = cosf(a);                 // t = cos(angle/2)
   }
 
   void quat::toEuler(vector4 &vEuler) const
@@ -633,7 +633,7 @@ namespace stevesch
     {
       // quaternion is normalized
       V() *= atan2f(1.0f, A()); // v = v * atan(1/t)
-      A() = 0.0f;                  // ln(1) == 0
+      A() = 0.0f;               // ln(1) == 0
     }
     else
     {
@@ -656,7 +656,7 @@ namespace stevesch
     {
       // quaternion is normalized
       vector4::scale(dst.V(), V(), atan2f(1.0f, A())); // v = v * atan(1/t)
-      dst.A() = 0.0f;                                     // ln(1) == 0
+      dst.A() = 0.0f;                                  // ln(1) == 0
     }
     else
     {

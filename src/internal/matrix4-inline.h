@@ -1,6 +1,6 @@
 #ifndef STEVESCH_MATHVEC_INTERNAL_MATRIX4_INLINE_H_
 #define STEVESCH_MATHVEC_INTERNAL_MATRIX4_INLINE_H_
-// Copyright © 2002, PulseCode Interactive LLC, All Rights Reserved
+// Copyright © 2002, Stephen Schlueter, All Rights Reserved
 // inline header for matrix4
 
 namespace stevesch
@@ -49,12 +49,12 @@ namespace stevesch
 
   // initialize by element
   SMATRIX4INLINE matrix4::matrix4(float _xx, float _xy, float _xz, float _xw,
-                                                      float _yx, float _yy, float _yz, float _yw,
-                                                      float _zx, float _zy, float _zz, float _zw,
-                                                      float _wx, float _wy, float _wz, float _ww) : m00(_xx), m10(_xy), m20(_xz), m30(_xw),
-                                                                                                    m01(_yx), m11(_yy), m21(_yz), m31(_yw),
-                                                                                                    m02(_zx), m12(_zy), m22(_zz), m32(_zw),
-                                                                                                    m03(_wx), m13(_wy), m23(_wz), m33(_ww)
+                                  float _yx, float _yy, float _yz, float _yw,
+                                  float _zx, float _zy, float _zz, float _zw,
+                                  float _wx, float _wy, float _wz, float _ww) : m00(_xx), m10(_xy), m20(_xz), m30(_xw),
+                                                                                m01(_yx), m11(_yy), m21(_yz), m31(_yw),
+                                                                                m02(_zx), m12(_zy), m22(_zz), m32(_zw),
+                                                                                m03(_wx), m13(_wy), m23(_wz), m33(_ww)
   {
   }
 
@@ -450,7 +450,7 @@ namespace stevesch
   }
 
   SMATRIX4INLINE void matrix4::perspectiveFovLH(matrix4 &mtxProjDst,
-                                                          float fFOVVertical, float fAspectWoverH, float fZNear, float fZFar)
+                                                float fFOVVertical, float fAspectWoverH, float fZNear, float fZFar)
   {
 #if defined(SPLATFORM_XBOX)
     XGMatrixPerspectiveFovLH((XGMATRIX *)&mtxProjDst, fFOVVertical, fAspectWoverH, fZNear, fZFar);
@@ -469,7 +469,7 @@ namespace stevesch
   }
 
   SMATRIX4INLINE void matrix4::perspectiveFovRH(matrix4 &mtxProjDst,
-                                                          float fFOVVertical, float fAspectWoverH, float fZNear, float fZFar)
+                                                float fFOVVertical, float fAspectWoverH, float fZNear, float fZFar)
   {
 #if defined(SPLATFORM_XBOX)
     XGMatrixPerspectiveFovRH((XGMATRIX *)&mtxProjDst, fFOVVertical, fAspectWoverH, fZNear, fZFar);

@@ -2,7 +2,7 @@
 #define STEVESCH_MATHVEC_INTERNAL_MATRIX4_H_
 // Matrix4 library header
 //
-// Copyright © 2002, PulseCode Interactive LLC, All Rights Reserved
+// Copyright © 2002, Stephen Schlueter, All Rights Reserved
 //
 // History:
 //	Created:	4/30/2002, Stephen Schlueter
@@ -54,13 +54,13 @@ namespace stevesch
     matrix4(float fDiagonal3);                                                                                                   // uniform scale matrix
     matrix4(float x, float y, float z);                                                                                          // translation matrix
     matrix4(const stevesch::vector3 &vTranslation);                                                                              // translation matrix
-    matrix4(const matrix4 &m);                                                                                         // copy
+    matrix4(const matrix4 &m);                                                                                                   // copy
     matrix4(const stevesch::vector4 &vx, const stevesch::vector4 &vy, const stevesch::vector4 &vz, const stevesch::vector4 &vw); // initialize by basis vector (column)
 
     matrix4(float _xx, float _xy, float _xz, float _xw,
-                      float _yx, float _yy, float _yz, float _yw,
-                      float _zx, float _zy, float _zz, float _zw,
-                      float _wx, float _wy, float _wz, float _ww);
+            float _yx, float _yy, float _yz, float _yw,
+            float _zx, float _zy, float _zz, float _zw,
+            float _wx, float _wy, float _wz, float _ww);
 
     matrix4(const SMat4_t &m) { *(SMat4_t *)this = m; }
     const matrix4 &operator=(const SMat4_t &m)
@@ -81,7 +81,7 @@ namespace stevesch
     float det() const;    // compute determinant for entire 4x4 matrix
     float det3x3() const; // compute determinant for 3x3 part
 
-    void normalizeCol3x3();                             // normalize columns of a 3x3 matrix
+    void normalizeCol3x3();                   // normalize columns of a 3x3 matrix
     void normalizeCol3x3(matrix4 &dst) const; // normalize columns of a 3x3 matrix
 
     static void transpose(matrix4 &dst, const matrix4 &src);
@@ -105,8 +105,8 @@ namespace stevesch
     const matrix4 &operator+=(const matrix4 &m);    // member-wise addition
     const matrix4 &operator-=(const matrix4 &m);    // member-wise subtraction
     const matrix4 &mulMembers4x4(const matrix4 &m); // member-wise multiplication
-    const matrix4 &mulMembers4x4(float fScale);               // member-wise multiplication
-    const matrix4 &mulMembers3x3(float fScale);               // member-wise multiplication of 3x3 part
+    const matrix4 &mulMembers4x4(float fScale);     // member-wise multiplication
+    const matrix4 &mulMembers3x3(float fScale);     // member-wise multiplication of 3x3 part
 
     const matrix4 &identity();
     const matrix4 &zero();
@@ -185,8 +185,8 @@ namespace stevesch
     const matrix4 &perspectiveRH(float fFOVhRadians, float fFOVvRadians, float fZNear, float fZFar);
 
     static void mulMembers4x4(matrix4 &dst, const matrix4 &m1, const matrix4 &m2); // member-wise multiplication
-    static void mulMembers4x4(matrix4 &dst, const matrix4 &m, float fScale);                 // member-wise multiplication of entire matrix (4x4)
-    static void mulMembers3x3(matrix4 &dst, const matrix4 &m, float fScale);                 // member-wise multiplication of 3x3 part
+    static void mulMembers4x4(matrix4 &dst, const matrix4 &m, float fScale);       // member-wise multiplication of entire matrix (4x4)
+    static void mulMembers3x3(matrix4 &dst, const matrix4 &m, float fScale);       // member-wise multiplication of 3x3 part
 
     // generates a local-to-world transform that would orient an **object** to look at
     // the world coordinate 'rAt' from the world coordinate 'rEye'
@@ -208,7 +208,7 @@ namespace stevesch
   public:
     static const matrix4 I; // identity matrix (4x4)
 
-  } /* SALIGN(16) */ ;
+  } /* SALIGN(16) */;
 
 } // namespace stevesch
 

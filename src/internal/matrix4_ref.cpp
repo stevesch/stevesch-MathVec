@@ -1,6 +1,6 @@
 #include "matrix4.h" // precompiled header for SMath project
 //
-// Copyright © 2002, PulseCode Interactive LLC, All Rights Reserved
+// Copyright © 2002, Stephen Schlueter, All Rights Reserved
 //
 
 #define SMATRIX4_USE_D3DX 0

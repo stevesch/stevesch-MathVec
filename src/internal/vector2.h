@@ -1,6 +1,6 @@
 #ifndef STEVESCH_MATHVEC_INTERNAL_VECTOR2_H_
 #define STEVESCH_MATHVEC_INTERNAL_VECTOR2_H_
-// Copyright © 2002, PulseCode Interactive LLC, All Rights Reserved
+// Copyright © 2002, Stephen Schlueter, All Rights Reserved
 
 #include "mathVec.h"
 #include "stevesch-MathBase.h"
@@ -195,7 +195,7 @@ namespace stevesch
     } //{ V4 = r.V4; return *this; }
 
     // return 'NULL' failure occurs
-    matrix2 *invert();                         // returns 'this' if success
+    matrix2 *invert();                        // returns 'this' if success
     matrix2 *getInverse(matrix2 &rDst) const; // returns &rDst if success
 
     matrix2 &operator*=(const matrix2 &rRight);
@@ -203,10 +203,10 @@ namespace stevesch
 
     float det() const;
 
-    void transpose();        // transpose self
+    void transpose();       // transpose self
     matrix2 getTranspose(); // return transpose
 
-  } /* SALIGN(16) */ ;
+  } /* SALIGN(16) */;
 
   //----------------------------------------------------------------------------
   // Homogeneous mapping of quadrilateral <p00,p10,p11,p01> to square [0,1]^2.

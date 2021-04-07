@@ -1,6 +1,6 @@
 #ifndef STEVESCH_MATHVEC_INTERNAL_QUAT_INLINE_H_
 #define STEVESCH_MATHVEC_INTERNAL_QUAT_INLINE_H_
-// Copyright © 2002, PulseCode Interactive LLC, All Rights Reserved
+// Copyright © 2002, Stephen Schlueter, All Rights Reserved
 // inline functions for quat
 
 namespace stevesch
@@ -437,7 +437,7 @@ namespace stevesch
   }
 
   SQUATINLINE void quat::lookAtLHWorld(quat &dst, const stevesch::vector4 &rEye, const stevesch::vector4 &rAt,
-                                                 const stevesch::vector4 &rUp)
+                                       const stevesch::vector4 &rUp)
   {
     stevesch::matrix4 mat;
     stevesch::matrix4::lookAtLHWorld(mat, rEye, rAt, rUp);
@@ -445,7 +445,7 @@ namespace stevesch
   }
 
   SQUATINLINE void quat::lookAtRHWorld(quat &dst, const stevesch::vector4 &rEye, const stevesch::vector4 &rAt,
-                                                 const stevesch::vector4 &rUp)
+                                       const stevesch::vector4 &rUp)
   {
     stevesch::matrix4 mat;
     stevesch::matrix4::lookAtRHWorld(mat, rEye, rAt, rUp);
@@ -453,7 +453,7 @@ namespace stevesch
   }
 
   SQUATINLINE void quat::lookAtLHView(quat &dst, const stevesch::vector4 &rEye, const stevesch::vector4 &rAt,
-                                                const stevesch::vector4 &rUp)
+                                      const stevesch::vector4 &rUp)
   {
     stevesch::matrix4 mat;
     stevesch::matrix4::lookAtLHView(mat, rEye, rAt, rUp);
@@ -461,7 +461,7 @@ namespace stevesch
   }
 
   SQUATINLINE void quat::lookAtRHView(quat &dst, const stevesch::vector4 &rEye, const stevesch::vector4 &rAt,
-                                                const stevesch::vector4 &rUp)
+                                      const stevesch::vector4 &rUp)
   {
     stevesch::matrix4 mat;
     stevesch::matrix4::lookAtRHView(mat, rEye, rAt, rUp);

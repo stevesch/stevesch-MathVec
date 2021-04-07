@@ -1,6 +1,6 @@
 #include "matrix4.h"
 //
-// Copyright © 2002, PulseCode Interactive LLC, All Rights Reserved
+// Copyright © 2002, Stephen Schlueter, All Rights Reserved
 //
 
 namespace stevesch
@@ -344,7 +344,7 @@ namespace stevesch
 
   //---------------------------------------------------------------------------
   bool QLAlgorithm(int iSize, float *m_afDiag, float *m_afSubd,
-                      matrix4 &m_aafMat)
+                   matrix4 &m_aafMat)
   {
     const int iMaxIter = 32;
 

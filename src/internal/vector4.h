@@ -2,7 +2,7 @@
 #define STEVESCH_MATHVEC_INTERNAL_VECTOR4_H_
 // Vector4 library header
 //
-// Copyright © 2002, PulseCode Interactive LLC, All Rights Reserved
+// Copyright © 2002, Stephen Schlueter, All Rights Reserved
 //
 // History:
 //	Created:	4/30/2002, Stephen Schlueter
@@ -70,7 +70,7 @@ namespace stevesch
     inline operator const stevesch::vector3 &() const { return *reinterpret_cast<const stevesch::vector3 *>(this); }
     //operator stevesch::vector3& ()					{ return *reinterpret_cast<stevesch::vector3*>(this); }
 
-    const vector4 &copy(const vector4 &v);  // copy (all memebers)
+    const vector4 &copy(const vector4 &v);            // copy (all memebers)
     const vector4 &set(float _x, float _y, float _z); // w=1.0
     const vector4 &set(float _x, float _y, float _z, float _w);
     const vector4 &set(const stevesch::vector3 &v);
@@ -86,14 +86,14 @@ namespace stevesch
     const vector4 &mul(float scale);   // multiply by scalar (3-element) (same as scale(float))
     const vector4 &div(float scale);   // divide by scalar (3-element)
 
-    const vector4 &negate();                             // 3-element negation (x=-x, y=-y, z=-z)
+    const vector4 &negate();                   // 3-element negation (x=-x, y=-y, z=-z)
     const vector4 &negate(vector4 &dst) const; // 3-element negation (dst.x=-x, dst.y=-y, dst.z=-z)
 
     float dot(const vector4 &v) const; // dot (inner) product (3-element)
-    float squareMag() const;                     // squared magnitude (3-element)
-    float recipSquareMag() const;                // 1.0 / squared magnitued (3-element)
-    float abs() const;                           // magnitude (3-element)
-    float recipAbs() const;                      // 1.0 / magnitude (3-element)
+    float squareMag() const;           // squared magnitude (3-element)
+    float recipSquareMag() const;      // 1.0 / squared magnitued (3-element)
+    float abs() const;                 // magnitude (3-element)
+    float recipAbs() const;            // 1.0 / magnitude (3-element)
 
     const vector4 &normalize(); // normalize self (3-element)
 
@@ -110,14 +110,14 @@ namespace stevesch
     const vector4 &mul4(float scale);   // multiply by scalar (4-element) (same as scale4(float))
     const vector4 &div4(float scale);   // divide by scalar (4-element)
 
-    const vector4 &negate4();                             // 4-element negation (x=-x, y=-y, z=-z, w=-w)
+    const vector4 &negate4();                   // 4-element negation (x=-x, y=-y, z=-z, w=-w)
     const vector4 &negate4(vector4 &dst) const; // 4-element negation (dst.x=-x, dst.y=-y, dst.z=-z, dst.w=-w)
 
     float dot4(const vector4 &v) const; // dot (inner) product (4-element)
-    float squareMag4() const;                     // squared magnitude (4-element)
-    float recipSquareMag4() const;                // 1.0 / squared magnitued (4-element)
-    float abs4() const;                           // magnitude (4-element)
-    float recipAbs4() const;                      // 1.0 / magnitude (4-element)
+    float squareMag4() const;           // squared magnitude (4-element)
+    float recipSquareMag4() const;      // 1.0 / squared magnitued (4-element)
+    float abs4() const;                 // magnitude (4-element)
+    float recipAbs4() const;            // 1.0 / magnitude (4-element)
 
     const vector4 &normalize4(); // normalize self (4-element)
 
@@ -128,10 +128,10 @@ namespace stevesch
     const vector4 &operator=(const vector4 &v);  // copy
     const vector4 &operator+=(const vector4 &v); // add (3-element)
     const vector4 &operator-=(const vector4 &v); // sub (3-element)
-    const vector4 &operator*=(float scale);                // scale (3-element)
-    const vector4 &operator/=(float scale);                // scale(1/scale) (3-element)
-    const float &operator[](int n) const;                            // 0->x, 1->y, 2->z, 3->w
-    float &operator[](int n);                                        // 0->x, 1->y, 2->z, 3->w
+    const vector4 &operator*=(float scale);      // scale (3-element)
+    const vector4 &operator/=(float scale);      // scale(1/scale) (3-element)
+    const float &operator[](int n) const;        // 0->x, 1->y, 2->z, 3->w
+    float &operator[](int n);                    // 0->x, 1->y, 2->z, 3->w
 
     ////////////////////////////////////////////////////
 
@@ -142,9 +142,9 @@ namespace stevesch
 
     //const vector4& operator *=(const stevesch::matrix4& mRight);	// Mul (full 4x4)
 
-    void rand(stevesch::RandGen &r = S_RandGen);                                                            // 3-element randomize (0.0f, 1.0f)
+    void rand(stevesch::RandGen &r = S_RandGen);                                        // 3-element randomize (0.0f, 1.0f)
     void randAB(const vector4 &a, const vector4 &b, stevesch::RandGen &r = S_RandGen);  // 3-element randomize (a.*, b.*)
-    void rand4(stevesch::RandGen &r = S_RandGen);                                                           // 4-element randomize (0.0f, 1.0f)
+    void rand4(stevesch::RandGen &r = S_RandGen);                                       // 4-element randomize (0.0f, 1.0f)
     void randAB4(const vector4 &a, const vector4 &b, stevesch::RandGen &r = S_RandGen); // 4-element randomize (a.*, b.*)
 
     void randSpherical(stevesch::RandGen &r = S_RandGen); // produce random spherical distribution on unit sphere (xyz, w=1.0f)
@@ -154,8 +154,8 @@ namespace stevesch
     static void add(vector4 &dst, const vector4 &v1, const vector4 &v2); // dst = v1 + v2 (3-element)
     static void sub(vector4 &dst, const vector4 &v1, const vector4 &v2); // dst = v1 - v2 (3-element)
     static void mul(vector4 &dst, const vector4 &v1, const vector4 &v2); // dst = v1 * v2 (3-element)
-    static void div(vector4 &dst, const vector4 &v1, float s);                     // dst = v1 / s
-    static void scale(vector4 &dst, const vector4 &v1, float s);                   // dst = v1 * s
+    static void div(vector4 &dst, const vector4 &v1, float s);           // dst = v1 / s
+    static void scale(vector4 &dst, const vector4 &v1, float s);         // dst = v1 * s
     inline static void mul(vector4 &dst, const vector4 &v1, float s) { vector4::scale(dst, v1, s); }
     static float dot(const vector4 &v1, const vector4 &v2); // 3-element dot (inner) product of v1 and v2
 
@@ -196,7 +196,7 @@ namespace stevesch
     static void sub4(vector4 &dst, const vector4 &v1, const vector4 &v2); // dst = v1 - v2 (4-element)
     static void mul4(vector4 &dst, const vector4 &v1, const vector4 &v2); // dst = v1 * v2 (4-element)
     static void div4(vector4 &dst, const vector4 &v1, const vector4 &v2); // dst = v1 / v2 (4-element)
-    static void mul4(vector4 &dst, const vector4 &v1, float fScale);                // dst = v1 * fScale (4-element)
+    static void mul4(vector4 &dst, const vector4 &v1, float fScale);      // dst = v1 * fScale (4-element)
 
     static void recip(vector4 &dst, const vector4 &v);     // dst = sqrt(v) (3-element)
     static void sqrt(vector4 &dst, const vector4 &v);      // dst = sqrt(v) (3-element)
@@ -290,7 +290,7 @@ namespace stevesch
     // fDeltaSeconds must be non-zero
     static void instantaneousVelocity(vector4 &vVLinear, const vector4 &v0, const vector4 &v1, float fDeltaSeconds);
 
-  } /* SALIGN(16) */ ;
+  } /* SALIGN(16) */;
 
   extern const vector4 c_vUP;
   extern const vector4 c_vDOWN;
