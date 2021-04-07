@@ -55,6 +55,18 @@ namespace stevesch
       return x * v1.x + y * v1.y;
     }
 
+    // 2-element squared-magnitude
+    float squareMag() const
+    {
+      return (x * x + y * y);
+    }
+
+    // 2-element magnitude
+    float abs() const
+    {
+      return sqrtf(squareMag());
+    }
+
     vector2 operator+(const vector2 &v1) const
     {
       return vector2(x + v1.x, y + v1.y);
