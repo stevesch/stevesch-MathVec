@@ -16,7 +16,7 @@ namespace stevesch
   const matrix4 &matrix4::XMatrix(float fRadians)
   {
     float c, s;
-    CosSinf(fRadians, &c, &s);
+    cosSinf(fRadians, &c, &s);
 
     identity();
 
@@ -32,7 +32,7 @@ namespace stevesch
   const matrix4 &matrix4::YMatrix(float fRadians)
   {
     float c, s;
-    CosSinf(fRadians, &c, &s);
+    cosSinf(fRadians, &c, &s);
 
     identity();
 
@@ -48,7 +48,7 @@ namespace stevesch
   const matrix4 &matrix4::ZMatrix(float fRadians)
   {
     float c, s;
-    CosSinf(fRadians, &c, &s);
+    cosSinf(fRadians, &c, &s);
 
     identity();
 
@@ -306,7 +306,7 @@ namespace stevesch
     subd[2] = 0;
     if (c != 0)
     {
-      float ell = Sqrtf(b * b + c * c);
+      float ell = sqrtf(b * b + c * c);
       b /= ell;
       c /= ell;
       float q = 2 * b * e + c * (f - d);
@@ -343,7 +343,7 @@ namespace stevesch
   }
 
   //---------------------------------------------------------------------------
-  SResult QLAlgorithm(int iSize, float *m_afDiag, float *m_afSubd,
+  bool QLAlgorithm(int iSize, float *m_afDiag, float *m_afSubd,
                       matrix4 &m_aafMat)
   {
     const int iMaxIter = 32;
@@ -365,7 +365,7 @@ namespace stevesch
           break;
 
         float fG = (m_afDiag[i0 + 1] - m_afDiag[i0]) / (2.0f * m_afSubd[i0]);
-        float fR = Sqrtf(fG * fG + 1.0f);
+        float fR = sqrtf(fG * fG + 1.0f);
         if (fG < 0.0f)
           fG = m_afDiag[i2] - m_afDiag[i0] + m_afSubd[i0] / (fG - fR);
         else
@@ -378,7 +378,7 @@ namespace stevesch
           if (fabsf(fF) >= fabsf(fG))
           {
             fCos = fG / fF;
-            fR = Sqrtf(fCos * fCos + 1.0f);
+            fR = sqrtf(fCos * fCos + 1.0f);
             m_afSubd[i3 + 1] = fF * fR;
             fSin = 1.0f / fR;
             fCos *= fSin;
@@ -386,7 +386,7 @@ namespace stevesch
           else
           {
             fSin = fF / fG;
-            fR = Sqrtf(fSin * fSin + 1.0f);
+            fR = sqrtf(fSin * fSin + 1.0f);
             m_afSubd[i3 + 1] = fG * fR;
             fCos = 1.0f / fR;
             fSin *= fCos;
@@ -409,13 +409,13 @@ namespace stevesch
         m_afSubd[i2] = 0.0f;
       }
       if (i1 == iMaxIter)
-        return SERR_FAIL;
+        return false;
     }
 
-    return SERR_OK;
+    return true;
   }
 
-  SResult matrix4::eigen3(vector3 &vDiag3)
+  bool matrix4::eigen3(vector3 &vDiag3)
   {
     vector3 subd;
     Tridiagonal3(*this, (float *)&vDiag3, (float *)&subd);
@@ -492,7 +492,7 @@ namespace stevesch
         continue;
       }
       l++;
-      g = Sqrtf(h);
+      g = sqrtf(h);
       if (f >= 0.0f)
         g = -g;
       e[i] = g;
@@ -557,8 +557,8 @@ namespace stevesch
 
   //	routine to find eigenstructure of real tri-diagonal matrix
   //			 uses QL algorithm
-  //		  returns  SERR_OK: sucess      SERR_FAIL: failure to converge
-  SResult calc_eigenstructure(float *d, float *e, float *A, int L, float macheps)
+  //		  returns  true: success      false: failure to converge
+  bool calc_eigenstructure(float *d, float *e, float *A, int L, float macheps)
   {
     int i, j, k, l, m;
     float b, c, f, g, h, p, r, s;
@@ -581,9 +581,9 @@ namespace stevesch
         do
         {
           if (j++ == 30)
-            return SERR_FAIL;
+            return false;
           p = (d[l + 1] - d[l]) / (2.0f * e[l]);
-          r = Sqrtf(p * p + 1);
+          r = sqrtf(p * p + 1);
           h = d[l] - e[l] / (p + (p < 0.0f ? -r : r));
           for (i = l; i < L; i++)
             d[i] = d[i] - h;
@@ -598,7 +598,7 @@ namespace stevesch
             if (fabsf(p) >= fabsf(e[i]))
             {
               c = e[i] / p;
-              r = Sqrtf(c * c + 1);
+              r = sqrtf(c * c + 1);
               e[i + 1] = s * p * r;
               s = c / r;
               c = 1.0f / r;
@@ -606,7 +606,7 @@ namespace stevesch
             else
             {
               c = p / e[i];
-              r = Sqrtf(c * c + 1);
+              r = sqrtf(c * c + 1);
               e[i + 1] = s * e[i] * r;
               s = 1.0f / r;
               c = c / r;
@@ -651,7 +651,7 @@ namespace stevesch
         }
       }
     }
-    return SERR_OK;
+    return true;
   }
 
 }

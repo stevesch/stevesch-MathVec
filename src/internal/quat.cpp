@@ -63,7 +63,7 @@ namespace stevesch
       }
       else
       {
-        vector4::mul4(dst.V(), V(), RSqrtf(fMag2));
+        vector4::mul4(dst.V(), V(), rsqrtf(fMag2));
       }
       return true;
     }
@@ -86,7 +86,7 @@ namespace stevesch
       }
       else
       {
-        V().mul4(RSqrtf(fMag2));
+        V().mul4(rsqrtf(fMag2));
       }
 
       return true;
@@ -100,24 +100,24 @@ namespace stevesch
 
   float quat::getAngle() const
   {
-    float fA = Clampf(A(), -1.0f, 1.0f);
-    //		float a = S::ACosf (fA);	// a = angle/2
-    //		float s = S::Sinf (a);
+    float fA = clampf(A(), -1.0f, 1.0f);
+    //		float a = acosf (fA);	// a = angle/2
+    //		float s = sinf (a);
     //		if (fabsf(s) < 0.0001f)
     if (fabsf(fA) > cfCosZeroRotationComponent)
     {
       return 0.0f;
     }
 
-    float a = S::ACosf(fA); // a = angle/2
-    return CloseMod2pi(2.0f * a);
+    float a = acosf(fA); // a = angle/2
+    return closeMod2pi(2.0f * a);
   }
 
   void quat::toAxisAngle(vector4 &vAxis, float &angle) const
   {
-    float fA = Clampf(A(), -1.0f, 1.0f);
-    //		float a = S::ACosf (fA);	// a = angle/2
-    //		float s = S::Sinf (a);
+    float fA = clampf(A(), -1.0f, 1.0f);
+    //		float a = acosf (fA);	// a = angle/2
+    //		float s = sinf (a);
     //		if (fabsf(s) < 0.0001f)
     if (fabsf(fA) > cfCosZeroRotationComponent)
     {
@@ -127,22 +127,22 @@ namespace stevesch
     }
     else
     {
-      float a = S::ACosf(fA); // a = angle/2
-      float s = S::Sinf(a);
+      float a = acosf(fA); // a = angle/2
+      float s = sinf(a);
 
       vector4::div(vAxis, V(), s); // axis = v / sin(angle/2)
-      angle = CloseMod2pi(2.0f * a);
+      angle = closeMod2pi(2.0f * a);
       vAxis.w = 1.0f;
     }
   }
 
   void quat::fromAxisAngle(const vector4 &vAxis, float angle)
   {
-    float a = S::Mod2pi(angle * 0.5f);
-    float s = S::Sinf(a);
+    float a = mod2pi(angle * 0.5f);
+    float s = sinf(a);
 
     vector4::scale(V(), vAxis, s); // v = sin(angle/2) * axis
-    A() = S::Cosf(a);              // t = cos(angle/2)
+    A() = cosf(a);              // t = cos(angle/2)
   }
 
   void quat::toEuler(vector4 &vEuler) const
@@ -153,9 +153,9 @@ namespace stevesch
 #if SCOORDINATE_SYSTEM_IS_NASA_STANDARD_AIRPLANE
     // NASA standard airplane
     // heading (yaw)
-    vEuler.z = S::ATan2f(2.0f * (X() * Y() + Z() * A()), (vsq.x + vsq.w - vsq.y - vsq.z));
+    vEuler.z = atan2f(2.0f * (X() * Y() + Z() * A()), (vsq.x + vsq.w - vsq.y - vsq.z));
     // bank (roll)
-    vEuler.x = S::ATan2f(2.0f * (Y() * Z() + X() * A()), (vsq.z + vsq.w - vsq.x - vsq.y));
+    vEuler.x = atan2f(2.0f * (Y() * Z() + X() * A()), (vsq.z + vsq.w - vsq.x - vsq.y));
     // attitude (pitch)
     {
       float asin_arg = -2.0f * (X() * Z() - Y() * A());
@@ -164,15 +164,15 @@ namespace stevesch
       // sanity check-- we'll allow the magnitude of the value to
       // slightly exceed 1.0 (and we'll clamp to +/- 1.0), but
       // assert when the value is unreasonable.
-      asin_arg = Clampf(asin_arg, -1.0f, 1.0f);
-      vEuler.y = S::ASinf(asin_arg);
+      asin_arg = clampf(asin_arg, -1.0f, 1.0f);
+      vEuler.y = asinf(asin_arg);
     }
 #else // y=yaw, x=pitch, z=roll
     // heading
-    vEuler.y = S::ATan2f(2.0f * (Z() * X() + Y() * A()), (vsq.z + vsq.w - vsq.x - vsq.y));
+    vEuler.y = atan2f(2.0f * (Z() * X() + Y() * A()), (vsq.z + vsq.w - vsq.x - vsq.y));
 
     // bank
-    vEuler.z = S::ATan2f(2.0f * (X() * Y() + Z() * A()), (vsq.y + vsq.w - vsq.x - vsq.z));
+    vEuler.z = atan2f(2.0f * (X() * Y() + Z() * A()), (vsq.y + vsq.w - vsq.x - vsq.z));
 
     // attitude
     {
@@ -182,8 +182,8 @@ namespace stevesch
       // slightly exceed 1.0 (and we'll clamp to +/- 1.0), but
       // assert when the value is unreasonable.
       SASSERT((asin_arg >= -1.05f) && (asin_arg < 1.05f));
-      asin_arg = Clampf(asin_arg, -1.0f, 1.0f);
-      vEuler.x = S::ASinf(asin_arg);
+      asin_arg = clampf(asin_arg, -1.0f, 1.0f);
+      vEuler.x = asinf(asin_arg);
     }
 #endif
   }
@@ -378,7 +378,7 @@ namespace stevesch
 
     if (fTrace > 0.0f)
     {
-      s = S::Sqrtf(fTrace + 1.0f);
+      s = sqrtf(fTrace + 1.0f);
 
       A() = (s * 0.5f);
       s = 0.5f / s;
@@ -405,7 +405,7 @@ namespace stevesch
       j = (i + 1) % 3;
       k = (j + 1) % 3;
 
-      s = S::Sqrtf(m[i][i] - m[j][j] - m[k][k] + 1.0f);
+      s = sqrtf(m[i][i] - m[j][j] - m[k][k] + 1.0f);
 
       V()
       [i] = (s * 0.5f);
@@ -453,7 +453,7 @@ namespace stevesch
 		
 		if (fTrace > 0.0f)
 		{
-			s = S::Sqrtf(fTrace + 1.0f);
+			s = sqrtf(fTrace + 1.0f);
 			
 			A() = (s * 0.5f);
 			s = 0.5f / s;
@@ -480,7 +480,7 @@ namespace stevesch
 			j = (i+1) % 3;
 			k = (j+1) % 3;
 			
-			s = S::Sqrtf (m[i][i] - m[j][j] - m[k][k] + 1.0f);
+			s = sqrtf (m[i][i] - m[j][j] - m[k][k] + 1.0f);
 			
 			V()[i] = (s * 0.5f);
 			s = 0.5f / s;
@@ -512,11 +512,11 @@ namespace stevesch
     if (fCosOmega < (1.0f - cfQuatSlerpLinearEpsilon))
     {
       // use spherical linear interpolation for larger angles
-      float fOmega = ACosf(fCosOmega);
-      float fSinOmegaRecip = recipf(Sinf(fOmega));
+      float fOmega = acosf(fCosOmega);
+      float fSinOmegaRecip = recipf(sinf(fOmega));
       float fOmegat = fOmega * t;
-      float fScale1 = Sinf(fOmega - fOmegat) * fSinOmegaRecip; // sine((1-t)*W) / sine(W)
-      float fScale2 = Sinf(fOmegat) * fSinOmegaRecip;          // sine(W*t) / sine(W)
+      float fScale1 = sinf(fOmega - fOmegat) * fSinOmegaRecip; // sine((1-t)*W) / sine(W)
+      float fScale2 = sinf(fOmegat) * fSinOmegaRecip;          // sine(W*t) / sine(W)
 
       vector4::addScaled4(dst.V(), q1.V(), fScale1, quat2, fScale2);
 
@@ -597,7 +597,7 @@ namespace stevesch
 		{
 			vector4::scale( vAxis, vOmega, 1.0f / fAngle );
 
-			fAngle = Mod2pi( fAngle );
+			fAngle = mod2pi( fAngle );
 
 			qDeltaA.fromAxisAngle( vAxis, fAngle );
 
@@ -629,19 +629,19 @@ namespace stevesch
   {
     float fVectorSquareMag = V().squareMag();
 
-    if (S::fabsf(fVectorSquareMag - 1.0f) < c_fSQuatUnityTolerance2)
+    if (fabsf(fVectorSquareMag - 1.0f) < c_fSQuatUnityTolerance2)
     {
       // quaternion is normalized
-      V() *= S::ATan2f(1.0f, A()); // v = v * atan(1/t)
+      V() *= atan2f(1.0f, A()); // v = v * atan(1/t)
       A() = 0.0f;                  // ln(1) == 0
     }
     else
     {
       // quaternion is not normalized
-      float fVectorMag = S::Sqrtf(fVectorSquareMag);
-      float a = 0.5f * S::Logf(A() * A() + fVectorSquareMag); // a = (1/2) ln(t*t + v.v)
+      float fVectorMag = sqrtf(fVectorSquareMag);
+      float a = 0.5f * logf(A() * A() + fVectorSquareMag); // a = (1/2) ln(t*t + v.v)
 
-      V() *= S::ATan2f(fVectorMag, A()) / fVectorMag; // v *= atan(1/t) / |v|
+      V() *= atan2f(fVectorMag, A()) / fVectorMag; // v *= atan(1/t) / |v|
       A() = a;
     }
   }
@@ -652,19 +652,19 @@ namespace stevesch
   {
     float fVectorSquareMag = V().squareMag(); // |v|*|v|
 
-    if (S::fabsf(fVectorSquareMag - 1.0f) < c_fSQuatUnityTolerance2)
+    if (fabsf(fVectorSquareMag - 1.0f) < c_fSQuatUnityTolerance2)
     {
       // quaternion is normalized
-      vector4::scale(dst.V(), V(), S::ATan2f(1.0f, A())); // v = v * atan(1/t)
+      vector4::scale(dst.V(), V(), atan2f(1.0f, A())); // v = v * atan(1/t)
       dst.A() = 0.0f;                                     // ln(1) == 0
     }
     else
     {
       // quaternion is not normalized
-      float fVectorMag = S::Sqrtf(fVectorSquareMag);
-      float a = 0.5f * S::Logf(A() * A() + fVectorSquareMag); // a = (1/2) ln(t*t + v.v)
+      float fVectorMag = sqrtf(fVectorSquareMag);
+      float a = 0.5f * logf(A() * A() + fVectorSquareMag); // a = (1/2) ln(t*t + v.v)
 
-      vector4::scale(dst.V(), V(), S::ATan2f(fVectorMag, A()) / fVectorMag); // v *= atan(1/t) / |v|
+      vector4::scale(dst.V(), V(), atan2f(fVectorMag, A()) / fVectorMag); // v *= atan(1/t) / |v|
       dst.A() = a;
     }
   }
@@ -673,17 +673,17 @@ namespace stevesch
   void quat::exp()
   {
     float fVectorMag = V().abs();
-    float fExpT = S::Expf(A());
+    float fExpT = expf(A());
     float fCosMag;
     float fSinMag;
 
     // fCosMag = cosine(|v|); fSinMag = sine(|v|)
-    S::CosSinf(fVectorMag, &fCosMag, &fSinMag);
+    cosSinf(fVectorMag, &fCosMag, &fSinMag);
 
     // assume vector is not normalized-- usually the case, since
     // a normalized quaternion has a normalized xyz component only
     // if the rotation represented is +/- 180 degrees [|sine(theta/2)| == 1]
-    SASSERT(S::fabsf(fVectorMag) > c_fSQuatUnityTolerance);
+    SASSERT(fabsf(fVectorMag) > c_fSQuatUnityTolerance);
     V() *= fExpT * fSinMag / fVectorMag;
 
     A() = fExpT * fCosMag;
@@ -693,17 +693,17 @@ namespace stevesch
   void quat::exp(quat &dst) const
   {
     float fVectorMag = V().abs();
-    float fExpT = S::Expf(A());
+    float fExpT = expf(A());
     float fCosMag;
     float fSinMag;
 
     // fCosMag = cosine(|v|); fSinMag = sine(|v|)
-    S::CosSinf(fVectorMag, &fCosMag, &fSinMag);
+    cosSinf(fVectorMag, &fCosMag, &fSinMag);
 
     // assume vector is not normalized-- usually the case, since
     // a normalized quaternion has a normalized xyz component only
     // if the rotation represented is +/- 90 degrees [|sine(theta)| == 1]
-    SASSERT(S::fabsf(fVectorMag) > c_fSQuatUnityTolerance);
+    SASSERT(fabsf(fVectorMag) > c_fSQuatUnityTolerance);
     vector4::scale(dst.V(), V(), fExpT * fSinMag / fVectorMag);
 
     dst.A() = fExpT * fCosMag;
@@ -742,12 +742,12 @@ namespace stevesch
       return 0.0f;
     }
 
-    float fAxisMag = Clampf(Sqrtf(fSquareMag), 0.0f, 1.0f);
-    float fAngle = ASinf(fAxisMag);
+    float fAxisMag = clampf(sqrtf(fSquareMag), 0.0f, 1.0f);
+    float fAngle = asinf(fAxisMag);
 
     // vectors face opposite directions
     if (fDotProduct < 0.0f)
-      fAngle = CloseMod2pi(c_fpi - fAngle);
+      fAngle = closeMod2pi(c_fpi - fAngle);
 
     vAxis /= fAxisMag;
 
@@ -779,8 +779,8 @@ namespace stevesch
       return 0.0f;
     }
 
-    float fAxisMag = Clampf(Sqrtf(fSquareMag), 0.0f, 1.0f);
-    float fAngle = ASinf(fAxisMag);
+    float fAxisMag = clampf(sqrtf(fSquareMag), 0.0f, 1.0f);
+    float fAngle = asinf(fAxisMag);
 
     // choose smaller of two angles
     if (fDotProduct < 0.0f)

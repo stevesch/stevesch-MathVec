@@ -1,5 +1,6 @@
 #include <Arduino.h>
 // This is a test example for MathVec
+#include <stevesch-MathVec.h>
 
 void setup()
 {

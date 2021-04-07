@@ -22,7 +22,7 @@ namespace stevesch
   const vector4 c_vBACKWARD(0.0f, 0.0f, -1.0f, 1.0f);
   const vector4 c_vZERO(0.0f, 0.0f, 0.0f, 1.0f);
 
-  static SFORCEINLINE void ASSERT_RANGEF(float x, float a, float b)
+  static inline void ASSERT_RANGEF(float x, float a, float b)
   {
     SASSERT(((x >= a) && (x <= b)));
   }
@@ -67,7 +67,7 @@ namespace stevesch
           // nearest point is on edge 1
           t = r[2].dot(e[1]);
           tDenom = e[1].squareMag();
-          t = Clampf(t, 0.0f, tDenom);
+          t = clampf(t, 0.0f, tDenom);
           vector4::addScaled(vNearestPoint, pTriangle[2], e[1], t / tDenom);
           nNearestEdge = 1;
         }
@@ -79,7 +79,7 @@ namespace stevesch
             // nearest point is on edge 0
             t = r[1].dot(e[0]);
             tDenom = e[0].squareMag();
-            t = Clampf(t, 0.0f, tDenom);
+            t = clampf(t, 0.0f, tDenom);
             vector4::addScaled(vNearestPoint, pTriangle[1], e[0], t / tDenom);
             nNearestEdge = 0;
           }
@@ -87,7 +87,7 @@ namespace stevesch
           {
             // nearest point is on edge 2
             ASSERT_RANGEF(t, 0.0f, tDenom);
-            t = Clampf(t, 0.0f, tDenom);
+            t = clampf(t, 0.0f, tDenom);
             vector4::addScaled(vNearestPoint, pTriangle[0], e[2], t / tDenom);
             nNearestEdge = 2;
           }
@@ -108,7 +108,7 @@ namespace stevesch
           // nearest point is on edge 2
           t = r[0].dot(e[2]);
           tDenom = e[2].squareMag();
-          t = Clampf(t, 0.0f, tDenom);
+          t = clampf(t, 0.0f, tDenom);
           vector4::addScaled(vNearestPoint, pTriangle[0], e[2], t / tDenom);
           nNearestEdge = 2;
         }
@@ -120,7 +120,7 @@ namespace stevesch
             // nearest point is on edge 1
             t = r[2].dot(e[1]);
             tDenom = e[1].squareMag();
-            t = Clampf(t, 0.0f, tDenom);
+            t = clampf(t, 0.0f, tDenom);
             vector4::addScaled(vNearestPoint, pTriangle[2], e[1], t / tDenom);
             nNearestEdge = 1;
           }
@@ -128,7 +128,7 @@ namespace stevesch
           {
             // nearest point is on edge 0
             ASSERT_RANGEF(t, 0.0f, tDenom);
-            t = Clampf(t, 0.0f, tDenom);
+            t = clampf(t, 0.0f, tDenom);
             vector4::addScaled(vNearestPoint, pTriangle[1], e[0], t / tDenom);
             nNearestEdge = 0;
           }
@@ -147,7 +147,7 @@ namespace stevesch
           // nearest point is on edge 0
           t = r[1].dot(e[0]);
           tDenom = e[0].squareMag();
-          t = Clampf(t, 0.0f, tDenom);
+          t = clampf(t, 0.0f, tDenom);
           vector4::addScaled(vNearestPoint, pTriangle[1], e[0], t / tDenom);
           nNearestEdge = 0;
         }
@@ -159,7 +159,7 @@ namespace stevesch
             // nearest point is on edge 2
             t = r[0].dot(e[2]);
             tDenom = e[2].squareMag();
-            t = Clampf(t, 0.0f, tDenom);
+            t = clampf(t, 0.0f, tDenom);
             vector4::addScaled(vNearestPoint, pTriangle[0], e[2], t / tDenom);
             nNearestEdge = 2;
           }
@@ -167,7 +167,7 @@ namespace stevesch
           {
             // nearest point is on edge 1
             ASSERT_RANGEF(t, 0.0f, tDenom);
-            t = Clampf(t, 0.0f, tDenom);
+            t = clampf(t, 0.0f, tDenom);
             vector4::addScaled(vNearestPoint, pTriangle[2], e[1], t / tDenom);
             nNearestEdge = 1;
           }
@@ -797,7 +797,7 @@ namespace stevesch
 */
 
   ////////////////////////////////////////////////////
-
+/*
   void SOperateObjects
 #ifdef SEXPLICIT_TEMPLATES
       <vector4>
@@ -835,5 +835,5 @@ namespace stevesch
       break;
     }
   }
-
+*/
 } // namespace stevesch

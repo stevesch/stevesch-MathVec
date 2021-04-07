@@ -1,18 +1,18 @@
 #ifndef STEVESCH_MATHVEC_INTERNAL_MATRIX4_INLINE_H_
 #define STEVESCH_MATHVEC_INTERNAL_MATRIX4_INLINE_H_
 // Copyright © 2002, PulseCode Interactive LLC, All Rights Reserved
-// inline header for stevesch::matrix4
+// inline header for matrix4
 
 namespace stevesch
 {
 
-  SMATRIX4INLINE stevesch::matrix4::stevesch::matrix4(float s)
+  SMATRIX4INLINE matrix4::matrix4(float s)
   {
     diag3(s);
   }
 
   // translation matrix
-  SMATRIX4INLINE stevesch::matrix4::stevesch::matrix4(float x, float y, float z)
+  SMATRIX4INLINE matrix4::matrix4(float x, float y, float z)
   {
     col[0].set(1.0f, 0.0f, 0.0f, 0.0f);
     col[1].set(0.0f, 1.0f, 0.0f, 0.0f);
@@ -21,7 +21,7 @@ namespace stevesch
   }
 
   // translation matrix
-  SMATRIX4INLINE stevesch::matrix4::stevesch::matrix4(const stevesch::vector3 &vTranslation)
+  SMATRIX4INLINE matrix4::matrix4(const stevesch::vector3 &vTranslation)
   {
     col[0].set(1.0f, 0.0f, 0.0f, 0.0f);
     col[1].set(0.0f, 1.0f, 0.0f, 0.0f);
@@ -30,7 +30,7 @@ namespace stevesch
   }
 
   // copy
-  SMATRIX4INLINE stevesch::matrix4::stevesch::matrix4(const stevesch::matrix4 &m)
+  SMATRIX4INLINE matrix4::matrix4(const matrix4 &m)
   {
     col[0] = m.col[0];
     col[1] = m.col[1];
@@ -39,7 +39,7 @@ namespace stevesch
   }
 
   // initialize by row
-  SMATRIX4INLINE stevesch::matrix4::stevesch::matrix4(const stevesch::vector4 &vx, const stevesch::vector4 &vy, const stevesch::vector4 &vz, const stevesch::vector4 &vw)
+  SMATRIX4INLINE matrix4::matrix4(const stevesch::vector4 &vx, const stevesch::vector4 &vy, const stevesch::vector4 &vz, const stevesch::vector4 &vw)
   {
     col[0] = vx;
     col[1] = vy;
@@ -48,7 +48,7 @@ namespace stevesch
   }
 
   // initialize by element
-  SMATRIX4INLINE stevesch::matrix4::stevesch::matrix4(float _xx, float _xy, float _xz, float _xw,
+  SMATRIX4INLINE matrix4::matrix4(float _xx, float _xy, float _xz, float _xw,
                                                       float _yx, float _yy, float _yz, float _yw,
                                                       float _zx, float _zy, float _zz, float _zw,
                                                       float _wx, float _wy, float _wz, float _ww) : m00(_xx), m10(_xy), m20(_xz), m30(_xw),
@@ -58,7 +58,7 @@ namespace stevesch
   {
   }
 
-  SMATRIX4INLINE const stevesch::matrix4 &stevesch::matrix4::copy(const stevesch::matrix4 &m)
+  SMATRIX4INLINE const matrix4 &matrix4::copy(const matrix4 &m)
   {
     col[0] = m.col[0];
     col[1] = m.col[1];
@@ -67,7 +67,7 @@ namespace stevesch
     return *this;
   }
 
-  SMATRIX4INLINE const stevesch::matrix4 &stevesch::matrix4::diag3(float s)
+  SMATRIX4INLINE const matrix4 &matrix4::diag3(float s)
   {
     col[0].set(s, 0.0f, 0.0f, 0.0f);
     col[1].set(0.0f, s, 0.0f, 0.0f);
@@ -76,7 +76,7 @@ namespace stevesch
     return *this;
   }
 
-  SMATRIX4INLINE const stevesch::matrix4 &stevesch::matrix4::diag4(float s)
+  SMATRIX4INLINE const matrix4 &matrix4::diag4(float s)
   {
     col[0].set(s, 0.0f, 0.0f, 0.0f);
     col[1].set(0.0f, s, 0.0f, 0.0f);
@@ -86,7 +86,7 @@ namespace stevesch
   }
 
   // create a diagonal matrix (0 matrix, m00=v.x, m11=v.y, m22v.z, m33=1.0)
-  SMATRIX4INLINE const stevesch::matrix4 &stevesch::matrix4::diag3(const stevesch::vector3 &v)
+  SMATRIX4INLINE const matrix4 &matrix4::diag3(const stevesch::vector3 &v)
   {
     col[0].set(v.x, 0.0f, 0.0f, 0.0f);
     col[1].set(0.0f, v.y, 0.0f, 0.0f);
@@ -96,7 +96,7 @@ namespace stevesch
   }
 
   // create a diagonal matrix (0 matrix, m00=v.x, m11=v.y, m22v.z, m33=v.w)
-  SMATRIX4INLINE const stevesch::matrix4 &stevesch::matrix4::diag4(const stevesch::vector4 &v)
+  SMATRIX4INLINE const matrix4 &matrix4::diag4(const stevesch::vector4 &v)
   {
     col[0].set(v.x, 0.0f, 0.0f, 0.0f);
     col[1].set(0.0f, v.y, 0.0f, 0.0f);
@@ -105,13 +105,13 @@ namespace stevesch
     return *this;
   }
 
-  SMATRIX4INLINE const stevesch::matrix4 &stevesch::matrix4::operator=(const stevesch::matrix4 &m)
+  SMATRIX4INLINE const matrix4 &matrix4::operator=(const matrix4 &m)
   {
     return copy(m);
   }
 
   // retrieve a column
-  SMATRIX4INLINE void stevesch::matrix4::getColumn(int n, stevesch::vector4 &v) const
+  SMATRIX4INLINE void matrix4::getColumn(int n, stevesch::vector4 &v) const
   {
     v.x = col[0][n];
     v.y = col[1][n];
@@ -120,7 +120,7 @@ namespace stevesch
   }
 
   // set a column
-  SMATRIX4INLINE void stevesch::matrix4::setColumn(int n, const stevesch::vector4 &v)
+  SMATRIX4INLINE void matrix4::setColumn(int n, const stevesch::vector4 &v)
   {
     col[0][n] = v.x;
     col[1][n] = v.y;
@@ -129,19 +129,19 @@ namespace stevesch
   }
 
   // returns translation of matrix in vPos (tx, ty, tz)
-  SMATRIX4INLINE void stevesch::matrix4::getTranslation(stevesch::vector3 &vPos) const
+  SMATRIX4INLINE void matrix4::getTranslation(stevesch::vector3 &vPos) const
   {
     vPos.set(m03, m13, m23);
   }
 
   // returns translation of matrix in vPos (tx, ty, tz, 1.0f)
-  SMATRIX4INLINE void stevesch::matrix4::getTranslation(stevesch::vector4 &vPos) const
+  SMATRIX4INLINE void matrix4::getTranslation(stevesch::vector4 &vPos) const
   {
     vPos.set(m03, m13, m23, 1.0f);
   }
 
   // sets x,y,z translation of matrix to vPos
-  SMATRIX4INLINE void stevesch::matrix4::setTranslation(const stevesch::vector3 &vPos)
+  SMATRIX4INLINE void matrix4::setTranslation(const stevesch::vector3 &vPos)
   {
     m03 = vPos.x;
     m13 = vPos.y;
@@ -149,50 +149,50 @@ namespace stevesch
   }
 
   // sets x,y,z translation of matrix to tx,ty,tz
-  SMATRIX4INLINE void stevesch::matrix4::setTranslation(float tx, float ty, float tz)
+  SMATRIX4INLINE void matrix4::setTranslation(float tx, float ty, float tz)
   {
     m03 = tx;
     m13 = ty;
     m23 = tz;
   }
 
-  SMATRIX4INLINE const stevesch::matrix4 &stevesch::matrix4::transpose()
+  SMATRIX4INLINE const matrix4 &matrix4::transpose()
   {
     transpose(*this, *this);
     return *this;
   }
 
-  SMATRIX4INLINE const stevesch::matrix4 &stevesch::matrix4::mul(const stevesch::matrix4 &mtxRight)
+  SMATRIX4INLINE const matrix4 &matrix4::mul(const matrix4 &mtxRight)
   {
-    stevesch::matrix4::mul(*this, *this, mtxRight);
+    matrix4::mul(*this, *this, mtxRight);
     return *this;
   }
 
-  // SMATRIX4INLINE const stevesch::matrix4& stevesch::matrix4::RMul(const stevesch::matrix4& mtxRight)
+  // SMATRIX4INLINE const matrix4& matrix4::RMul(const matrix4& mtxRight)
   // {
-  // 	stevesch::matrix4::mul( *this, *this, mtxRight );
+  // 	matrix4::mul( *this, *this, mtxRight );
   // 	return *this;
   // }
 
-  SMATRIX4INLINE const stevesch::matrix4 &stevesch::matrix4::mulSub(const stevesch::matrix4 &r)
+  SMATRIX4INLINE const matrix4 &matrix4::mulSub(const matrix4 &r)
   {
     mulSub(*this, *this, r);
     return *this;
   }
 
-  SMATRIX4INLINE const stevesch::matrix4 &stevesch::matrix4::lMulSub(const stevesch::matrix4 &mtxLeft)
+  SMATRIX4INLINE const matrix4 &matrix4::lMulSub(const matrix4 &mtxLeft)
   {
     mulSubB(*this, mtxLeft, *this);
     return *this;
   }
 
-  SMATRIX4INLINE const stevesch::matrix4 &stevesch::matrix4::operator*=(const stevesch::matrix4 &r)
+  SMATRIX4INLINE const matrix4 &matrix4::operator*=(const matrix4 &r)
   {
     return mul(r);
   }
 
   // member-wise addition
-  SMATRIX4INLINE const stevesch::matrix4 &stevesch::matrix4::operator+=(const stevesch::matrix4 &m)
+  SMATRIX4INLINE const matrix4 &matrix4::operator+=(const matrix4 &m)
   {
     col[0].add4(m.col[0]);
     col[1].add4(m.col[1]);
@@ -202,7 +202,7 @@ namespace stevesch
   }
 
   // member-wise subtraction
-  SMATRIX4INLINE const stevesch::matrix4 &stevesch::matrix4::operator-=(const stevesch::matrix4 &m)
+  SMATRIX4INLINE const matrix4 &matrix4::operator-=(const matrix4 &m)
   {
     col[0].sub4(m.col[0]);
     col[1].sub4(m.col[1]);
@@ -212,14 +212,14 @@ namespace stevesch
   }
 
   // translate by v (col[3] += v)
-  SMATRIX4INLINE const stevesch::matrix4 &stevesch::matrix4::translate(const stevesch::vector4 &v)
+  SMATRIX4INLINE const matrix4 &matrix4::translate(const stevesch::vector4 &v)
   {
     col[3].add(v);
     return *this;
   }
 
   // translate by v (col[3].xyz += v)
-  SMATRIX4INLINE const stevesch::matrix4 &stevesch::matrix4::translate(const stevesch::vector3 &v)
+  SMATRIX4INLINE const matrix4 &matrix4::translate(const stevesch::vector3 &v)
   {
     stevesch::vector4 &vt = col[3];
     vt.x += v.x;
@@ -230,7 +230,7 @@ namespace stevesch
   }
 
   // translate by <dx, dy, dz> (col[3] += v)
-  SMATRIX4INLINE const stevesch::matrix4 &stevesch::matrix4::translate(float dx, float dy, float dz)
+  SMATRIX4INLINE const matrix4 &matrix4::translate(float dx, float dy, float dz)
   {
     stevesch::vector4 &vt = col[3];
     vt.x += dx;
@@ -240,7 +240,7 @@ namespace stevesch
   }
 
   // member-wise multiplication
-  SMATRIX4INLINE const stevesch::matrix4 &stevesch::matrix4::mulMembers4x4(const stevesch::matrix4 &m)
+  SMATRIX4INLINE const matrix4 &matrix4::mulMembers4x4(const matrix4 &m)
   {
     col[0].mul4(m.col[0]);
     col[1].mul4(m.col[1]);
@@ -250,7 +250,7 @@ namespace stevesch
   }
 
   // member-wise multiplication by scalar fScale
-  SMATRIX4INLINE const stevesch::matrix4 &stevesch::matrix4::mulMembers4x4(float fScale)
+  SMATRIX4INLINE const matrix4 &matrix4::mulMembers4x4(float fScale)
   {
     col[0].mul4(fScale);
     col[1].mul4(fScale);
@@ -260,7 +260,7 @@ namespace stevesch
   }
 
   // member-wise multiplication by scalar fScale
-  SMATRIX4INLINE const stevesch::matrix4 &stevesch::matrix4::mulMembers3x3(float fScale)
+  SMATRIX4INLINE const matrix4 &matrix4::mulMembers3x3(float fScale)
   {
     col[0].mul(fScale);
     col[1].mul(fScale);
@@ -269,28 +269,28 @@ namespace stevesch
   }
 
   // m = 0.5*(m + m^T)
-  SMATRIX4INLINE const stevesch::matrix4 &stevesch::matrix4::forceSymmetric()
+  SMATRIX4INLINE const matrix4 &matrix4::forceSymmetric()
   {
-    stevesch::matrix4 mT;
+    matrix4 mT;
     transpose(mT, *this);
     *this += mT;
     return mulMembers4x4(0.5f);
   }
 
-  SMATRIX4INLINE const stevesch::matrix4 &stevesch::matrix4::invert()
+  SMATRIX4INLINE const matrix4 &matrix4::invert()
   {
     invert(*this, *this);
     return *this;
   }
 
-  SMATRIX4INLINE const stevesch::matrix4 &stevesch::matrix4::invert4x4()
+  SMATRIX4INLINE const matrix4 &matrix4::invert4x4()
   {
     invert4x4(*this, *this);
     return *this;
   }
 
   // member-wise multiplication
-  SMATRIX4INLINE void stevesch::matrix4::mulMembers4x4(stevesch::matrix4 &dst, const stevesch::matrix4 &m1, const stevesch::matrix4 &m2)
+  SMATRIX4INLINE void matrix4::mulMembers4x4(matrix4 &dst, const matrix4 &m1, const matrix4 &m2)
   {
     stevesch::vector4::mul4(dst.col[0], m1.col[0], m2.col[0]);
     stevesch::vector4::mul4(dst.col[1], m1.col[1], m2.col[1]);
@@ -299,7 +299,7 @@ namespace stevesch
   }
 
   // member-wise multiplication by scalar fScale for entire matrix (4x4)
-  SMATRIX4INLINE void stevesch::matrix4::mulMembers4x4(stevesch::matrix4 &dst, const stevesch::matrix4 &m, float fScale)
+  SMATRIX4INLINE void matrix4::mulMembers4x4(matrix4 &dst, const matrix4 &m, float fScale)
   {
     stevesch::vector4::mul4(dst.col[0], m.col[0], fScale);
     stevesch::vector4::mul4(dst.col[1], m.col[1], fScale);
@@ -308,7 +308,7 @@ namespace stevesch
   }
 
   // member-wise multiplication by scalar fScale for 3x3 part
-  SMATRIX4INLINE void stevesch::matrix4::mulMembers3x3(stevesch::matrix4 &dst, const stevesch::matrix4 &m, float fScale)
+  SMATRIX4INLINE void matrix4::mulMembers3x3(matrix4 &dst, const matrix4 &m, float fScale)
   {
     stevesch::vector4::mul(dst.col[0], m.col[0], fScale);
     stevesch::vector4::mul(dst.col[1], m.col[1], fScale);
@@ -316,7 +316,7 @@ namespace stevesch
     dst.col[3] = m.col[3];
   }
 
-  SMATRIX4INLINE const stevesch::matrix4 &stevesch::matrix4::identity()
+  SMATRIX4INLINE const matrix4 &matrix4::identity()
   {
     *this = I;
     //		col[0].set(1.0f, 0.0f, 0.0f, 0.0f);
@@ -326,7 +326,7 @@ namespace stevesch
     return *this;
   }
 
-  SMATRIX4INLINE const stevesch::matrix4 &stevesch::matrix4::zero()
+  SMATRIX4INLINE const matrix4 &matrix4::zero()
   {
     col[0].set(0.0f, 0.0f, 0.0f, 0.0f);
     col[1].set(0.0f, 0.0f, 0.0f, 0.0f);
@@ -340,7 +340,7 @@ namespace stevesch
   // +z  0 -x  0
   // -y +x  0  0
   //  0  0  0  1	// NOTE [3,3] is 1.0
-  SMATRIX4INLINE const stevesch::matrix4 &stevesch::matrix4::crossOperator(const stevesch::vector3 &v)
+  SMATRIX4INLINE const matrix4 &matrix4::crossOperator(const stevesch::vector3 &v)
   {
     m00 = 0.0f; //  0 -z +y
     m10 = -v.z;
@@ -365,7 +365,7 @@ namespace stevesch
     return *this;
   }
 
-  SMATRIX4INLINE void stevesch::matrix4::crossOperator(stevesch::vector4 *pMatrix, const stevesch::vector3 &v, u32 nRowStride)
+  SMATRIX4INLINE void matrix4::crossOperator(stevesch::vector4 *pMatrix, const stevesch::vector3 &v, uint32_t nRowStride)
   {
     pMatrix->y = -v.z;
     pMatrix->z = v.y;
@@ -379,7 +379,7 @@ namespace stevesch
     pMatrix->y = v.x;
   }
 
-  SMATRIX4INLINE void stevesch::matrix4::crossOperator(stevesch::vector4 *pMatrix, const stevesch::vector3 &v, u32 nRowStride, bool bNegate)
+  SMATRIX4INLINE void matrix4::crossOperator(stevesch::vector4 *pMatrix, const stevesch::vector3 &v, uint32_t nRowStride, bool bNegate)
   {
     if (!bNegate)
     {
@@ -400,17 +400,17 @@ namespace stevesch
     pMatrix->y = -v.x;
   }
 
-  SMATRIX4INLINE const stevesch::vector4 &stevesch::matrix4::operator[](int n) const
+  SMATRIX4INLINE const stevesch::vector4 &matrix4::operator[](int n) const
   {
     return col[n];
   }
 
-  SMATRIX4INLINE stevesch::vector4 &stevesch::matrix4::operator[](int n)
+  SMATRIX4INLINE stevesch::vector4 &matrix4::operator[](int n)
   {
     return col[n];
   }
 
-  SMATRIX4INLINE stevesch::vector4 stevesch::matrix4::getRow(int n) const
+  SMATRIX4INLINE stevesch::vector4 matrix4::getRow(int n) const
   {
     SASSERT((n >= 0) && (n < 4));
     stevesch::vector4 v(
@@ -421,13 +421,13 @@ namespace stevesch
     return v;
   }
 
-  SMATRIX4INLINE const stevesch::matrix4 &stevesch::matrix4::perspectiveLH(
+  SMATRIX4INLINE const matrix4 &matrix4::perspectiveLH(
       float fFOVhRadians, float fFOVvRadians, float fZNear, float fZFar)
   {
     float Q = fZFar / (fZFar - fZNear);
     zero();
-    m00 = 1.0f / Tanf(fFOVhRadians * 0.5f);
-    m11 = 1.0f / Tanf(fFOVvRadians * 0.5f);
+    m00 = 1.0f / tanf(fFOVhRadians * 0.5f);
+    m11 = 1.0f / tanf(fFOVvRadians * 0.5f);
     m22 = Q;
     m23 = -fZNear * Q;
     m32 = 1.0f;
@@ -435,13 +435,13 @@ namespace stevesch
     return *this;
   }
 
-  SMATRIX4INLINE const stevesch::matrix4 &stevesch::matrix4::perspectiveRH(
+  SMATRIX4INLINE const matrix4 &matrix4::perspectiveRH(
       float fFOVhRadians, float fFOVvRadians, float fZNear, float fZFar)
   {
     float Q = fZFar / (fZFar - fZNear);
     zero();
-    m00 = 1.0f / Tanf(fFOVhRadians * 0.5f);
-    m11 = 1.0f / Tanf(fFOVvRadians * 0.5f);
+    m00 = 1.0f / tanf(fFOVhRadians * 0.5f);
+    m11 = 1.0f / tanf(fFOVvRadians * 0.5f);
     m22 = -Q;
     m23 = fZNear * Q;
     m32 = -1.0f;
@@ -449,7 +449,7 @@ namespace stevesch
     return *this;
   }
 
-  SMATRIX4INLINE void stevesch::matrix4::perspectiveFovLH(stevesch::matrix4 &mtxProjDst,
+  SMATRIX4INLINE void matrix4::perspectiveFovLH(matrix4 &mtxProjDst,
                                                           float fFOVVertical, float fAspectWoverH, float fZNear, float fZFar)
   {
 #if defined(SPLATFORM_XBOX)
@@ -468,7 +468,7 @@ namespace stevesch
 #endif
   }
 
-  SMATRIX4INLINE void stevesch::matrix4::perspectiveFovRH(stevesch::matrix4 &mtxProjDst,
+  SMATRIX4INLINE void matrix4::perspectiveFovRH(matrix4 &mtxProjDst,
                                                           float fFOVVertical, float fAspectWoverH, float fZNear, float fZFar)
   {
 #if defined(SPLATFORM_XBOX)

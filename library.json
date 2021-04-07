@@ -1,7 +1,7 @@
 {
   "name": "stevesch-MathVec",
-  "keywords": "",
-  "description": "",
+  "keywords": "vector, matrix, quaternion",
+  "description": "C++ vector, matrix, and quaternion classes",
   "repository":
   {
     "type": "git",
@@ -17,5 +17,6 @@
     "maintainer": true
   },
   "dependencies": [
+    "https://github.com/stevesch/stevesch-MathBase.git"
   ]
 }

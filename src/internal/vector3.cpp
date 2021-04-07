@@ -5,12 +5,12 @@
 namespace stevesch
 {
   // utility function for random spherical distribution
-  void vector3::randSpherical(SRandGen &r)
+  void vector3::randSpherical(stevesch::RandGen &r)
   {
     // produce uniform distribution over the sphere
-    float fYaw = r.GetFloatAB(-c_fpi, c_fpi);
+    float fYaw = r.getFloatAB(-c_fpi, c_fpi);
 
-    float fPitch = -c_fpi_2 + ACosf(r.GetFloatAB(-1.0f, 1.0f));
+    float fPitch = -c_fpi_2 + acosf(r.getFloatAB(-1.0f, 1.0f));
     float fRoll = 0.0f;
 
     matrix4 m;

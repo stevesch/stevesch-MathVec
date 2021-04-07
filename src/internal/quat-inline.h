@@ -1,7 +1,7 @@
-#ifndef STEVESCH_MATHVEC_INTERNAL_QUAT_H_
-#define STEVESCH_MATHVEC_INTERNAL_QUAT_H_
+#ifndef STEVESCH_MATHVEC_INTERNAL_QUAT_INLINE_H_
+#define STEVESCH_MATHVEC_INTERNAL_QUAT_INLINE_H_
 // Copyright © 2002, PulseCode Interactive LLC, All Rights Reserved
-// inline functions for stevesch::quat
+// inline functions for quat
 
 namespace stevesch
 {
@@ -13,89 +13,89 @@ namespace stevesch
   const float c_fSQuatUnityTolerance2 = c_fSQuatUnityTolerance * c_fSQuatUnityTolerance;
 
   // initialize as an identity quaternion
-  SQUATINLINE void stevesch::quat::identity()
+  SQUATINLINE void quat::identity()
   {
     // (cos(0), v sin(0)) == (1, <0, 0, 0>)
     Z() = Y() = X() = 0.0f;
     A() = 1.0f;
   }
 
-  SQUATINLINE bool stevesch::quat::operator==(const stevesch::quat &crOther) const
+  SQUATINLINE bool quat::operator==(const quat &crOther) const
   {
     return (m_vQuat == crOther.m_vQuat);
   }
 
-  SQUATINLINE bool stevesch::quat::operator!=(const stevesch::quat &crOther) const
+  SQUATINLINE bool quat::operator!=(const quat &crOther) const
   {
     return (m_vQuat != crOther.m_vQuat);
   }
 
-  SQUATINLINE bool stevesch::quat::isIdentity() const
+  SQUATINLINE bool quat::isIdentity() const
   {
     return (m_vQuat == c_vZERO);
   }
 
   // initialize as an identity quaternion
-  SQUATINLINE stevesch::quat::stevesch::quat(bool bDummy)
+  SQUATINLINE quat::quat(bool bDummy)
   {
     identity();
   }
 
-  SQUATINLINE stevesch::quat::stevesch::quat(const stevesch::vector4 &vAxis, float fAngle)
+  SQUATINLINE quat::quat(const stevesch::vector4 &vAxis, float fAngle)
   {
     fromAxisAngle(vAxis, fAngle);
   }
 
-  SQUATINLINE stevesch::quat::stevesch::quat(float x, float y, float z, float a) : m_vQuat(x, y, z, a)
+  SQUATINLINE quat::quat(float x, float y, float z, float a) : m_vQuat(x, y, z, a)
   {
   }
 
-  SQUATINLINE stevesch::quat::stevesch::quat(const stevesch::quat &q)
+  SQUATINLINE quat::quat(const quat &q)
   {
     V() = q.V(); // use vector cast
   }
 
-  SQUATINLINE stevesch::quat::stevesch::quat(const stevesch::matrix4 &m)
+  SQUATINLINE quat::quat(const stevesch::matrix4 &m)
   {
     fromMatrix(m);
   }
 
-  SQUATINLINE stevesch::quat::stevesch::quat(const stevesch::vector3 &vEuler)
+  SQUATINLINE quat::quat(const stevesch::vector3 &vEuler)
   {
     fromEuler(vEuler.x, vEuler.y, vEuler.z);
   }
 
-  SQUATINLINE stevesch::quat::stevesch::quat(float x, float y, float z)
+  SQUATINLINE quat::quat(float x, float y, float z)
   {
     fromEuler(x, y, z);
   }
 
-  SQUATINLINE void stevesch::quat::fromEuler(const stevesch::vector3 &vEuler)
+  SQUATINLINE void quat::fromEuler(const stevesch::vector3 &vEuler)
   {
     fromEuler(vEuler.x, vEuler.y, vEuler.z);
   }
 
   // (t, v) = (t, -v)
-  SQUATINLINE void stevesch::quat::conj()
+  SQUATINLINE void quat::conj()
   {
     V().negate(); // negates (*= -1) x, y, and z
   }
 
   // dst(t, v) = (t, -v)
-  SQUATINLINE void stevesch::quat::conj(stevesch::quat &dst) const
+  SQUATINLINE void quat::conj(quat &dst) const
   {
     V().negate(dst.V()); // negates (*= -1) x, y, and z
   }
 
   // Adjunct-- (q*)[(q)(q*)]
-  SQUATINLINE void stevesch::quat::adj()
+  SQUATINLINE void quat::adj()
   {
     float a = norm();
     conj();
     *this *= a;
   }
 
-  SQUATINLINE void stevesch::quat::adj(stevesch::quat &dst) const
+  SQUATINLINE void quat::adj(quat &dst) const
   {
     float a = norm();
     conj(dst);
@@ -103,35 +103,35 @@ namespace stevesch
   }
 
   // (q)(q*) == t*t + v.v
-  SQUATINLINE float stevesch::quat::norm() const
+  SQUATINLINE float quat::norm() const
   {
     float a = V().squareMag4(); // t*t + v.v
     return a;
   }
 
   // 1.0 / (q)(q*) == 1.0 / (t*t + v.v)
-  SQUATINLINE float stevesch::quat::invNorm() const
+  SQUATINLINE float quat::invNorm() const
   {
     return V().recipSquareMag4();
     //		return recipf( norm() );
   }
 
   // sqrt(t*t + v.v)
-  SQUATINLINE float stevesch::quat::abs() const
+  SQUATINLINE float quat::abs() const
   {
     return V().abs4();
-    //		return S::Sqrtf(norm());
+    //		return sqrtf(norm());
   }
 
   // 1.0 / sqrt(t*t + v.v)
-  SQUATINLINE float stevesch::quat::invAbs() const
+  SQUATINLINE float quat::invAbs() const
   {
     return V().recipAbs4();
-    //		return S::RSqrtf(norm());	// 1.0 / sqrt(norm())
+    //		return rsqrtf(norm());	// 1.0 / sqrt(norm())
   }
 
   // (t*t + v.v)^2
-  SQUATINLINE float stevesch::quat::det() const
+  SQUATINLINE float quat::det() const
   {
     float a = norm();
     a *= a;
@@ -139,43 +139,43 @@ namespace stevesch
   }
 
   // 1.0 / [(t*t + v.v)^2]
-  SQUATINLINE float stevesch::quat::invDet() const
+  SQUATINLINE float quat::invDet() const
   {
     float a = norm();
     a = recipf(a * a);
     return a;
   }
 
-  SQUATINLINE stevesch::quat &stevesch::quat::operator+=(const stevesch::quat &r)
+  SQUATINLINE quat &quat::operator+=(const quat &r)
   {
     V().add4(r.V());
     return *this;
   }
 
-  SQUATINLINE stevesch::quat &stevesch::quat::operator-=(const stevesch::quat &r)
+  SQUATINLINE quat &quat::operator-=(const quat &r)
   {
     V().sub4(r.V());
     return *this;
   }
 
-  SQUATINLINE stevesch::quat &stevesch::quat::operator*=(const stevesch::quat &r)
+  SQUATINLINE quat &quat::operator*=(const quat &r)
   {
     return postMul_Norm(r);
   }
 
-  SQUATINLINE void stevesch::quat::mul(stevesch::quat &dst, const stevesch::quat &q1, const stevesch::quat &q2)
+  SQUATINLINE void quat::mul(quat &dst, const quat &q1, const quat &q2)
   {
     mul_Norm_Norm(dst, q1, q2);
   }
 
   // multiply all components by a scalar
-  SQUATINLINE stevesch::quat &stevesch::quat::operator*=(float fScale)
+  SQUATINLINE quat &quat::operator*=(float fScale)
   {
     V().mul4(fScale);
     return *this;
   }
 
-  SQUATINLINE stevesch::quat &stevesch::quat::operator=(const stevesch::quat &q)
+  SQUATINLINE quat &quat::operator=(const quat &q)
   {
     V() = q.V(); // use vector cast
     return *this;
@@ -183,14 +183,14 @@ namespace stevesch
 
   // multiply all components by a scalar
   // [same as *=(scalar)]
-  SQUATINLINE stevesch::quat &stevesch::quat::scale(float fScale)
+  SQUATINLINE quat &quat::scale(float fScale)
   {
     V().mul4(fScale);
     return *this;
   }
 
   // q* / [(q)(q*)] == (t, -v) / (t*t + v.v)
-  SQUATINLINE void stevesch::quat::invert()
+  SQUATINLINE void quat::invert()
   {
     float fInvMag = invAbs(); // 1.0 / t*t + v.v
     conj();
@@ -199,7 +199,7 @@ namespace stevesch
     *this *= fInvMag;
   }
 
-  SQUATINLINE void stevesch::quat::invert(stevesch::quat &dst) const
+  SQUATINLINE void quat::invert(quat &dst) const
   {
     float fInvMag = invAbs(); // 1.0 / t*t + v.v
     conj(dst);
@@ -210,16 +210,16 @@ namespace stevesch
 
   // power (self)-- this = this^q
   // q1^q2 = exp[ ln(q1) x q2 ]
-  SQUATINLINE void stevesch::quat::pow(const stevesch::quat &q)
+  SQUATINLINE void quat::pow(const quat &q)
   {
     pow(*this, *this, q); // must use temporary variable anyway in case q is 'this'
   }
 
   // power-- dst = q1^q2
   // q1^q2 = exp[ ln(q1) x q2 ]
-  SQUATINLINE void stevesch::quat::pow(stevesch::quat &dst, const stevesch::quat &q1, const stevesch::quat &q2)
+  SQUATINLINE void quat::pow(quat &dst, const quat &q1, const quat &q2)
   {
-    stevesch::quat qTemp;
+    quat qTemp;
     q1.ln(qTemp);
     qTemp.cross(q2);
     qTemp.exp(dst);
@@ -227,7 +227,7 @@ namespace stevesch
 
   // power (self)-- this = this^fPower
   // q1^y = exp[ y ln(q1) ]
-  SQUATINLINE void stevesch::quat::pow(float fPower)
+  SQUATINLINE void quat::pow(float fPower)
   {
     ln();
     scale(fPower);
@@ -235,41 +235,41 @@ namespace stevesch
   }
 
   // normalize (self)-- this = this/|this|
-  SQUATINLINE void stevesch::quat::normalize()
+  SQUATINLINE void quat::normalize()
   {
     V().normalize4();
     //		V().mul4( invAbs() );
   }
 
   // normalize-- dst = this/|this|
-  SQUATINLINE void stevesch::quat::normalize(stevesch::quat &dst)
+  SQUATINLINE void quat::normalize(quat &dst)
   {
     stevesch::vector4::scale4(dst.V(), V(), invAbs());
   }
 
   // cross product (self)-- this = this x q (Grassman outer product)
-  SQUATINLINE void stevesch::quat::cross(const stevesch::quat &q)
+  SQUATINLINE void quat::cross(const quat &q)
   {
     grassmanOdd(*this, *this, q);
   }
 
   // dot product (self)-- this = this . q (Euclidean inner product)
-  SQUATINLINE void stevesch::quat::dotQuat(const stevesch::quat &q)
+  SQUATINLINE void quat::dotQuat(const quat &q)
   {
     euclideanEven(*this, *this, q);
   }
 
   // Euclidean inner (even) product, returning real scalar value
-  SQUATINLINE float stevesch::quat::dot(const stevesch::quat &q) const
+  SQUATINLINE float quat::dot(const quat &q) const
   {
     return stevesch::vector4::dot4(V(), q.V());
   }
 
   // dst = q * src * ~q
-  SQUATINLINE void stevesch::quat::rotate(stevesch::vector4 &dst, const stevesch::vector4 &src) const
+  SQUATINLINE void quat::rotate(stevesch::vector4 &dst, const stevesch::vector4 &src) const
   {
-    stevesch::quat q1(src.x, src.y, src.z, 0.0f);
-    //		stevesch::quat q2;
+    quat q1(src.x, src.y, src.z, 0.0f);
+    //		quat q2;
     mul(q1, *this, q1);           // q1 = q*src
     mul_Norm_Conj(q1, q1, *this); // q1 = q * src * q^-1
                                   //		conj(q2);
@@ -282,7 +282,7 @@ namespace stevesch
   // dst = q1 * q2 (standard product)
   // (q1)(q2) (standard product)
   // == ( t1*t2 - v1.v2, t1*v2 + v1*t2 + [v1 x v2] )
-  SQUATINLINE void stevesch::quat::mul_Norm_Norm(stevesch::quat &dst, const stevesch::quat &q1, const stevesch::quat &q2)
+  SQUATINLINE void quat::mul_Norm_Norm(quat &dst, const quat &q1, const quat &q2)
   {
     stevesch::vector4 v;
     float a = q1.A() * q2.A() - stevesch::vector4::dot(q1.V(), q2.V());
@@ -295,7 +295,7 @@ namespace stevesch
 
   // dst = q1~ * q2 (euclidean product)
   // == ( t1*t2 + v1.v2, t1*v2 - v1*t2 - [v1 x v2] )
-  SQUATINLINE void stevesch::quat::mul_Conj_Norm(stevesch::quat &dst, const stevesch::quat &q1, const stevesch::quat &q2)
+  SQUATINLINE void quat::mul_Conj_Norm(quat &dst, const quat &q1, const quat &q2)
   {
     stevesch::vector4 v;
     float a = q1.dot(q2);                                             // t1*t2 + v1.v2
@@ -308,7 +308,7 @@ namespace stevesch
 
   // dst = q1 * q2~
   // == ( t1*t2 + v1.v2, -t1*v2 + v1*t2 - [v1 x v2] )
-  SQUATINLINE void stevesch::quat::mul_Norm_Conj(stevesch::quat &dst, const stevesch::quat &q1, const stevesch::quat &q2)
+  SQUATINLINE void quat::mul_Norm_Conj(quat &dst, const quat &q1, const quat &q2)
   {
     stevesch::vector4 v;
     float a = q1.dot(q2);                                             // t1*t2 + v1.v2
@@ -321,7 +321,7 @@ namespace stevesch
 
   // dst = q1~ * q2~
   // == ( t1*t2 - v1.v2, -t1*v2 - v1*t2 + [v1 x v2] )
-  SQUATINLINE void stevesch::quat::mul_Conj_Conj(stevesch::quat &dst, const stevesch::quat &q1, const stevesch::quat &q2)
+  SQUATINLINE void quat::mul_Conj_Conj(quat &dst, const quat &q1, const quat &q2)
   {
     stevesch::vector4 v;
     float a = q1.A() * q2.A() - stevesch::vector4::dot(q1.V(), q2.V()); // t1*t2 - v1.v2
@@ -333,7 +333,7 @@ namespace stevesch
   }
 
   // (*this) = (*this) * qRight
-  SQUATINLINE stevesch::quat &stevesch::quat::postMul_Norm(const stevesch::quat &qRight)
+  SQUATINLINE quat &quat::postMul_Norm(const quat &qRight)
   {
     stevesch::vector4 v;
     float a = A() * qRight.A() - stevesch::vector4::dot(V(), qRight.V());
@@ -345,7 +345,7 @@ namespace stevesch
   }
 
   // (*this) = qLeft * (*this)
-  SQUATINLINE stevesch::quat &stevesch::quat::preMul_Norm(const stevesch::quat &qLeft)
+  SQUATINLINE quat &quat::preMul_Norm(const quat &qLeft)
   {
     stevesch::vector4 v;
     float a = qLeft.A() * A() - stevesch::vector4::dot(qLeft.V(), V());
@@ -357,7 +357,7 @@ namespace stevesch
   }
 
   // (*this) = *this * qRight~
-  SQUATINLINE stevesch::quat &stevesch::quat::postMul_Conj(const stevesch::quat &qRight)
+  SQUATINLINE quat &quat::postMul_Conj(const quat &qRight)
   {
     stevesch::vector4 v;
     float a = dot(qRight);                                              // t1*t2 + v1.v2
@@ -369,7 +369,7 @@ namespace stevesch
   }
 
   // (*this) = qLeft~ * (*this)
-  SQUATINLINE stevesch::quat &stevesch::quat::preMul_Conj(const stevesch::quat &qLeft)
+  SQUATINLINE quat &quat::preMul_Conj(const quat &qLeft)
   {
     stevesch::vector4 v;
     float a = dot(qLeft);                                             // t1*t2 + v1.v2
@@ -384,14 +384,14 @@ namespace stevesch
 
   // (q1)(q2) (standard product)
   // == ( t*t' - v.v', t*v' + v*t' + [v x v'] )
-  SQUATINLINE void stevesch::quat::grassmanProduct(stevesch::quat &dst, const stevesch::quat &q1, const stevesch::quat &q2)
+  SQUATINLINE void quat::grassmanProduct(quat &dst, const quat &q1, const quat &q2)
   {
     mul_Norm_Norm(dst, q1, q2);
   }
 
   // [(q1)(q2) + (q2)(q1)] / 2
   // == ( t*t' - v.v', t*v' + v*t' )
-  SQUATINLINE void stevesch::quat::grassmanEven(stevesch::quat &dst, const stevesch::quat &q1, const stevesch::quat &q2)
+  SQUATINLINE void quat::grassmanEven(quat &dst, const quat &q1, const quat &q2)
   {
     stevesch::vector4 v;
     stevesch::vector4::scale(v, q1.V(), q2.A());
@@ -403,7 +403,7 @@ namespace stevesch
   // [(q1)(q2) - (q2)(q1)] / 2
   // == ( 0, [v x v'] )
   // *** Common cross product ***
-  SQUATINLINE void stevesch::quat::grassmanOdd(stevesch::quat &dst, const stevesch::quat &q1, const stevesch::quat &q2)
+  SQUATINLINE void quat::grassmanOdd(quat &dst, const quat &q1, const quat &q2)
   {
     stevesch::vector4::cross(dst.V(), q1.V(), q2.V());
     dst.A() = 0.0f;
@@ -411,7 +411,7 @@ namespace stevesch
 
   // (q1*)(q2)
   // == ( t*t' + v.v', t*v' - v*t' - [v x v'] )
-  SQUATINLINE void stevesch::quat::euclideanProduct(stevesch::quat &dst, const stevesch::quat &q1, const stevesch::quat &q2)
+  SQUATINLINE void quat::euclideanProduct(quat &dst, const quat &q1, const quat &q2)
   {
     mul_Conj_Norm(dst, q1, q2);
   }
@@ -419,7 +419,7 @@ namespace stevesch
   // [(q1*)(q2) + (q2)(q1*)] / 2
   // == ( t*t' + v.v', 0 )
   // *** Common dot product ***
-  SQUATINLINE void stevesch::quat::euclideanEven(stevesch::quat &dst, const stevesch::quat &q1, const stevesch::quat &q2)
+  SQUATINLINE void quat::euclideanEven(quat &dst, const quat &q1, const quat &q2)
   {
     dst.A() = stevesch::vector4::dot4(q1.V(), q2.V()); // t*t' + v.v'
     dst.Z() = dst.Y() = dst.X() = 0.0f;
@@ -427,7 +427,7 @@ namespace stevesch
 
   // [(q1*)(q2) - (q2)(q1*)] / 2
   // == ( 0, t*v' - v*t' - [v x v'] )
-  SQUATINLINE void stevesch::quat::euclideanOdd(stevesch::quat &dst, const stevesch::quat &q1, const stevesch::quat &q2)
+  SQUATINLINE void quat::euclideanOdd(quat &dst, const quat &q1, const quat &q2)
   {
     stevesch::vector4 v;
     stevesch::vector4::addScaled(v, q2.V(), q1.A(), q1.V(), -q2.A()); // t*v' - v*t'
@@ -436,7 +436,7 @@ namespace stevesch
     dst.A() = 0.0f;
   }
 
-  SQUATINLINE void stevesch::quat::lookAtLHWorld(stevesch::quat &dst, const stevesch::vector4 &rEye, const stevesch::vector4 &rAt,
+  SQUATINLINE void quat::lookAtLHWorld(quat &dst, const stevesch::vector4 &rEye, const stevesch::vector4 &rAt,
                                                  const stevesch::vector4 &rUp)
   {
     stevesch::matrix4 mat;
@@ -444,7 +444,7 @@ namespace stevesch
     dst.fromOrthonormalMatrix(mat);
   }
 
-  SQUATINLINE void stevesch::quat::lookAtRHWorld(stevesch::quat &dst, const stevesch::vector4 &rEye, const stevesch::vector4 &rAt,
+  SQUATINLINE void quat::lookAtRHWorld(quat &dst, const stevesch::vector4 &rEye, const stevesch::vector4 &rAt,
                                                  const stevesch::vector4 &rUp)
   {
     stevesch::matrix4 mat;
@@ -452,7 +452,7 @@ namespace stevesch
     dst.fromOrthonormalMatrix(mat);
   }
 
-  SQUATINLINE void stevesch::quat::lookAtLHView(stevesch::quat &dst, const stevesch::vector4 &rEye, const stevesch::vector4 &rAt,
+  SQUATINLINE void quat::lookAtLHView(quat &dst, const stevesch::vector4 &rEye, const stevesch::vector4 &rAt,
                                                 const stevesch::vector4 &rUp)
   {
     stevesch::matrix4 mat;
@@ -460,7 +460,7 @@ namespace stevesch
     dst.fromOrthonormalMatrix(mat);
   }
 
-  SQUATINLINE void stevesch::quat::lookAtRHView(stevesch::quat &dst, const stevesch::vector4 &rEye, const stevesch::vector4 &rAt,
+  SQUATINLINE void quat::lookAtRHView(quat &dst, const stevesch::vector4 &rEye, const stevesch::vector4 &rAt,
                                                 const stevesch::vector4 &rUp)
   {
     stevesch::matrix4 mat;
@@ -475,10 +475,10 @@ namespace stevesch
   // *this: in/out, quaternion position
   // w: in, angular velocity
   // dt: time step
-  SQUATINLINE void stevesch::quat::integrate(const stevesch::vector3 &w, float dt)
+  SQUATINLINE void quat::integrate(const stevesch::vector3 &w, float dt)
   {
     {
-      stevesch::quat qDeltaAngular(w.x, w.y, w.z, 0.0f); // element-by-element initialization (NOT axis-angle)
+      quat qDeltaAngular(w.x, w.y, w.z, 0.0f); // element-by-element initialization (NOT axis-angle)
       qDeltaAngular *= (0.5f * dt);
       qDeltaAngular *= (*this);
 
@@ -489,4 +489,4 @@ namespace stevesch
 
 } // namespace SMath
 
-#endif // _STEVESCH_MATHVEC_INTERNAL_QUAT_H__
+#endif // STEVESCH_MATHVEC_INTERNAL_QUAT_INLINE_H_
