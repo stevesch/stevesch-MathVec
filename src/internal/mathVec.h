@@ -2,8 +2,9 @@
 #define STEVESCH_MATHVEC_INTERNAL_MATHVEC_H_
 #include <Arduino.h>
 
-#define SASSERT(x)
-#define SASSERT_EXTRA(x)
+#define SUNUSED(x) ((void)(x))
+#define SASSERT(x)  SUNUSED(x)
+#define SASSERT_EXTRA(x) SUNUSED(x)
 
 namespace stevesch
 {
