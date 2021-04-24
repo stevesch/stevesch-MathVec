@@ -8,8 +8,9 @@
 //	Created:	4/30/2002, Stephen Schlueter
 //	Modified:
 
+#include <stevesch-MathBase.h>
 #include "mathVec.h"
-#include "stevesch-MathBase.h"
+
 // #include "SError.h"
 #include "vector3.h"
 #include "vector4.h"
@@ -172,9 +173,9 @@ namespace stevesch
     // are used (e.g. v = A*v0), the transposes of the resulting matrices
     // should be used when multiplying.
     // TO-CHECK: positive rotation for X, Y and Z
-    const matrix4 &XMatrix(float fRadians);
-    const matrix4 &YMatrix(float fRadians);
-    const matrix4 &ZMatrix(float fRadians);
+    const matrix4 &xMatrix(float fRadians);
+    const matrix4 &yMatrix(float fRadians);
+    const matrix4 &zMatrix(float fRadians);
 
     const matrix4 &fromEuler(const stevesch::vector3 &vEuler);
 

@@ -10,8 +10,6 @@ namespace stevesch
 {
   namespace MathVec
   {
-    // void setup();
-    // void loop();
   }
 }
 

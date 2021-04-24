@@ -2,8 +2,8 @@
 #define STEVESCH_MATHVEC_INTERNAL_VECTOR2_H_
 // Copyright © 2002, Stephen Schlueter, All Rights Reserved
 
+#include <stevesch-MathBase.h>
 #include "mathVec.h"
-#include "stevesch-MathBase.h"
 #include "vector4.h"
 
 namespace stevesch

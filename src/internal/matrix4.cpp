@@ -13,7 +13,7 @@ namespace stevesch
       0.0f, 0.0f, 0.0f, 1.0f);
 
   // matrix that performs rotation about x-axis
-  const matrix4 &matrix4::XMatrix(float fRadians)
+  const matrix4 &matrix4::xMatrix(float fRadians)
   {
     float c, s;
     cosSinf(fRadians, &c, &s);
@@ -29,7 +29,7 @@ namespace stevesch
   }
 
   // matrix that performs rotation about y-axis
-  const matrix4 &matrix4::YMatrix(float fRadians)
+  const matrix4 &matrix4::yMatrix(float fRadians)
   {
     float c, s;
     cosSinf(fRadians, &c, &s);
@@ -45,7 +45,7 @@ namespace stevesch
   }
 
   // matrix that performs rotation about z-axis
-  const matrix4 &matrix4::ZMatrix(float fRadians)
+  const matrix4 &matrix4::zMatrix(float fRadians)
   {
     float c, s;
     cosSinf(fRadians, &c, &s);
@@ -69,9 +69,9 @@ namespace stevesch
     // NASA standard airplane (xyz)
     // final form is m = mx*my*mz, where v' = v*m
     matrix4 mx, my, mz;
-    mx.XMatrix(vEuler.x);
-    my.YMatrix(vEuler.y);
-    mz.ZMatrix(vEuler.z);
+    mx.xMatrix(vEuler.x);
+    my.yMatrix(vEuler.y);
+    mz.zMatrix(vEuler.z);
     matrix4::mul(*this, my, mx);
     *this *= mz;
 #else
@@ -81,13 +81,13 @@ namespace stevesch
     matrix4 *pTmp = this;
     if (0.0f != vEuler.z)
     {
-      ZMatrix(vEuler.z);
+      zMatrix(vEuler.z);
       pTmp = &mtxTmp;
     }
 
     if (0.0f != vEuler.x)
     {
-      pTmp->XMatrix(vEuler.x);
+      pTmp->xMatrix(vEuler.x);
       if (pTmp == &mtxTmp)
       {
         (*this) *= (*pTmp);
@@ -97,7 +97,7 @@ namespace stevesch
 
     if (0.0f != vEuler.y)
     {
-      pTmp->YMatrix(vEuler.y);
+      pTmp->yMatrix(vEuler.y);
       if (pTmp == &mtxTmp)
       {
         (*this) *= (*pTmp);
@@ -111,9 +111,9 @@ namespace stevesch
     }
 /*
 		matrix4 mx, my, mz;
-		mx.XMatrix( vEuler.x );
-		my.YMatrix( vEuler.y );
-		mz.ZMatrix( vEuler.z );
+		mx.xMatrix( vEuler.x );
+		my.yMatrix( vEuler.y );
+		mz.zMatrix( vEuler.z );
 		matrix4::mul( *this, mx, mz );
 		*this *= my;
 */

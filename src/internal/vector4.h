@@ -8,8 +8,8 @@
 //	Created:	4/30/2002, Stephen Schlueter
 //	Modified:
 
+#include <stevesch-MathBase.h>
 #include "mathVec.h"
-#include "stevesch-MathBase.h"
 
 namespace stevesch
 {

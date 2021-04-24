@@ -2,8 +2,8 @@
 #define STEVESCH_MATHVEC_INTERNAL_VECTOR3_H_
 // Copyright © 2002, Stephen Schlueter, All Rights Reserved
 
+#include <stevesch-MathBase.h>
 #include "mathVec.h"
-#include "stevesch-MathBase.h"
 
 #define SVECINLINE inline
 
