@@ -160,12 +160,12 @@ namespace stevesch
 
   SQUATINLINE quat &quat::operator*=(const quat &r)
   {
-    return postMul_Norm(r);
+    return postMul_norm(r);
   }
 
   SQUATINLINE void quat::mul(quat &dst, const quat &q1, const quat &q2)
   {
-    mul_Norm_Norm(dst, q1, q2);
+    mul_norm_norm(dst, q1, q2);
   }
 
   // multiply all components by a scalar
@@ -271,7 +271,7 @@ namespace stevesch
     quat q1(src.x, src.y, src.z, 0.0f);
     //		quat q2;
     mul(q1, *this, q1);           // q1 = q*src
-    mul_Norm_Conj(q1, q1, *this); // q1 = q * src * q^-1
+    mul_norm_conj(q1, q1, *this); // q1 = q * src * q^-1
                                   //		conj(q2);
                                   //		mul(q1, q1, q2);	// q1 = q1*q' == q*src*q'
     dst.set(q1.X(), q1.Y(), q1.Z(), src.w);
@@ -282,7 +282,7 @@ namespace stevesch
   // dst = q1 * q2 (standard product)
   // (q1)(q2) (standard product)
   // == ( t1*t2 - v1.v2, t1*v2 + v1*t2 + [v1 x v2] )
-  SQUATINLINE void quat::mul_Norm_Norm(quat &dst, const quat &q1, const quat &q2)
+  SQUATINLINE void quat::mul_norm_norm(quat &dst, const quat &q1, const quat &q2)
   {
     stevesch::vector4 v;
     float a = q1.A() * q2.A() - stevesch::vector4::dot(q1.V(), q2.V());
@@ -295,7 +295,7 @@ namespace stevesch
 
   // dst = q1~ * q2 (euclidean product)
   // == ( t1*t2 + v1.v2, t1*v2 - v1*t2 - [v1 x v2] )
-  SQUATINLINE void quat::mul_Conj_Norm(quat &dst, const quat &q1, const quat &q2)
+  SQUATINLINE void quat::mul_conj_norm(quat &dst, const quat &q1, const quat &q2)
   {
     stevesch::vector4 v;
     float a = q1.dot(q2);                                             // t1*t2 + v1.v2
@@ -308,7 +308,7 @@ namespace stevesch
 
   // dst = q1 * q2~
   // == ( t1*t2 + v1.v2, -t1*v2 + v1*t2 - [v1 x v2] )
-  SQUATINLINE void quat::mul_Norm_Conj(quat &dst, const quat &q1, const quat &q2)
+  SQUATINLINE void quat::mul_norm_conj(quat &dst, const quat &q1, const quat &q2)
   {
     stevesch::vector4 v;
     float a = q1.dot(q2);                                             // t1*t2 + v1.v2
@@ -321,7 +321,7 @@ namespace stevesch
 
   // dst = q1~ * q2~
   // == ( t1*t2 - v1.v2, -t1*v2 - v1*t2 + [v1 x v2] )
-  SQUATINLINE void quat::mul_Conj_Conj(quat &dst, const quat &q1, const quat &q2)
+  SQUATINLINE void quat::mul_conj_conj(quat &dst, const quat &q1, const quat &q2)
   {
     stevesch::vector4 v;
     float a = q1.A() * q2.A() - stevesch::vector4::dot(q1.V(), q2.V()); // t1*t2 - v1.v2
@@ -333,7 +333,7 @@ namespace stevesch
   }
 
   // (*this) = (*this) * qRight
-  SQUATINLINE quat &quat::postMul_Norm(const quat &qRight)
+  SQUATINLINE quat &quat::postMul_norm(const quat &qRight)
   {
     stevesch::vector4 v;
     float a = A() * qRight.A() - stevesch::vector4::dot(V(), qRight.V());
@@ -345,7 +345,7 @@ namespace stevesch
   }
 
   // (*this) = qLeft * (*this)
-  SQUATINLINE quat &quat::preMul_Norm(const quat &qLeft)
+  SQUATINLINE quat &quat::preMul_norm(const quat &qLeft)
   {
     stevesch::vector4 v;
     float a = qLeft.A() * A() - stevesch::vector4::dot(qLeft.V(), V());
@@ -357,7 +357,7 @@ namespace stevesch
   }
 
   // (*this) = *this * qRight~
-  SQUATINLINE quat &quat::postMul_Conj(const quat &qRight)
+  SQUATINLINE quat &quat::postMul_conj(const quat &qRight)
   {
     stevesch::vector4 v;
     float a = dot(qRight);                                              // t1*t2 + v1.v2
@@ -369,7 +369,7 @@ namespace stevesch
   }
 
   // (*this) = qLeft~ * (*this)
-  SQUATINLINE quat &quat::preMul_Conj(const quat &qLeft)
+  SQUATINLINE quat &quat::preMul_conj(const quat &qLeft)
   {
     stevesch::vector4 v;
     float a = dot(qLeft);                                             // t1*t2 + v1.v2
@@ -386,7 +386,7 @@ namespace stevesch
   // == ( t*t' - v.v', t*v' + v*t' + [v x v'] )
   SQUATINLINE void quat::grassmanProduct(quat &dst, const quat &q1, const quat &q2)
   {
-    mul_Norm_Norm(dst, q1, q2);
+    mul_norm_norm(dst, q1, q2);
   }
 
   // [(q1)(q2) + (q2)(q1)] / 2
@@ -413,7 +413,7 @@ namespace stevesch
   // == ( t*t' + v.v', t*v' - v*t' - [v x v'] )
   SQUATINLINE void quat::euclideanProduct(quat &dst, const quat &q1, const quat &q2)
   {
-    mul_Conj_Norm(dst, q1, q2);
+    mul_conj_norm(dst, q1, q2);
   }
 
   // [(q1*)(q2) + (q2)(q1*)] / 2

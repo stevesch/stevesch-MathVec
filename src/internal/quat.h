@@ -68,17 +68,17 @@ namespace stevesch
     SQUATINLINE quat &operator*=(float fScale);
     SQUATINLINE quat &operator=(const quat &q);
 
-    SQUATINLINE quat &postMul_Norm(const quat &qRight); // (*this) = (*this) * qRight
-    SQUATINLINE quat &preMul_Norm(const quat &qLeft);   // (*this) = qLeft * (*this)
-    SQUATINLINE quat &postMul_Conj(const quat &qRight); // (*this) = (*this) * qRight~
-    SQUATINLINE quat &preMul_Conj(const quat &qLeft);   // (*this) = qLeft~ * (*this)
+    SQUATINLINE quat &postMul_norm(const quat &qRight); // (*this) = (*this) * qRight
+    SQUATINLINE quat &preMul_norm(const quat &qLeft);   // (*this) = qLeft * (*this)
+    SQUATINLINE quat &postMul_conj(const quat &qRight); // (*this) = (*this) * qRight~
+    SQUATINLINE quat &preMul_conj(const quat &qLeft);   // (*this) = qLeft~ * (*this)
 
     SQUATINLINE static void mul(quat &dst, const quat &q1, const quat &q2);
 
-    SQUATINLINE static void mul_Norm_Norm(quat &dst, const quat &q1, const quat &q2); // dst = q1 * q2 (standard product)
-    SQUATINLINE static void mul_Conj_Norm(quat &dst, const quat &q1, const quat &q2); // dst = q1~ * q2 (euclidean product)
-    SQUATINLINE static void mul_Norm_Conj(quat &dst, const quat &q1, const quat &q2); // dst = q1 * q2~
-    SQUATINLINE static void mul_Conj_Conj(quat &dst, const quat &q1, const quat &q2); // dst = q1~ * q2~
+    SQUATINLINE static void mul_norm_norm(quat &dst, const quat &q1, const quat &q2); // dst = q1 * q2 (standard product)
+    SQUATINLINE static void mul_conj_norm(quat &dst, const quat &q1, const quat &q2); // dst = q1~ * q2 (euclidean product)
+    SQUATINLINE static void mul_norm_conj(quat &dst, const quat &q1, const quat &q2); // dst = q1 * q2~
+    SQUATINLINE static void mul_conj_conj(quat &dst, const quat &q1, const quat &q2); // dst = q1~ * q2~
 
     SQUATINLINE quat &scale(float fScale); // same as *=(scalar)
 

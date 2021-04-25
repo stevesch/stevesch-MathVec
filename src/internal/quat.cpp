@@ -548,7 +548,7 @@ namespace stevesch
 
     //		q0.conj(qDelta);	// inverse, but we'll assume already normalized
     //		quat::mul( qDelta, q1, qDelta );
-    quat::mul_Norm_Conj(qDelta, q1, q0); // qDelta = q1 * q0~
+    quat::mul_norm_conj(qDelta, q1, q0); // qDelta = q1 * q0~
 
     qDelta.toAxisAngle(vVAngular, fAngle);
     vVAngular *= (fAngle * fInvDeltaSeconds);
@@ -570,7 +570,7 @@ namespace stevesch
 
     //		q0.conj(qDelta);	// inverse, but we'll assume already normalized
     //		quat::mul( qDelta, q1, qDelta );
-    quat::mul_Norm_Conj(qDelta, q1, q0); // qDelta = q1 * q0~
+    quat::mul_norm_conj(qDelta, q1, q0); // qDelta = q1 * q0~
 
     qDelta.toAxisAngle(vVAngular, fAngle);
     vVAngular *= (fAngle * fInvDeltaSeconds);
