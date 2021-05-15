@@ -8,7 +8,7 @@
 namespace stevesch
 {
   // dst = min(v1, v2) per element (3-element)
-  SVECINLINE void vector4::min(vector4 &dst, const vector4 &v1, const vector4 &v2)
+  SVECINLINE void vector4::min3(vector4 &dst, const vector4 &v1, const vector4 &v2)
   {
     dst.x = stevesch::minf(v1.x, v2.x);
     dst.y = stevesch::minf(v1.y, v2.y);
@@ -17,7 +17,7 @@ namespace stevesch
   }
 
   // dst = max(v1, v2) per element (3-element)
-  SVECINLINE void vector4::max(vector4 &dst, const vector4 &v1, const vector4 &v2)
+  SVECINLINE void vector4::max3(vector4 &dst, const vector4 &v1, const vector4 &v2)
   {
     dst.x = stevesch::maxf(v1.x, v2.x);
     dst.y = stevesch::maxf(v1.y, v2.y);
@@ -25,7 +25,7 @@ namespace stevesch
     dst.w = v1.w;
   }
 
-  SVECINLINE void vector4::clampMag(vector4 &vDst, const vector4 &vSrc, const vector4 &vClamp)
+  SVECINLINE void vector4::clampMag3(vector4 &vDst, const vector4 &vSrc, const vector4 &vClamp)
   {
     vDst.x = clampf(vSrc.x, -vClamp.x, vClamp.x);
     vDst.y = clampf(vSrc.y, -vClamp.y, vClamp.y);
@@ -68,9 +68,9 @@ namespace stevesch
     vector4::addScaled4(dst, v1, tmp, t);
   }
 
-  SVECINLINE const vector4 &vector4::div(float scale)
+  SVECINLINE const vector4 &vector4::div3(float scale)
   {
-    return mul(recipf(scale));
+    return mul3(recipf(scale));
   }
 
   // dst = v1 + v2 (4-element)
@@ -98,10 +98,10 @@ namespace stevesch
   }
 
   // dst = v1 / s
-  SVECINLINE void vector4::div(vector4 &dst, const vector4 &v1, float s)
+  SVECINLINE void vector4::div3(vector4 &dst, const vector4 &v1, float s)
   {
     dst = v1;
-    dst.div(s);
+    dst.div3(s);
   }
 
   // member-wise division (4-element)
@@ -143,7 +143,7 @@ namespace stevesch
   }
 
   // dst = v1 * s
-  SVECINLINE void vector4::scale(vector4 &dst, const vector4 &v1, float s)
+  SVECINLINE void vector4::scale3(vector4 &dst, const vector4 &v1, float s)
   {
     SVECTORMULS(dst, v1, s);
     //		dst = v1;
@@ -151,12 +151,12 @@ namespace stevesch
   }
 
   // 3-element dot (inner) product
-  SVECINLINE float vector4::dot(const vector4 &v) const
+  SVECINLINE float vector4::dot3(const vector4 &v) const
   {
     return SVECTORDOT(*this, v);
   }
 
-  SVECINLINE float vector4::dot(const vector4 &v1, const vector4 &v2)
+  SVECINLINE float vector4::dot3(const vector4 &v1, const vector4 &v2)
   {
     return SVECTORDOT(v1, v2);
   }
@@ -217,7 +217,7 @@ namespace stevesch
   }
 
   // dst = v1 + s*v2
-  SVECINLINE void vector4::addScaled(vector4 &dst, const vector4 &v1, const vector4 &v2, float s2)
+  SVECINLINE void vector4::addScaled3(vector4 &dst, const vector4 &v1, const vector4 &v2, float s2)
   {
     float x = v1.x + v2.x * s2;
     float y = v1.y + v2.y * s2;
@@ -229,7 +229,7 @@ namespace stevesch
   }
 
   // dst = v1*s1 + v2*s2
-  SVECINLINE void vector4::addScaled(vector4 &dst, const vector4 &v1, float s1, const vector4 &v2, float s2)
+  SVECINLINE void vector4::addScaled3(vector4 &dst, const vector4 &v1, float s1, const vector4 &v2, float s2)
   {
     float x = v1.x * s1 + v2.x * s2;
     float y = v1.y * s1 + v2.y * s2;
@@ -257,6 +257,45 @@ namespace stevesch
     SVECTORADD4(dst, temp1, temp2);
   }
 
+  ////////////////////////////////////////////////////
+
+  // SVECINLINE vector4 operator+(const vector4 &v1, const vector4 &v2)
+  // {
+  //   vector4 v;
+  //   vector4::add4(v, v1, v2);
+  //   return v;
+  // }
+  // SVECINLINE vector4 operator-(const vector4 &v1, const vector4 &v2)
+  // {
+  //   vector4 v;
+  //   vector4::sub4(v, v1, v2);
+  //   return v;
+  // }
+  
+  // SVECINLINE vector4 operator*(const vector4 &v1, float s)
+  // {
+  //   vector4 v;
+  //   vector4::scale4(v, v1, s);
+  //   return v;
+  // }
+
+  // SVECINLINE vector4 operator*(float s, const vector4 &v1)
+  // {
+  //   vector4 v;
+  //   vector4::scale4(v, v1, s);
+  //   return v;
+  // }
+
+  // SVECINLINE vector4 operator/(const vector4 &v1, float d)
+  // {
+  //   vector4 v;
+  //   vector4::div4(v, v1, d);
+  //   return v;
+  // }
+
+  ////////////////////////////////////////////////////
+
+
   SVECINLINE vector4::vector4(const vector4 &v)
   {
     SVECTORCOPY(*this, v);
@@ -276,38 +315,38 @@ namespace stevesch
   }
 
   // 3-element squared-magnitude
-  SVECINLINE float vector4::squareMag() const
+  SVECINLINE float vector4::squareMag3() const
   {
     return (x * x + y * y + z * z);
   }
 
   // 1.0 / squared magnitued (3-element)
-  SVECINLINE float vector4::recipSquareMag() const
+  SVECINLINE float vector4::recipSquareMag3() const
   {
-    return recipf(squareMag()); // TBD: optimize with intrinsics
+    return recipf(squareMag3()); // TBD: optimize with intrinsics
   }
 
   // 3-element magnitude
-  SVECINLINE float vector4::abs() const
+  SVECINLINE float vector4::abs3() const
   {
-    return sqrtf(squareMag());
+    return sqrtf(squareMag3());
   }
 
   // 3-element 1/magnitude
-  SVECINLINE float vector4::recipAbs() const
+  SVECINLINE float vector4::recipAbs3() const
   {
-    return rsqrtf(squareMag());
+    return rsqrtf(squareMag3());
   }
 
   // normalize self (3-element)
-  SVECINLINE const vector4 &vector4::normalize()
+  SVECINLINE const vector4 &vector4::normalize3()
   {
-    return mul(rsqrtf(squareMag()));
+    return mul3(rsqrtf(squareMag3()));
   }
 
-  SVECINLINE void vector4::normalize(vector4 &dst, const vector4 &src)
+  SVECINLINE void vector4::normalize3(vector4 &dst, const vector4 &src)
   {
-    scale(dst, src, rsqrtf(src.squareMag()));
+    scale3(dst, src, rsqrtf(src.squareMag3()));
   } // (3-element)
 
   // normalize self (4-element)
@@ -317,36 +356,36 @@ namespace stevesch
   }
 
   // squared distance between two points: (v2-v1).(v2-v1)
-  SVECINLINE float vector4::distanceSquared(const vector4 &v1, const vector4 &v2)
+  SVECINLINE float vector4::distanceSquared3(const vector4 &v1, const vector4 &v2)
   {
     vector4 vDif;
-    vector4::sub(vDif, v2, v1);
-    return vDif.squareMag();
+    vector4::sub3(vDif, v2, v1);
+    return vDif.squareMag3();
   }
 
   // squared distance between two points: (v2-v1).(v2-v1)
-  SVECINLINE float vector4::distanceSquared(vector4 &dst, const vector4 &v1, const vector4 &v2)
+  SVECINLINE float vector4::distanceSquared3(vector4 &dst, const vector4 &v1, const vector4 &v2)
   {
     vector4 vDif;
-    vector4::sub(dst, v2, v1);
-    return dst.squareMag();
+    vector4::sub3(dst, v2, v1);
+    return dst.squareMag3();
   }
 
   // 3-element cross (outer) product
-  SVECINLINE const vector4 &vector4::cross(const vector4 &v)
+  SVECINLINE const vector4 &vector4::cross3(const vector4 &v)
   {
     SCROSS(*this, *this, v);
     return *this;
   }
 
   // dst = v1 x v2
-  SVECINLINE void vector4::cross(vector4 &dst, const vector4 &v1, const vector4 &v2)
+  SVECINLINE void vector4::cross3(vector4 &dst, const vector4 &v1, const vector4 &v2)
   {
     SCROSS(dst, v1, v2);
   }
 
   // dst = (1.0 / v) (3-element)
-  SVECINLINE void vector4::recip(vector4 &dst, const vector4 &v)
+  SVECINLINE void vector4::recip3(vector4 &dst, const vector4 &v)
   {
     dst.x = recipf(v.x);
     dst.y = recipf(v.y);
@@ -355,7 +394,7 @@ namespace stevesch
   }
 
   // dst = sqrt(v) (3-element)
-  SVECINLINE void vector4::sqrt(vector4 &dst, const vector4 &v)
+  SVECINLINE void vector4::sqrt3(vector4 &dst, const vector4 &v)
   {
     dst.x = sqrtf(v.x);
     dst.y = sqrtf(v.y);
@@ -364,7 +403,7 @@ namespace stevesch
   }
 
   // dst = sqrt(v) (3-element)
-  SVECINLINE void vector4::recipSqrt(vector4 &dst, const vector4 &v)
+  SVECINLINE void vector4::recipSqrt3(vector4 &dst, const vector4 &v)
   {
     dst.x = rsqrtf(v.x);
     dst.y = rsqrtf(v.y);
@@ -400,7 +439,7 @@ namespace stevesch
   }
 
   // *this += vm1*vm2 (3-element)
-  SVECINLINE void vector4::mad(const vector4 &vm1, const vector4 &vm2)
+  SVECINLINE void vector4::mad3(const vector4 &vm1, const vector4 &vm2)
   {
     x += vm1.x * vm2.x;
     y += vm1.y * vm2.y;
@@ -417,7 +456,7 @@ namespace stevesch
   }
 
   // dst = vm1*vm2 + va
-  SVECINLINE void vector4::mad(vector4 &dst, const vector4 &vm1, const vector4 &vm2, const vector4 &va)
+  SVECINLINE void vector4::mad3(vector4 &dst, const vector4 &vm1, const vector4 &vm2, const vector4 &va)
   {
     dst.x = (vm1.x * vm2.x) + va.x;
     dst.y = (vm1.y * vm2.y) + va.y;

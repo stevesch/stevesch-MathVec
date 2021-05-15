@@ -11,26 +11,26 @@ namespace stevesch
   void matrix4::normalizeCol3x3()
   {
     vector4 vSum;
-    vector4::mul(vSum, col[0], col[0]);
-    vector4::mad(vSum, col[1], col[1], vSum);
-    vector4::mad(vSum, col[2], col[2], vSum);
-    vector4::recipSqrt(vSum, vSum);
-    col[0].mul(vSum);
-    col[1].mul(vSum);
-    col[2].mul(vSum);
+    vector4::mul3(vSum, col[0], col[0]);
+    vector4::mad3(vSum, col[1], col[1], vSum);
+    vector4::mad3(vSum, col[2], col[2], vSum);
+    vector4::recipSqrt3(vSum, vSum);
+    col[0].mul3(vSum);
+    col[1].mul3(vSum);
+    col[2].mul3(vSum);
   }
 
   // normalize columns of a 3x3 matrix
   void matrix4::normalizeCol3x3(matrix4 &dst) const
   {
     vector4 vSum;
-    vector4::mul(vSum, col[0], col[0]);
-    vector4::mad(vSum, col[1], col[1], vSum);
-    vector4::mad(vSum, col[2], col[2], vSum);
-    vector4::recipSqrt(vSum, vSum);
-    vector4::mul(dst.col[0], col[0], vSum);
-    vector4::mul(dst.col[1], col[1], vSum);
-    vector4::mul(dst.col[2], col[2], vSum);
+    vector4::mul3(vSum, col[0], col[0]);
+    vector4::mad3(vSum, col[1], col[1], vSum);
+    vector4::mad3(vSum, col[2], col[2], vSum);
+    vector4::recipSqrt3(vSum, vSum);
+    vector4::mul3(dst.col[0], col[0], vSum);
+    vector4::mul3(dst.col[1], col[1], vSum);
+    vector4::mul3(dst.col[2], col[2], vSum);
     dst.col[3] = col[3];
   }
 
@@ -121,19 +121,19 @@ namespace stevesch
     transpose(b, m2);
 
     r0.set(
-        m1.col[0].dot(b.col[0]),
-        m1.col[0].dot(b.col[1]),
-        m1.col[0].dot(b.col[2]),
+        m1.col[0].dot3(b.col[0]),
+        m1.col[0].dot3(b.col[1]),
+        m1.col[0].dot3(b.col[2]),
         m1.col[0].w);
     r1.set(
-        m1.col[1].dot(b.col[0]),
-        m1.col[1].dot(b.col[1]),
-        m1.col[1].dot(b.col[2]),
+        m1.col[1].dot3(b.col[0]),
+        m1.col[1].dot3(b.col[1]),
+        m1.col[1].dot3(b.col[2]),
         m1.col[1].w);
     r2.set(
-        m1.col[2].dot(b.col[0]),
-        m1.col[2].dot(b.col[1]),
-        m1.col[2].dot(b.col[2]),
+        m1.col[2].dot3(b.col[0]),
+        m1.col[2].dot3(b.col[1]),
+        m1.col[2].dot3(b.col[2]),
         m1.col[2].w);
 
     dst.col[0] = r0;
@@ -150,19 +150,19 @@ namespace stevesch
     transpose(b, m2);
 
     r0.set(
-        m1.col[0].dot(b.col[0]),
-        m1.col[0].dot(b.col[1]),
-        m1.col[0].dot(b.col[2]),
+        m1.col[0].dot3(b.col[0]),
+        m1.col[0].dot3(b.col[1]),
+        m1.col[0].dot3(b.col[2]),
         m1.col[0].w);
     r1.set(
-        m1.col[1].dot(b.col[0]),
-        m1.col[1].dot(b.col[1]),
-        m1.col[1].dot(b.col[2]),
+        m1.col[1].dot3(b.col[0]),
+        m1.col[1].dot3(b.col[1]),
+        m1.col[1].dot3(b.col[2]),
         m1.col[1].w);
     r2.set(
-        m1.col[2].dot(b.col[0]),
-        m1.col[2].dot(b.col[1]),
-        m1.col[2].dot(b.col[2]),
+        m1.col[2].dot3(b.col[0]),
+        m1.col[2].dot3(b.col[1]),
+        m1.col[2].dot3(b.col[2]),
         m1.col[2].w);
 
     dst.col[0] = r0;
@@ -215,11 +215,11 @@ namespace stevesch
     vector4 v; // temporary vector
     float det; // determinant
 
-    vector4::cross(c.col[0], src.col[1], src.col[2]);
+    vector4::cross3(c.col[0], src.col[1], src.col[2]);
     c.col[0].w = 0.0f;
-    vector4::cross(c.col[1], src.col[2], src.col[0]);
+    vector4::cross3(c.col[1], src.col[2], src.col[0]);
     c.col[0].w = 0.0f;
-    vector4::cross(c.col[2], src.col[0], src.col[1]);
+    vector4::cross3(c.col[2], src.col[0], src.col[1]);
     c.col[0].w = 0.0f;
     c.col[3].set(0.0f, 0.0f, 0.0f, 1.0f);
     // note uninitialized w of cofactor columns
@@ -228,7 +228,7 @@ namespace stevesch
     c.transpose();
 
     src.getColumn(0, v);
-    det = c.col[0].dot(v);
+    det = c.col[0].dot3(v);
 
     if (det == 0.0f)
     {
@@ -240,11 +240,11 @@ namespace stevesch
       // compute the inverse of the matrix
       float invdet = 1.0f / det;
 
-      src.col[3].negate(v); // v = -translation of src
+      src.col[3].negate3(v); // v = -translation of src
 
-      vector4::scale(dst.col[0], c.col[0], invdet);
-      vector4::scale(dst.col[1], c.col[1], invdet);
-      vector4::scale(dst.col[2], c.col[2], invdet);
+      vector4::scale3(dst.col[0], c.col[0], invdet);
+      vector4::scale3(dst.col[1], c.col[1], invdet);
+      vector4::scale3(dst.col[2], c.col[2], invdet);
 
       v.transformSub(dst);
       v.w = 1.0f;

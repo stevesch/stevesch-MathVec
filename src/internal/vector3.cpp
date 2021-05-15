@@ -62,9 +62,9 @@ namespace stevesch
     matrix4 m;
     matrix4::transpose(m, left);
 
-    x = v.dot(m.col[0]);
-    y = v.dot(m.col[1]);
-    z = v.dot(m.col[2]);
+    x = v.dot3(m.col[0]);
+    y = v.dot3(m.col[1]);
+    z = v.dot3(m.col[2]);
 
     return *this;
   }

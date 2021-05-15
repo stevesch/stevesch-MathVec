@@ -78,13 +78,13 @@ namespace stevesch
   // (t, v) = (t, -v)
   SQUATINLINE void quat::conj()
   {
-    V().negate(); // negates (*= -1) x, y, and z
+    V().negate3(); // negates (*= -1) x, y, and z
   }
 
   // dst(t, v) = (t, -v)
   SQUATINLINE void quat::conj(quat &dst) const
   {
-    V().negate(dst.V()); // negates (*= -1) x, y, and z
+    V().negate3(dst.V()); // negates (*= -1) x, y, and z
   }
 
   // Adjunct-- (q*)[(q)(q*)]
@@ -285,11 +285,11 @@ namespace stevesch
   SQUATINLINE void quat::mul_norm_norm(quat &dst, const quat &q1, const quat &q2)
   {
     stevesch::vector4 v;
-    float a = q1.A() * q2.A() - stevesch::vector4::dot(q1.V(), q2.V());
-    stevesch::vector4::addScaled(v, q2.V(), q1.A(), q1.V(), q2.A()); // t1*v2 + v1*t2
-    stevesch::vector4::cross(dst.V(), q1.V(), q2.V());               // may alter q1 or q2 if dst is q1 or q2
+    float a = q1.A() * q2.A() - stevesch::vector4::dot3(q1.V(), q2.V());
+    stevesch::vector4::addScaled3(v, q2.V(), q1.A(), q1.V(), q2.A()); // t1*v2 + v1*t2
+    stevesch::vector4::cross3(dst.V(), q1.V(), q2.V());               // may alter q1 or q2 if dst is q1 or q2
                                                                      // but OK because we don't use q1 or q2 again
-    stevesch::vector4::add(dst.V(), dst.V(), v);                     // dst = (t1*v2 + v1*t2) + (v1 x v2)
+    stevesch::vector4::add3(dst.V(), dst.V(), v);                     // dst = (t1*v2 + v1*t2) + (v1 x v2)
     dst.A() = a;
   }
 
@@ -299,10 +299,10 @@ namespace stevesch
   {
     stevesch::vector4 v;
     float a = q1.dot(q2);                                             // t1*t2 + v1.v2
-    stevesch::vector4::addScaled(v, q2.V(), q1.A(), q1.V(), -q2.A()); // t1*v2 - v1*t2
-    stevesch::vector4::cross(dst.V(), q1.V(), q2.V());                // may alter q1 or q2 if dst is q1 or q2
+    stevesch::vector4::addScaled3(v, q2.V(), q1.A(), q1.V(), -q2.A()); // t1*v2 - v1*t2
+    stevesch::vector4::cross3(dst.V(), q1.V(), q2.V());                // may alter q1 or q2 if dst is q1 or q2
                                                                       // but OK because we don't use q1 or q2 again
-    stevesch::vector4::sub(dst.V(), v, dst.V());                      // dst = (t1*v2 - v1*t2) - (v1 x v2)
+    stevesch::vector4::sub3(dst.V(), v, dst.V());                      // dst = (t1*v2 - v1*t2) - (v1 x v2)
     dst.A() = a;
   }
 
@@ -312,10 +312,10 @@ namespace stevesch
   {
     stevesch::vector4 v;
     float a = q1.dot(q2);                                             // t1*t2 + v1.v2
-    stevesch::vector4::addScaled(v, q2.V(), -q1.A(), q1.V(), q2.A()); // -t1*v2 + v1*t2
-    stevesch::vector4::cross(dst.V(), q1.V(), q2.V());                // may alter q1 or q2 if dst is q1 or q2
+    stevesch::vector4::addScaled3(v, q2.V(), -q1.A(), q1.V(), q2.A()); // -t1*v2 + v1*t2
+    stevesch::vector4::cross3(dst.V(), q1.V(), q2.V());                // may alter q1 or q2 if dst is q1 or q2
                                                                       // but OK because we don't use q1 or q2 again
-    stevesch::vector4::sub(dst.V(), v, dst.V());                      // dst = (v1*t2 - t1*v2) - (v1 x v2)
+    stevesch::vector4::sub3(dst.V(), v, dst.V());                      // dst = (v1*t2 - t1*v2) - (v1 x v2)
     dst.A() = a;
   }
 
@@ -324,11 +324,11 @@ namespace stevesch
   SQUATINLINE void quat::mul_conj_conj(quat &dst, const quat &q1, const quat &q2)
   {
     stevesch::vector4 v;
-    float a = q1.A() * q2.A() - stevesch::vector4::dot(q1.V(), q2.V()); // t1*t2 - v1.v2
-    stevesch::vector4::addScaled(v, q2.V(), q1.A(), q1.V(), q2.A());    // t1*v2 + v1*t2
-    stevesch::vector4::cross(dst.V(), q1.V(), q2.V());                  // may alter q1 or q2 if dst is q1 or q2
+    float a = q1.A() * q2.A() - stevesch::vector4::dot3(q1.V(), q2.V()); // t1*t2 - v1.v2
+    stevesch::vector4::addScaled3(v, q2.V(), q1.A(), q1.V(), q2.A());    // t1*v2 + v1*t2
+    stevesch::vector4::cross3(dst.V(), q1.V(), q2.V());                  // may alter q1 or q2 if dst is q1 or q2
                                                                         // but OK because we don't use q1 or q2 again
-    stevesch::vector4::sub(dst.V(), dst.V(), v);                        // dst = (v1 x v2) - (t1*v2 + v1*t2)
+    stevesch::vector4::sub3(dst.V(), dst.V(), v);                        // dst = (v1 x v2) - (t1*v2 + v1*t2)
     dst.A() = a;
   }
 
@@ -336,10 +336,10 @@ namespace stevesch
   SQUATINLINE quat &quat::postMul_norm(const quat &qRight)
   {
     stevesch::vector4 v;
-    float a = A() * qRight.A() - stevesch::vector4::dot(V(), qRight.V());
-    stevesch::vector4::addScaled(v, qRight.V(), A(), V(), qRight.A()); // t1*v2 + v1*t2
-    V().cross(qRight.V());
-    V().add(v); // dst = (t1*v2 + v1*t2) + (v1 x v2)
+    float a = A() * qRight.A() - stevesch::vector4::dot3(V(), qRight.V());
+    stevesch::vector4::addScaled3(v, qRight.V(), A(), V(), qRight.A()); // t1*v2 + v1*t2
+    V().cross3(qRight.V());
+    V().add3(v); // dst = (t1*v2 + v1*t2) + (v1 x v2)
     A() = a;
     return *this;
   }
@@ -348,10 +348,10 @@ namespace stevesch
   SQUATINLINE quat &quat::preMul_norm(const quat &qLeft)
   {
     stevesch::vector4 v;
-    float a = qLeft.A() * A() - stevesch::vector4::dot(qLeft.V(), V());
-    stevesch::vector4::addScaled(v, V(), qLeft.A(), qLeft.V(), A()); // t1*v2 + v1*t2
-    stevesch::vector4::cross(V(), qLeft.V(), V());
-    V().add(v); // dst = (t1*v2 + v1*t2) + (v1 x v2)
+    float a = qLeft.A() * A() - stevesch::vector4::dot3(qLeft.V(), V());
+    stevesch::vector4::addScaled3(v, V(), qLeft.A(), qLeft.V(), A()); // t1*v2 + v1*t2
+    stevesch::vector4::cross3(V(), qLeft.V(), V());
+    V().add3(v); // dst = (t1*v2 + v1*t2) + (v1 x v2)
     A() = a;
     return *this;
   }
@@ -361,9 +361,9 @@ namespace stevesch
   {
     stevesch::vector4 v;
     float a = dot(qRight);                                              // t1*t2 + v1.v2
-    stevesch::vector4::addScaled(v, qRight.V(), -A(), V(), qRight.A()); // -t1*v2 + v1*t2
-    V().cross(qRight.V());
-    stevesch::vector4::sub(V(), v, V()); // dst = (v1*t2 - t1*v2) - (v1 x v2)
+    stevesch::vector4::addScaled3(v, qRight.V(), -A(), V(), qRight.A()); // -t1*v2 + v1*t2
+    V().cross3(qRight.V());
+    stevesch::vector4::sub3(V(), v, V()); // dst = (v1*t2 - t1*v2) - (v1 x v2)
     A() = a;
     return *this;
   }
@@ -373,9 +373,9 @@ namespace stevesch
   {
     stevesch::vector4 v;
     float a = dot(qLeft);                                             // t1*t2 + v1.v2
-    stevesch::vector4::addScaled(v, V(), qLeft.A(), qLeft.V(), -A()); // t1*v2 - v1*t2
-    V().cross(qLeft.V());
-    V().add(v); // dst = (t1*v2 - v1*t2) + (v2 x v1) (== -v1 x v2)
+    stevesch::vector4::addScaled3(v, V(), qLeft.A(), qLeft.V(), -A()); // t1*v2 - v1*t2
+    V().cross3(qLeft.V());
+    V().add3(v); // dst = (t1*v2 - v1*t2) + (v2 x v1) (== -v1 x v2)
     A() = a;
     return *this;
   }
@@ -394,9 +394,9 @@ namespace stevesch
   SQUATINLINE void quat::grassmanEven(quat &dst, const quat &q1, const quat &q2)
   {
     stevesch::vector4 v;
-    stevesch::vector4::scale(v, q1.V(), q2.A());
-    stevesch::vector4::addScaled(v, v, q2.V(), q1.A());
-    v.w = q1.A() * q2.A() - stevesch::vector4::dot(q1.V(), q2.V());
+    stevesch::vector4::scale3(v, q1.V(), q2.A());
+    stevesch::vector4::addScaled3(v, v, q2.V(), q1.A());
+    v.w = q1.A() * q2.A() - stevesch::vector4::dot3(q1.V(), q2.V());
     dst.V() = v;
   }
 
@@ -405,7 +405,7 @@ namespace stevesch
   // *** Common cross product ***
   SQUATINLINE void quat::grassmanOdd(quat &dst, const quat &q1, const quat &q2)
   {
-    stevesch::vector4::cross(dst.V(), q1.V(), q2.V());
+    stevesch::vector4::cross3(dst.V(), q1.V(), q2.V());
     dst.A() = 0.0f;
   }
 
@@ -430,9 +430,9 @@ namespace stevesch
   SQUATINLINE void quat::euclideanOdd(quat &dst, const quat &q1, const quat &q2)
   {
     stevesch::vector4 v;
-    stevesch::vector4::addScaled(v, q2.V(), q1.A(), q1.V(), -q2.A()); // t*v' - v*t'
-    stevesch::vector4::cross(dst.V(), q1.V(), q2.V());                // may alter q1 or q2 if dst is q1 or q2
-    stevesch::vector4::sub(dst.V(), v, dst.V());                      // dst = (v*t' + t*v') - (v x v')
+    stevesch::vector4::addScaled3(v, q2.V(), q1.A(), q1.V(), -q2.A()); // t*v' - v*t'
+    stevesch::vector4::cross3(dst.V(), q1.V(), q2.V());                // may alter q1 or q2 if dst is q1 or q2
+    stevesch::vector4::sub3(dst.V(), v, dst.V());                      // dst = (v*t' + t*v') - (v x v')
     dst.A() = 0.0f;
   }
 

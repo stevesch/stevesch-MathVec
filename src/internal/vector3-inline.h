@@ -320,6 +320,41 @@ namespace stevesch
   }
 
   ////////////////////////////////////////////////////
+
+  SVECINLINE vector3 operator+(const vector3 &v1, const vector3 &v2)
+  {
+    vector3 v;
+    vector3::add(v, v1, v2);
+    return v;
+  }
+  SVECINLINE vector3 operator-(const vector3 &v1, const vector3 &v2)
+  {
+    vector3 v;
+    vector3::sub(v, v1, v2);
+    return v;
+  }
+  
+  SVECINLINE vector3 operator*(const vector3 &v1, float s)
+  {
+    vector3 v;
+    vector3::scale(v, v1, s);
+    return v;
+  }
+
+  SVECINLINE vector3 operator*(float s, const vector3 &v1)
+  {
+    vector3 v;
+    vector3::scale(v, v1, s);
+    return v;
+  }
+
+  SVECINLINE vector3 operator/(const vector3 &v1, float d)
+  {
+    vector3 v;
+    vector3::div(v, v1, d);
+    return v;
+  }
+
   ////////////////////////////////////////////////////
 
 } // namespace SMath

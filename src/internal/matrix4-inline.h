@@ -214,7 +214,7 @@ namespace stevesch
   // translate by v (col[3] += v)
   SMATRIX4INLINE const matrix4 &matrix4::translate(const stevesch::vector4 &v)
   {
-    col[3].add(v);
+    col[3].add3(v);
     return *this;
   }
 
@@ -262,9 +262,9 @@ namespace stevesch
   // member-wise multiplication by scalar fScale
   SMATRIX4INLINE const matrix4 &matrix4::mulMembers3x3(float fScale)
   {
-    col[0].mul(fScale);
-    col[1].mul(fScale);
-    col[2].mul(fScale);
+    col[0].mul3(fScale);
+    col[1].mul3(fScale);
+    col[2].mul3(fScale);
     return *this;
   }
 
@@ -310,9 +310,9 @@ namespace stevesch
   // member-wise multiplication by scalar fScale for 3x3 part
   SMATRIX4INLINE void matrix4::mulMembers3x3(matrix4 &dst, const matrix4 &m, float fScale)
   {
-    stevesch::vector4::mul(dst.col[0], m.col[0], fScale);
-    stevesch::vector4::mul(dst.col[1], m.col[1], fScale);
-    stevesch::vector4::mul(dst.col[2], m.col[2], fScale);
+    stevesch::vector4::mul3(dst.col[0], m.col[0], fScale);
+    stevesch::vector4::mul3(dst.col[1], m.col[1], fScale);
+    stevesch::vector4::mul3(dst.col[2], m.col[2], fScale);
     dst.col[3] = m.col[3];
   }
 

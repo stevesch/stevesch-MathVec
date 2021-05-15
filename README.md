@@ -18,6 +18,29 @@ Typical operations for 3D rendering are provided for each of the above classes (
 Use in combination with stevesch-Mesh and stevesch-Display for rendering 3D objects on an SPI TFT screen.
 # Building and Running
 
-Including:
+Add library dependency, e.g.
 
-`#include <stevesch-MathVec.h>`
+```
+lib_deps = 
+  https://github.com/stevesch/stevesch-MathVec.git
+```
+
+<br/>
+Include in your code:
+
+```
+#include <stevesch-MathVec.h>
+```
+
+Example code:
+```
+using stevesch::vector3;
+
+. . .
+
+vector3 a(2.0f, 3.0f, 5.0f)
+vector3 b(7.0f, 11.0f, 13.0f);
+
+
+
+```

@@ -128,14 +128,14 @@ namespace stevesch
     vector4 vForward;
     vector4 vRight;
 
-    vector4::sub(vForward, rAt, rEye);
+    vector4::sub3(vForward, rAt, rEye);
 
-    vForward.normalize();                  // assumes target != position
-    vector4::cross(vRight, rUp, vForward); // left-handed coordinate system
-    vRight.normalize();
+    vForward.normalize3();                  // assumes target != position
+    vector4::cross3(vRight, rUp, vForward); // left-handed coordinate system
+    vRight.normalize3();
 
     vector4 vCameraUp;
-    vector4::cross(vCameraUp, vForward, vRight); // left-handed coordinate system
+    vector4::cross3(vCameraUp, vForward, vRight); // left-handed coordinate system
 
     dst.col[0].set(vRight.x, vRight.y, vRight.z, 0.0f);
     dst.col[1].set(vCameraUp.x, vCameraUp.y, vCameraUp.z, 0.0f);
@@ -149,14 +149,14 @@ namespace stevesch
     vector4 vBackward;
     vector4 vRight;
 
-    vector4::sub(vBackward, rEye, rAt);
+    vector4::sub3(vBackward, rEye, rAt);
 
-    vBackward.normalize();                  // assumes target != position
-    vector4::cross(vRight, rUp, vBackward); // left-handed coordinate system
-    vRight.normalize();
+    vBackward.normalize3();                  // assumes target != position
+    vector4::cross3(vRight, rUp, vBackward); // left-handed coordinate system
+    vRight.normalize3();
 
     vector4 vCameraUp;
-    vector4::cross(vCameraUp, vBackward, vRight); // left-handed coordinate system
+    vector4::cross3(vCameraUp, vBackward, vRight); // left-handed coordinate system
 
     dst.col[0].set(vRight.x, vRight.y, vRight.z, 0.0f);
     dst.col[1].set(vCameraUp.x, vCameraUp.y, vCameraUp.z, 0.0f);
@@ -172,14 +172,14 @@ namespace stevesch
     vector4 vForward;
     vector4 vRight;
 
-    vector4::sub(vForward, rAt, rEye);
+    vector4::sub3(vForward, rAt, rEye);
 
-    vForward.normalize();                  // assumes target != position
-    vector4::cross(vRight, rUp, vForward); // left-handed coordinate system
-    vRight.normalize();
+    vForward.normalize3();                  // assumes target != position
+    vector4::cross3(vRight, rUp, vForward); // left-handed coordinate system
+    vRight.normalize3();
 
     vector4 vCameraUp;
-    vector4::cross(vCameraUp, vForward, vRight); // left-handed coordinate system
+    vector4::cross3(vCameraUp, vForward, vRight); // left-handed coordinate system
 
     // world-to-view look-at matrix is inverse of a local-to-world look-at (see lookAtLHWorld, above)
     // A == T * M
@@ -206,14 +206,14 @@ namespace stevesch
     vector4 vBackward;
     vector4 vRight;
 
-    vector4::sub(vBackward, rEye, rAt);
+    vector4::sub3(vBackward, rEye, rAt);
 
-    vBackward.normalize();                  // assumes target != position
-    vector4::cross(vRight, rUp, vBackward); // right-handed coordinate system
-    vRight.normalize();
+    vBackward.normalize3();                  // assumes target != position
+    vector4::cross3(vRight, rUp, vBackward); // right-handed coordinate system
+    vRight.normalize3();
 
     vector4 vCameraUp;
-    vector4::cross(vCameraUp, vBackward, vRight); // left-handed coordinate system
+    vector4::cross3(vCameraUp, vBackward, vRight); // left-handed coordinate system
 
     // world-to-view look-at matrix is inverse of a local-to-world look-at (see lookAtRHWorld, above)
     // A == T * M
@@ -235,8 +235,8 @@ namespace stevesch
   float matrix4::det3x3() const
   {
     vector4 v;
-    vector4::cross(v, col[1], col[2]);
-    return col[0].dot(v);
+    vector4::cross3(v, col[1], col[2]);
+    return col[0].dot3(v);
   }
 
 #if 0

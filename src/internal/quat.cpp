@@ -130,7 +130,7 @@ namespace stevesch
       float a = acosf(fA); // a = angle/2
       float s = sinf(a);
 
-      vector4::div(vAxis, V(), s); // axis = v / sin(angle/2)
+      vector4::div3(vAxis, V(), s); // axis = v / sin(angle/2)
       angle = closeMod2pi(2.0f * a);
       vAxis.w = 1.0f;
     }
@@ -141,7 +141,7 @@ namespace stevesch
     float a = mod2pi(angle * 0.5f);
     float s = sinf(a);
 
-    vector4::scale(V(), vAxis, s); // v = sin(angle/2) * axis
+    vector4::scale3(V(), vAxis, s); // v = sin(angle/2) * axis
     A() = cosf(a);                 // t = cos(angle/2)
   }
 
@@ -236,15 +236,15 @@ namespace stevesch
       SASSERT(fabsf(fMag2 - 1.0f) < scfQuatSquareMagTolerance);
 #endif
 
-      vector4::scale(rs, V(), s);
-      vector4::scale(rx, rs, X());
-      vector4::scale(ry, rs, Y());
+      vector4::scale3(rs, V(), s);
+      vector4::scale3(rx, rs, X());
+      vector4::scale3(ry, rs, Y());
       ry.x = 0.0f;
 
       rz.z = rs.z * Z();
       rz.y = rz.x = 0.0f;
 
-      vector4::scale(rw, rs, A());
+      vector4::scale3(rw, rs, A());
 
       // The following is the equivalent of (t==theta)
       //
@@ -307,15 +307,15 @@ namespace stevesch
       SASSERT(fabsf(fMag2 - 1.0f) < scfQuatSquareMagTolerance);
 #endif
 
-      vector4::scale(rs, V(), s);
-      vector4::scale(rx, rs, X());
-      vector4::scale(ry, rs, Y());
+      vector4::scale3(rs, V(), s);
+      vector4::scale3(rx, rs, X());
+      vector4::scale3(ry, rs, Y());
       ry.x = 0.0f;
 
       rz.z = rs.z * Z();
       rz.y = rz.x = 0.0f;
 
-      vector4::scale(rw, rs, A());
+      vector4::scale3(rw, rs, A());
 
       // see toMatrix(m) for an explaination of the following values
       m.m00 = 1.0f - (ry.y + rz.z);
@@ -386,7 +386,7 @@ namespace stevesch
       X() = (m[1][2] - m[2][1]);
       Y() = (m[2][0] - m[0][2]);
       Z() = (m[0][1] - m[1][0]);
-      V().mul(s); // 3-element
+      V().mul3(s); // 3-element
     }
     else
     {
@@ -551,7 +551,7 @@ namespace stevesch
     quat::mul_norm_conj(qDelta, q1, q0); // qDelta = q1 * q0~
 
     qDelta.toAxisAngle(vVAngular, fAngle);
-    vVAngular *= (fAngle * fInvDeltaSeconds);
+    vVAngular.mul3(fAngle * fInvDeltaSeconds);
   }
 
   // compute linear and angular velocities given linear and angular positions and a time step
@@ -573,10 +573,10 @@ namespace stevesch
     quat::mul_norm_conj(qDelta, q1, q0); // qDelta = q1 * q0~
 
     qDelta.toAxisAngle(vVAngular, fAngle);
-    vVAngular *= (fAngle * fInvDeltaSeconds);
+    vVAngular.mul3(fAngle * fInvDeltaSeconds);
 
-    vector4::sub(vVLinear, v1, v0);
-    vVLinear *= fInvDeltaSeconds;
+    vector4::sub3(vVLinear, v1, v0);
+    vVLinear.mul3(fInvDeltaSeconds);
   }
 
   /*
@@ -627,12 +627,12 @@ namespace stevesch
   // (0.5 ln(t*t + v.v), atan(|v|/t)(v/|v|))
   void quat::ln()
   {
-    float fVectorSquareMag = V().squareMag();
+    float fVectorSquareMag = V().squareMag3();
 
     if (fabsf(fVectorSquareMag - 1.0f) < c_fSQuatUnityTolerance2)
     {
       // quaternion is normalized
-      V() *= atan2f(1.0f, A()); // v = v * atan(1/t)
+      V().mul3(atan2f(1.0f, A())); // v = v * atan(1/t)
       A() = 0.0f;               // ln(1) == 0
     }
     else
@@ -641,7 +641,7 @@ namespace stevesch
       float fVectorMag = sqrtf(fVectorSquareMag);
       float a = 0.5f * logf(A() * A() + fVectorSquareMag); // a = (1/2) ln(t*t + v.v)
 
-      V() *= atan2f(fVectorMag, A()) / fVectorMag; // v *= atan(1/t) / |v|
+      V().mul3(atan2f(fVectorMag, A()) / fVectorMag); // v *= atan(1/t) / |v|
       A() = a;
     }
   }
@@ -650,12 +650,12 @@ namespace stevesch
   // dst = (0.5 ln(t*t + v.v), atan(|v|/t)(v/|v|))
   void quat::ln(quat &dst) const
   {
-    float fVectorSquareMag = V().squareMag(); // |v|*|v|
+    float fVectorSquareMag = V().squareMag3(); // |v|*|v|
 
     if (fabsf(fVectorSquareMag - 1.0f) < c_fSQuatUnityTolerance2)
     {
       // quaternion is normalized
-      vector4::scale(dst.V(), V(), atan2f(1.0f, A())); // v = v * atan(1/t)
+      vector4::scale3(dst.V(), V(), atan2f(1.0f, A())); // v = v * atan(1/t)
       dst.A() = 0.0f;                                  // ln(1) == 0
     }
     else
@@ -664,7 +664,7 @@ namespace stevesch
       float fVectorMag = sqrtf(fVectorSquareMag);
       float a = 0.5f * logf(A() * A() + fVectorSquareMag); // a = (1/2) ln(t*t + v.v)
 
-      vector4::scale(dst.V(), V(), atan2f(fVectorMag, A()) / fVectorMag); // v *= atan(1/t) / |v|
+      vector4::scale3(dst.V(), V(), atan2f(fVectorMag, A()) / fVectorMag); // v *= atan(1/t) / |v|
       dst.A() = a;
     }
   }
@@ -672,7 +672,7 @@ namespace stevesch
   // exponential (self)-- e^(this)
   void quat::exp()
   {
-    float fVectorMag = V().abs();
+    float fVectorMag = V().abs3();
     float fExpT = expf(A());
     float fCosMag;
     float fSinMag;
@@ -684,7 +684,7 @@ namespace stevesch
     // a normalized quaternion has a normalized xyz component only
     // if the rotation represented is +/- 180 degrees [|sine(theta/2)| == 1]
     SASSERT(fabsf(fVectorMag) > c_fSQuatUnityTolerance);
-    V() *= fExpT * fSinMag / fVectorMag;
+    V().mul3(fExpT * fSinMag / fVectorMag);
 
     A() = fExpT * fCosMag;
   }
@@ -692,7 +692,7 @@ namespace stevesch
   // exponential-- dst = e^(this)
   void quat::exp(quat &dst) const
   {
-    float fVectorMag = V().abs();
+    float fVectorMag = V().abs3();
     float fExpT = expf(A());
     float fCosMag;
     float fSinMag;
@@ -704,7 +704,7 @@ namespace stevesch
     // a normalized quaternion has a normalized xyz component only
     // if the rotation represented is +/- 90 degrees [|sine(theta)| == 1]
     SASSERT(fabsf(fVectorMag) > c_fSQuatUnityTolerance);
-    vector4::scale(dst.V(), V(), fExpT * fSinMag / fVectorMag);
+    vector4::scale3(dst.V(), V(), fExpT * fSinMag / fVectorMag);
 
     dst.A() = fExpT * fCosMag;
   }
@@ -715,8 +715,8 @@ namespace stevesch
   {
     vector4 v0norm;
     vector4 v1norm;
-    vector4::normalize(v0norm, v0);
-    vector4::normalize(v1norm, v1);
+    vector4::normalize3(v0norm, v0);
+    vector4::normalize3(v1norm, v1);
 
     return fromTwoNormVectors(q, v0norm, v1norm, fTolerance);
   }
@@ -724,11 +724,11 @@ namespace stevesch
   float quat::fromTwoNormVectors(quat &q, const vector4 &v0norm, const vector4 &v1norm, float fTolerance)
   {
     vector4 vAxis;
-    float fDotProduct = v0norm.dot(v1norm); // check dot product to see if vectors have negative dot product
+    float fDotProduct = v0norm.dot3(v1norm); // check dot product to see if vectors have negative dot product
 
-    vector4::cross(vAxis, v0norm, v1norm);
+    vector4::cross3(vAxis, v0norm, v1norm);
 
-    float fSquareMag = vAxis.squareMag();
+    float fSquareMag = vAxis.squareMag3();
     if (fSquareMag < fTolerance)
     {
       if (fDotProduct < 0.0f)
@@ -749,7 +749,7 @@ namespace stevesch
     if (fDotProduct < 0.0f)
       fAngle = closeMod2pi(c_fpi - fAngle);
 
-    vAxis /= fAxisMag;
+    vAxis.div3(fAxisMag);
 
     q.fromAxisAngle(vAxis, fAngle);
 
@@ -764,14 +764,14 @@ namespace stevesch
     vector4 vAxis;
     vector4 v0norm;
     vector4 v1norm;
-    vector4::normalize(v0norm, v0);
-    vector4::normalize(v1norm, v1);
+    vector4::normalize3(v0norm, v0);
+    vector4::normalize3(v1norm, v1);
 
-    float fDotProduct = v0norm.dot(v1norm); // check dot product to see if vectors have negative dot product
+    float fDotProduct = v0norm.dot3(v1norm); // check dot product to see if vectors have negative dot product
 
-    vector4::cross(vAxis, v0norm, v1norm);
+    vector4::cross3(vAxis, v0norm, v1norm);
 
-    float fSquareMag = vAxis.squareMag();
+    float fSquareMag = vAxis.squareMag3();
     if (fSquareMag < fTolerance)
     {
       // may face opposite directions, but that's OK
@@ -786,7 +786,7 @@ namespace stevesch
     if (fDotProduct < 0.0f)
       fAngle = -fAngle; // choose q such that v0 is aligned with -v1
 
-    vAxis /= fAxisMag;
+    vAxis.div3(fAxisMag);
 
     q.fromAxisAngle(vAxis, fAngle);
 

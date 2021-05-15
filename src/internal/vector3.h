@@ -102,6 +102,12 @@ namespace stevesch
     static SVECINLINE void cross(vector3 &dst, const vector3 &v1, const vector3 &v2);                         // dst = v1 x v2
     static SVECINLINE void addScaled(vector3 &dst, const vector3 &v1, const vector3 &v2, float s2);           // dst = v1 + v2*s2
     static SVECINLINE void addScaled(vector3 &dst, const vector3 &v1, float s1, const vector3 &v2, float s2); // dst = v1*s1 + v2*s2
+
+    friend SVECINLINE vector3 operator+(const vector3 &v1, const vector3 &v2); // v1 + v2
+    friend SVECINLINE vector3 operator-(const vector3 &v1, const vector3 &v2); // v1 - v2
+    friend SVECINLINE vector3 operator*(const vector3 &v1, float s); // v1 * s
+    friend SVECINLINE vector3 operator*(float s, const vector3 &v1); // s * v
+    friend SVECINLINE vector3 operator/(const vector3 &v1, float d); // v1 / d
   };
 
 } // namespace stevesch

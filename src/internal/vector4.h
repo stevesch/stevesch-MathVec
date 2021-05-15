@@ -77,27 +77,27 @@ namespace stevesch
 
     ////////////////////////////////////////////////////
 
-    const vector4 &add(const vector4 &v);   // member-wise addition (3-element)
-    const vector4 &sub(const vector4 &v);   // member-wise subtraction (3-element)
-    const vector4 &mul(const vector4 &v);   // member-wise multiplication (3-element)
-    const vector4 &cross(const vector4 &v); // 3-element cross (outer) product
+    const vector4 &add3(const vector4 &v);   // member-wise addition (3-element)
+    const vector4 &sub3(const vector4 &v);   // member-wise subtraction (3-element)
+    const vector4 &mul3(const vector4 &v);   // member-wise multiplication (3-element)
+    const vector4 &cross3(const vector4 &v); // 3-element cross (outer) product
 
-    const vector4 &scale(float scale); // multiply by scalar (3-element)
-    const vector4 &mul(float scale);   // multiply by scalar (3-element) (same as scale(float))
-    const vector4 &div(float scale);   // divide by scalar (3-element)
+    const vector4 &scale3(float scale); // multiply by scalar (3-element)
+    const vector4 &mul3(float scale);   // multiply by scalar (3-element) (same as scale(float))
+    const vector4 &div3(float scale);   // divide by scalar (3-element)
 
-    const vector4 &negate();                   // 3-element negation (x=-x, y=-y, z=-z)
-    const vector4 &negate(vector4 &dst) const; // 3-element negation (dst.x=-x, dst.y=-y, dst.z=-z)
+    const vector4 &negate3();                   // 3-element negation (x=-x, y=-y, z=-z)
+    const vector4 &negate3(vector4 &dst) const; // 3-element negation (dst.x=-x, dst.y=-y, dst.z=-z)
 
-    float dot(const vector4 &v) const; // dot (inner) product (3-element)
-    float squareMag() const;           // squared magnitude (3-element)
-    float recipSquareMag() const;      // 1.0 / squared magnitued (3-element)
-    float abs() const;                 // magnitude (3-element)
-    float recipAbs() const;            // 1.0 / magnitude (3-element)
+    float dot3(const vector4 &v) const; // dot (inner) product (3-element)
+    float squareMag3() const;           // squared magnitude (3-element)
+    float recipSquareMag3() const;      // 1.0 / squared magnitued (3-element)
+    float abs3() const;                 // magnitude (3-element)
+    float recipAbs3() const;            // 1.0 / magnitude (3-element)
 
-    const vector4 &normalize(); // normalize self (3-element)
+    const vector4 &normalize3(); // normalize self (3-element)
 
-    void mad(const vector4 &vm1, const vector4 &vm2); // *this += vm1*vm2 (3-element)
+    void mad3(const vector4 &vm1, const vector4 &vm2); // *this += vm1*vm2 (3-element)
 
     ////////////////////////////////////////////////////
 
@@ -125,11 +125,20 @@ namespace stevesch
 
     ////////////////////////////////////////////////////
 
+    // NOTE: vector4 operators apply 3-element operations and leave w intact.
+    // use add4, sub4, etc. for full 4-element operations.
     const vector4 &operator=(const vector4 &v);  // copy
-    const vector4 &operator+=(const vector4 &v); // add (3-element)
-    const vector4 &operator-=(const vector4 &v); // sub (3-element)
-    const vector4 &operator*=(float scale);      // scale (3-element)
-    const vector4 &operator/=(float scale);      // scale(1/scale) (3-element)
+    // const vector4 &operator+=(const vector4 &v); // add (3-element)
+    // const vector4 &operator-=(const vector4 &v); // sub (3-element)
+    // const vector4 &operator*=(float scale);      // scale (3-element)
+    // const vector4 &operator/=(float scale);      // scale(1/scale) (3-element)
+
+    // friend vector4 operator+(const vector4 &v1, const vector4 &v2); // v1 + v2 (3-element)
+    // friend vector4 operator-(const vector4 &v1, const vector4 &v2); // v1 - v2 (3-element)
+    // friend vector4 operator*(const vector4 &v1, float s); // v1 * s (3-element)
+    // friend vector4 operator*(float s, const vector4 &v1); // s * v (3-element)
+    // friend vector4 operator/(const vector4 &v1, float d); // v1 / d (3-element)
+
     const float &operator[](int n) const;        // 0->x, 1->y, 2->z, 3->w
     float &operator[](int n);                    // 0->x, 1->y, 2->z, 3->w
 
@@ -142,54 +151,54 @@ namespace stevesch
 
     //const vector4& operator *=(const stevesch::matrix4& mRight);	// Mul (full 4x4)
 
-    void rand(stevesch::RandGen &r = S_RandGen);                                        // 3-element randomize (0.0f, 1.0f)
-    void randAB(const vector4 &a, const vector4 &b, stevesch::RandGen &r = S_RandGen);  // 3-element randomize (a.*, b.*)
+    void rand3(stevesch::RandGen &r = S_RandGen);                                       // 3-element randomize (0.0f, 1.0f)
+    void randAB3(const vector4 &a, const vector4 &b, stevesch::RandGen &r = S_RandGen); // 3-element randomize (a.*, b.*)
     void rand4(stevesch::RandGen &r = S_RandGen);                                       // 4-element randomize (0.0f, 1.0f)
     void randAB4(const vector4 &a, const vector4 &b, stevesch::RandGen &r = S_RandGen); // 4-element randomize (a.*, b.*)
 
-    void randSpherical(stevesch::RandGen &r = S_RandGen); // produce random spherical distribution on unit sphere (xyz, w=1.0f)
+    void randSpherical3(stevesch::RandGen &r = S_RandGen); // produce random spherical distribution on unit sphere (xyz, w=1.0f)
     ////////////////////////////////////////////////////
 
     // 3-element static methods
-    static void add(vector4 &dst, const vector4 &v1, const vector4 &v2); // dst = v1 + v2 (3-element)
-    static void sub(vector4 &dst, const vector4 &v1, const vector4 &v2); // dst = v1 - v2 (3-element)
-    static void mul(vector4 &dst, const vector4 &v1, const vector4 &v2); // dst = v1 * v2 (3-element)
-    static void div(vector4 &dst, const vector4 &v1, float s);           // dst = v1 / s
-    static void scale(vector4 &dst, const vector4 &v1, float s);         // dst = v1 * s
-    inline static void mul(vector4 &dst, const vector4 &v1, float s) { vector4::scale(dst, v1, s); }
-    static float dot(const vector4 &v1, const vector4 &v2); // 3-element dot (inner) product of v1 and v2
+    static void add3(vector4 &dst, const vector4 &v1, const vector4 &v2); // dst = v1 + v2 (3-element)
+    static void sub3(vector4 &dst, const vector4 &v1, const vector4 &v2); // dst = v1 - v2 (3-element)
+    static void mul3(vector4 &dst, const vector4 &v1, const vector4 &v2); // dst = v1 * v2 (3-element)
+    static void div3(vector4 &dst, const vector4 &v1, float s);           // dst = v1 / s
+    static void scale3(vector4 &dst, const vector4 &v1, float s);         // dst = v1 * s
+    inline static void mul3(vector4 &dst, const vector4 &v1, float s) { vector4::scale3(dst, v1, s); }
+    static float dot3(const vector4 &v1, const vector4 &v2); // 3-element dot (inner) product of v1 and v2
 
-    static void normalize(vector4 &dst, const vector4 &src); // (3-element)
+    static void normalize3(vector4 &dst, const vector4 &src); // (3-element)
 
-    static void mad(vector4 &dst, const vector4 &vm1, const vector4 &vm2, const vector4 &va); // dst = vm1*vm2 + va
+    static void mad3(vector4 &dst, const vector4 &vm1, const vector4 &vm2, const vector4 &va); // dst = vm1*vm2 + va
 
     static void transform(vector4 &dst, const stevesch::matrix4 &m, const vector4 &v);              // dst = m * v (4x4)
     static void transformSub(vector4 &dst, const stevesch::matrix4 &m, const vector4 &v);           // dst = m * v (4x4, as if v.w = 0.0)
     static void transformSubTransposed(vector4 &dst, const stevesch::matrix4 &m, const vector4 &v); // dst = (m^T) * v, 3x3
     static void transformAff(vector4 &dst, const stevesch::matrix4 &m, const vector4 &v);           // dst = m * v (4x4, as if v.w = 1.0)
 
-    inline static float squareDist(const vector4 &v1, const vector4 &v2) { return distanceSquared(v1, v2); }
-    inline static float squareDist(vector4 &dst, const vector4 &v1, const vector4 &v2) { return distanceSquared(dst, v1, v2); }
+    inline static float squareDist3(const vector4 &v1, const vector4 &v2) { return distanceSquared3(v1, v2); }
+    inline static float squareDist3(vector4 &dst, const vector4 &v1, const vector4 &v2) { return distanceSquared3(dst, v1, v2); }
 
-    static void min(vector4 &dst, const vector4 &v1, const vector4 &v2);             // dst = min(v1, v2) per element (3-element)
-    static void max(vector4 &dst, const vector4 &v1, const vector4 &v2);             // dst = max(v1, v2) per element (3-element)
-    static void clampMag(vector4 &vDst, const vector4 &vSrc, const vector4 &vClamp); // clamp vSrc to +/- vClamp
+    static void min3(vector4 &dst, const vector4 &v1, const vector4 &v2);             // dst = min(v1, v2) per element (3-element)
+    static void max3(vector4 &dst, const vector4 &v1, const vector4 &v2);             // dst = max(v1, v2) per element (3-element)
+    static void clampMag3(vector4 &vDst, const vector4 &vSrc, const vector4 &vClamp); // clamp vSrc to +/- vClamp
 
-    static void lerp(vector4 &dst, const vector4 &v1, const vector4 &v2, float t);    // linear interpolation t=[0, 1] -> dst = [v1, v2] (3-element)
-    static void addLerp(vector4 &dst, const vector4 &v1, const vector4 &v2, float t); // add linear interpolation t=[0, 1] -> dst += [v1, v2] (3-element)
+    static void lerp3(vector4 &dst, const vector4 &v1, const vector4 &v2, float t);    // linear interpolation t=[0, 1] -> dst = [v1, v2] (3-element)
+    static void addLerp3(vector4 &dst, const vector4 &v1, const vector4 &v2, float t); // add linear interpolation t=[0, 1] -> dst += [v1, v2] (3-element)
 
     // v = v + (a*fScalea)*dt; r = r + v*dt
     // this can be pure "Backward Euler" if a is a(t0+dt) or "semi-implicit euler" if a = a(t0)
     static void applyEulerImplicit(vector4 &r, vector4 &v, const vector4 &a, float fScalea, float dt);
 
-    static void cross(vector4 &dst, const vector4 &v1, const vector4 &v2);                         // dst = v1 x v2
-    static void addScaled(vector4 &dst, const vector4 &v1, const vector4 &v2, float s2);           // dst = v1 + v2*s2
-    static void addScaled(vector4 &dst, const vector4 &v1, float s1, const vector4 &v2, float s2); // dst = v1*s1 + v2*s2
+    static void cross3(vector4 &dst, const vector4 &v1, const vector4 &v2);                         // dst = v1 x v2
+    static void addScaled3(vector4 &dst, const vector4 &v1, const vector4 &v2, float s2);           // dst = v1 + v2*s2
+    static void addScaled3(vector4 &dst, const vector4 &v1, float s1, const vector4 &v2, float s2); // dst = v1*s1 + v2*s2
 
-    static float distanceSquared(const vector4 &v1, const vector4 &v2); // squared distance between two points: (v2-v1).(v2-v1)
+    static float distanceSquared3(const vector4 &v1, const vector4 &v2); // squared distance between two points: (v2-v1).(v2-v1)
 
     // returns squared distance between two points: |v2-v1|^2 and sets dst=(v2-v1)
-    static float distanceSquared(vector4 &dst, const vector4 &v1, const vector4 &v2);
+    static float distanceSquared3(vector4 &dst, const vector4 &v1, const vector4 &v2);
 
     // 4-element static methods
     static void add4(vector4 &dst, const vector4 &v1, const vector4 &v2); // dst = v1 + v2 (4-element)
@@ -198,9 +207,9 @@ namespace stevesch
     static void div4(vector4 &dst, const vector4 &v1, const vector4 &v2); // dst = v1 / v2 (4-element)
     static void mul4(vector4 &dst, const vector4 &v1, float fScale);      // dst = v1 * fScale (4-element)
 
-    static void recip(vector4 &dst, const vector4 &v);     // dst = sqrt(v) (3-element)
-    static void sqrt(vector4 &dst, const vector4 &v);      // dst = sqrt(v) (3-element)
-    static void recipSqrt(vector4 &dst, const vector4 &v); // dst = 1.0/sqrt(v) (3-element)
+    static void recip3(vector4 &dst, const vector4 &v);     // dst = sqrt(v) (3-element)
+    static void sqrt3(vector4 &dst, const vector4 &v);      // dst = sqrt(v) (3-element)
+    static void recipSqrt3(vector4 &dst, const vector4 &v); // dst = 1.0/sqrt(v) (3-element)
 
     static void recip4(vector4 &dst, const vector4 &v);     // dst = sqrt(v) (4-element)
     static void sqrt4(vector4 &dst, const vector4 &v);      // dst = sqrt(v) (4-element)
@@ -284,7 +293,7 @@ namespace stevesch
 
     // distance from triangle
     // (*pnNearestEdge is filled with edge index if nearest point is on an edge, otherwise -1)
-    float distanceSquared(vector4 &vNearestPoint, const vector4 *pTriangle, int *pnNearestEdge = 0) const;
+    float distanceSquared3(vector4 &vNearestPoint, const vector4 *pTriangle, int *pnNearestEdge = 0) const;
 
     // compute linear velocity given linear positions and a time step
     // fDeltaSeconds must be non-zero
@@ -303,12 +312,12 @@ namespace stevesch
   ////////////////////////////////////////////////////////////
   inline void SASSERT_NORMALIZED(const vector4 &v, float fSquareEpsilon = 0.02f)
   {
-    SASSERT(fabsf(v.squareMag() - 1.0f) < fSquareEpsilon);
+    SASSERT(fabsf(v.squareMag3() - 1.0f) < fSquareEpsilon);
   }
 
   inline void SASSERT_NONZEROLENGTH(const vector4 &v, float fSquareEpsilon = 0.0000005f)
   {
-    SASSERT(v.squareMag() > fSquareEpsilon);
+    SASSERT(v.squareMag3() > fSquareEpsilon);
   }
 
   ////////////////////////////////////////////////////////////
