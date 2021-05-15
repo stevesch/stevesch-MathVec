@@ -7,25 +7,157 @@ namespace stevesch
 {
   ///////////////////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////
-  // use x and y from stevesch::vector4
-  inline void vector2::set(const stevesch::vector4 &v)
+
+  inline vector2::vector2(const vector2 &v)
+  {
+    copy(v);
+  }
+
+  // copy (all memebers)
+  inline vector2 &vector2::copy(const vector2 &v)
   {
     x = v.x;
     y = v.y;
+    return *this;
   }
 
-  // access by index
-  inline float vector2::operator[](int n) const
+  inline vector2& vector2::set(float _x, float _y)
   {
-    SASSERT((n == 0) || (n == 1));
-    return m_v[n];
+    x = _x;
+    y = _y;
+    return *this;
   }
 
-  // access by index
-  inline float &vector2::operator[](int n)
+  inline vector2& vector2::set(const vector2 &v)
   {
-    SASSERT((n == 0) || (n == 1));
-    return m_v[n];
+    x = v.x;
+    y = v.y;
+    return *this;
+  }
+
+  // use x and y from stevesch::vector4
+  inline vector2& vector2::set(const stevesch::vector4 &v)
+  {
+    x = v.x;
+    y = v.y;
+    return *this;
+  }
+
+  ////////////////////////////////////////////////////
+
+  // member-wise addition (3-element)
+  inline vector2 &vector2::add(const vector2 &v)
+  {
+    x += v.x;
+    y += v.y;
+    return *this;
+  }
+
+  // member-wise subtraction (3-element)
+  inline vector2 &vector2::sub(const vector2 &v)
+  {
+    x -= v.x;
+    y -= v.y;
+    return *this;
+  }
+
+  // member-wise multiplication (3-element)
+  inline vector2 &vector2::mul(const vector2 &v)
+  {
+    x *= v.x;
+    y *= v.y;
+    return *this;
+  }
+
+  inline vector2 &vector2::mul(float scale)
+  {
+    x *= scale;
+    y *= scale;
+    return *this;
+  }
+
+  inline vector2 &vector2::scale(float scale)
+  {
+    return mul(scale);
+  }
+
+  inline vector2 &vector2::div(float scale)
+  {
+    return mul(recipf(scale));
+  }
+
+  inline float vector2::cross(const vector2 &v1) const
+  {
+    return (x * v1.y - y * v1.x);
+  }
+
+  // 3-element negation (x=-x, y=-y, z=-z)
+  inline vector2 &vector2::negate()
+  {
+    x = -x;
+    y = -y;
+    return *this;
+  }
+
+  // 3-element negation (dst.x=-x, dst.y=-y, dst.z=-z)
+  inline vector2 &vector2::negate(vector2 &dst) const
+  {
+    dst.x = -x;
+    dst.y = -y;
+    return dst;
+  }
+
+  inline vector2 vector2::operator-() const
+  {
+    return vector2(-x, -y);
+  }
+
+  inline float vector2::dot(const vector2 &v1) const
+  {
+    return x * v1.x + y * v1.y;
+  }
+
+  // 2-element squared-magnitude
+  inline float vector2::squareMag() const
+  {
+    return (x * x + y * y);
+  }
+
+  // 2-element magnitude
+  inline float vector2::abs() const
+  {
+    return sqrtf(squareMag());
+  }
+
+  ////////////////////////////////////////////////////
+
+  inline vector2 &vector2::operator=(const vector2 &v)
+  {
+    return copy(v);
+  }
+
+  // add
+  inline vector2 &vector2::operator+=(const vector2 &v)
+  {
+    return add(v);
+  }
+
+  // sub
+  inline vector2 &vector2::operator-=(const vector2 &v)
+  {
+    return sub(v);
+  }
+
+  // scale (mul(scalar))
+  inline vector2 &vector2::operator*=(float scale)
+  {
+    return mul(scale);
+  }
+
+  // mul(1/scalar)
+  inline vector2 &vector2::operator/=(float scale)
+  {
+    return div(scale);
   }
 
   inline vector2 &vector2::operator+=(const stevesch::vector4 &v1)
@@ -42,9 +174,18 @@ namespace stevesch
     return *this;
   }
 
-  inline vector2 operator*(float fScale, const vector2 &v)
+  // access by index
+  inline float vector2::operator[](int n) const
   {
-    return v * fScale;
+    SASSERT((n == 0) || (n == 1));
+    return m_v[n];
+  }
+
+  // access by index
+  inline float &vector2::operator[](int n)
+  {
+    SASSERT((n == 0) || (n == 1));
+    return m_v[n];
   }
 
   // inline vector2& vector2::operator*=( const matrix2& crRight )
@@ -89,32 +230,129 @@ namespace stevesch
     vOut.set(_x, _y);
   }
 
-  // get difference of x and y components in v0 and v1
-  inline void vector2::sub(vector2 &vDst, const stevesch::vector4 &v0, const stevesch::vector4 &v1)
+  ///////////////////////////////////////
+  // static methods
+
+  // dst = v1 + v2
+  inline void vector2::add(vector2 &dst, const vector2 &v1, const vector2 &v2)
   {
-    vDst.set(v0.x - v1.x, v0.y - v1.y);
+    vector2 temp(v1);
+    temp.add(v2);
+    dst = temp;
   }
 
-  // dst = v1 + v2*s2
-  inline void vector2::addScaled(vector2 &dst, const vector2 &v1, const vector2 &v2, float s2)
+  // dst = v1 - v2
+  inline void vector2::sub(vector2 &dst, const vector2 &v1, const vector2 &v2)
   {
-    dst.x = v1.x + v2.x * s2;
-    dst.y = v1.y + v2.y * s2;
+    vector2 temp(v1);
+    temp.sub(v2);
+    dst = temp;
   }
 
-  // dst = v1*s1 + v2*s2
-  inline void vector2::addScaled(vector2 &dst, const vector2 &v1, float s1, const vector2 &v2, float s2)
+  // dst = v1 * v2
+  inline void vector2::mul(vector2 &dst, const vector2 &v1, const vector2 &v2)
   {
-    dst.x = v1.x * s1 + v2.x * s2;
-    dst.y = v1.y * s1 + v2.y * s2;
+    vector2 temp(v1);
+    temp.mul(v2);
+    dst = temp;
   }
 
-  // linear interpolation t=[0, 1] -> dst=[v1, v2] (3-element)
+  // dst = v1 / s
+  inline void vector2::div(vector2 &dst, const vector2 &v1, float s)
+  {
+    dst = v1;
+    dst.div(s);
+  }
+
+  // dst = v1 * s
+  inline void vector2::scale(vector2 &dst, const vector2 &v1, float s)
+  {
+    dst = v1;
+    dst.mul(s);
+  }
+
+  inline float vector2::dot(const vector2 &v1, const vector2 &v2)
+  {
+    return v1.dot(v2);
+  }
+
+  // dst = v1 x v2
+  inline float vector2::cross(const vector2 &v1, const vector2 &v2)
+  {
+    return v1.cross(v2);
+  }
+
+  inline float vector2::squareDist(const vector2 &v0, const vector2 &v1)
+  {
+    return (v1 - v0).squareMag();
+  }
+
+  // dst = min(v1, v2) per element (3-element)
+  inline void vector2::min(vector2 &dst, const vector2 &v1, const vector2 &v2)
+  {
+    dst.x = stevesch::minf(v1.x, v2.x);
+    dst.y = stevesch::minf(v1.y, v2.y);
+  }
+
+  // dst = max(v1, v2) per element (3-element)
+  inline void vector2::max(vector2 &dst, const vector2 &v1, const vector2 &v2)
+  {
+    dst.x = stevesch::maxf(v1.x, v2.x);
+    dst.y = stevesch::maxf(v1.y, v2.y);
+  }
+
+  // linear interpolation t=[0, 1] -> dst=[v1, v2] (2-element)
   inline void vector2::lerp(vector2 &dst, const vector2 &v1, const vector2 &v2, float t)
   {
     // (1-t)*v1 + t*v2 == v1 - t*v1 + t*v2 == v1 + t*(v2 - v1)
-    dst.x = lerpf(v1.x, v2.x, t);
-    dst.y = lerpf(v1.y, v2.y, t);
+    dst = v1 + (v2 - v1)*t;
+  }
+
+  inline void vector2::addScaled(vector2 &dst, const vector2 &v1, const vector2 &v2, float s2)
+  {
+    dst = v1 + v2*s2;
+  }
+
+  inline void vector2::addScaled(vector2 &dst, const vector2 &v1, float s1, const vector2 &v2, float s2)
+  {
+    dst = v1*s1 + v2*s2;
+  }
+
+  ////////////////////////////////////////////////////
+
+  inline vector2 operator+(const vector2 &v1, const vector2 &v2)
+  {
+    vector2 v;
+    vector2::add(v, v1, v2);
+    return v;
+  }
+
+  inline vector2 operator-(const vector2 &v1, const vector2 &v2)
+  {
+    vector2 v;
+    vector2::sub(v, v1, v2);
+    return v;
+  }
+
+  inline vector2 operator*(const vector2 &v1, float s)
+  {
+    vector2 v;
+    vector2::scale(v, v1, s);
+    return v;
+  }
+
+  inline vector2 operator*(float s, const vector2 &v1)
+  {
+    vector2 v;
+    vector2::scale(v, v1, s);
+    return v;
+  }
+
+  inline vector2 operator/(const vector2 &v1, float d)
+  {
+    vector2 v;
+    vector2::div(v, v1, d);
+    return v;
   }
 
   ///////////////////////////////////////////////////////////////////////////

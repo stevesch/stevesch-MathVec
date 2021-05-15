@@ -17,7 +17,7 @@ namespace stevesch
   }
 
   // copy (all memebers)
-  SVECINLINE const vector3 &vector3::copy(const vector3 &v)
+  SVECINLINE vector3 &vector3::copy(const vector3 &v)
   {
     x = v.x;
     y = v.y;
@@ -25,7 +25,7 @@ namespace stevesch
     return *this;
   }
 
-  SVECINLINE const vector3 &vector3::set(float _x, float _y, float _z)
+  SVECINLINE vector3 &vector3::set(float _x, float _y, float _z)
   {
     x = _x;
     y = _y;
@@ -34,7 +34,7 @@ namespace stevesch
   }
 
   // member-wise addition (3-element)
-  SVECINLINE const vector3 &vector3::add(const vector3 &v)
+  SVECINLINE vector3 &vector3::add(const vector3 &v)
   {
     x += v.x;
     y += v.y;
@@ -43,7 +43,7 @@ namespace stevesch
   }
 
   // member-wise subtraction (3-element)
-  SVECINLINE const vector3 &vector3::sub(const vector3 &v)
+  SVECINLINE vector3 &vector3::sub(const vector3 &v)
   {
     x -= v.x;
     y -= v.y;
@@ -52,7 +52,7 @@ namespace stevesch
   }
 
   // member-wise multiplication (3-element)
-  SVECINLINE const vector3 &vector3::mul(const vector3 &v)
+  SVECINLINE vector3 &vector3::mul(const vector3 &v)
   {
     x *= v.x;
     y *= v.y;
@@ -60,7 +60,7 @@ namespace stevesch
     return *this;
   }
 
-  SVECINLINE const vector3 &vector3::mul(float scale)
+  SVECINLINE vector3 &vector3::mul(float scale)
   {
     x *= scale;
     y *= scale;
@@ -68,18 +68,18 @@ namespace stevesch
     return *this;
   }
 
-  SVECINLINE const vector3 &vector3::scale(float scale)
+  SVECINLINE vector3 &vector3::scale(float scale)
   {
     return mul(scale);
   }
 
-  SVECINLINE const vector3 &vector3::div(float scale)
+  SVECINLINE vector3 &vector3::div(float scale)
   {
     return mul(recipf(scale));
   }
 
   // 3-element cross (outer) product
-  SVECINLINE const vector3 &vector3::cross(const vector3 &v)
+  SVECINLINE vector3 &vector3::cross(const vector3 &v)
   {
     float tx = y * v.z - z * v.y;
     float ty = z * v.x - x * v.z;
@@ -90,7 +90,7 @@ namespace stevesch
   }
 
   // 3-element negation (x=-x, y=-y, z=-z)
-  SVECINLINE const vector3 &vector3::negate()
+  SVECINLINE vector3 &vector3::negate()
   {
     x = -x;
     y = -y;
@@ -99,7 +99,7 @@ namespace stevesch
   }
 
   // 3-element negation (dst.x=-x, dst.y=-y, dst.z=-z)
-  SVECINLINE const vector3 &vector3::negate(vector3 &dst) const
+  SVECINLINE vector3 &vector3::negate(vector3 &dst) const
   {
     dst.x = -x;
     dst.y = -y;
@@ -128,7 +128,7 @@ namespace stevesch
   ////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////
 
-  SVECINLINE const vector3 &vector3::operator=(const vector3 &v)
+  SVECINLINE vector3 &vector3::operator=(const vector3 &v)
   {
     return copy(v);
   }
@@ -146,25 +146,25 @@ namespace stevesch
   }
 
   // add
-  SVECINLINE const vector3 &vector3::operator+=(const vector3 &v)
+  SVECINLINE vector3 &vector3::operator+=(const vector3 &v)
   {
     return add(v);
   }
 
   // sub
-  SVECINLINE const vector3 &vector3::operator-=(const vector3 &v)
+  SVECINLINE vector3 &vector3::operator-=(const vector3 &v)
   {
     return sub(v);
   }
 
   // scale (mul(scalar))
-  SVECINLINE const vector3 &vector3::operator*=(float scale)
+  SVECINLINE vector3 &vector3::operator*=(float scale)
   {
     return mul(scale);
   }
 
   // mul(1/scalar)
-  SVECINLINE const vector3 &vector3::operator/=(float scale)
+  SVECINLINE vector3 &vector3::operator/=(float scale)
   {
     return div(scale);
   }
@@ -238,17 +238,17 @@ namespace stevesch
     dst.mul(s);
   }
 
+  SVECINLINE float vector3::dot(const vector3 &v1, const vector3 &v2)
+  {
+    return v1.dot(v2);
+  }
+
   // dst = v1 x v2
   SVECINLINE void vector3::cross(vector3 &dst, const vector3 &v1, const vector3 &v2)
   {
     vector3 temp(v1);
     temp.cross(v2);
     dst = temp;
-  }
-
-  SVECINLINE float vector3::dot(const vector3 &v1, const vector3 &v2)
-  {
-    return v1.dot(v2);
   }
 
   // dst = v * m (4x4)

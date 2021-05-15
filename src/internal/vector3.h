@@ -36,41 +36,41 @@ namespace stevesch
     SVECINLINE operator const SVec3_t *() const { return reinterpret_cast<const SVec3_t *>(this); }
     SVECINLINE operator SVec3_t *() { return reinterpret_cast<SVec3_t *>(this); }
 
-    SVECINLINE const vector3 &copy(const vector3 &v);            // copy (all memebers)
-    SVECINLINE const vector3 &set(float _x, float _y, float _z); // w=1.0
+    SVECINLINE vector3 &copy(const vector3 &v);            // copy (all memebers)
+    SVECINLINE vector3 &set(float _x, float _y, float _z); // w=1.0
 
-    SVECINLINE const vector3 &add(const vector3 &v);   // member-wise addition
-    SVECINLINE const vector3 &sub(const vector3 &v);   // member-wise subtraction
-    SVECINLINE const vector3 &mul(const vector3 &v);   // member-wise multiplication
-    SVECINLINE const vector3 &cross(const vector3 &v); // 3-element cross (outer) product
+    SVECINLINE vector3 &add(const vector3 &v);   // member-wise addition
+    SVECINLINE vector3 &sub(const vector3 &v);   // member-wise subtraction
+    SVECINLINE vector3 &mul(const vector3 &v);   // member-wise multiplication
+    SVECINLINE vector3 &cross(const vector3 &v); // 3-element cross (outer) product
 
-    SVECINLINE const vector3 &negate();                   // 3-element negation (x=-x, y=-y, z=-z)
-    SVECINLINE const vector3 &negate(vector3 &dst) const; // 3-element negation (dst.x=-x, dst.y=-y, dst.z=-z)
+    SVECINLINE vector3 &negate();                   // 3-element negation (x=-x, y=-y, z=-z)
+    SVECINLINE vector3 &negate(vector3 &dst) const; // 3-element negation (dst.x=-x, dst.y=-y, dst.z=-z)
 
-    SVECINLINE const vector3 &scale(float scale); // multiply by scalar
-    SVECINLINE const vector3 &mul(float scale);   // multiply by scalar (same as scale(float))
-    SVECINLINE const vector3 &div(float scale);   // divide by scalar
+    SVECINLINE vector3 &scale(float scale); // multiply by scalar
+    SVECINLINE vector3 &mul(float scale);   // multiply by scalar (same as scale(float))
+    SVECINLINE vector3 &div(float scale);   // divide by scalar
 
     SVECINLINE float dot(const vector3 &v) const; // dot (inner) product
     SVECINLINE float squareMag() const;           // squared magnitude
     SVECINLINE float abs() const;                 // magnitude
 
-    SVECINLINE const vector3 &normalize() { return mul(rsqrtf(squareMag())); }
+    SVECINLINE vector3 &normalize() { return mul(rsqrtf(squareMag())); }
 
-    SVECINLINE const vector3 &operator=(const vector3 &v);  // copy
-    SVECINLINE const vector3 &operator+=(const vector3 &v); // add
-    SVECINLINE const vector3 &operator-=(const vector3 &v); // sub
-    SVECINLINE const vector3 &operator*=(float scale);      // scale
-    SVECINLINE const vector3 &operator/=(float scale);      // scale(1/scale)
+    SVECINLINE vector3 &operator=(const vector3 &v);  // copy
+    SVECINLINE vector3 &operator+=(const vector3 &v); // add
+    SVECINLINE vector3 &operator-=(const vector3 &v); // sub
+    SVECINLINE vector3 &operator*=(float scale);      // scale
+    SVECINLINE vector3 &operator/=(float scale);      // scale(1/scale)
     SVECINLINE const float &operator[](int n) const;        // 0->x, 1->y, 2->z
     SVECINLINE float &operator[](int n);                    // 0->x, 1->y, 2->z
 
     ////////////////////////////////////////////////////
 
-    const vector3 &transform(const stevesch::matrix4 &mLeft);    // v = M*v -- * 4x4 matrix (w assumed=1.0f)
-    const vector3 &transformSub(const stevesch::matrix4 &mLeft); // v = M*v -- * 3x3 matrix (as if w=0)
+    vector3 &transform(const stevesch::matrix4 &mLeft);    // v = M*v -- * 4x4 matrix (w assumed=1.0f)
+    vector3 &transformSub(const stevesch::matrix4 &mLeft); // v = M*v -- * 3x3 matrix (as if w=0)
 
-    //SVECINLINE const vector3& operator *=(const stevesch::matrix4& mLeft);	// transform (full 4x4)
+    //SVECINLINE vector3& operator *=(const stevesch::matrix4& mLeft);	// transform (full 4x4)
 
     SVECINLINE void rand();                                     // 3-element randomize (0.0f, 1.0f)
     SVECINLINE void randAB(const vector3 &a, const vector3 &b); // 3-element randomize (a.*, b.*)

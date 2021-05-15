@@ -28,94 +28,54 @@ namespace stevesch
 
     vector2() {} // uninitialized
     vector2(float _x, float _y) : x(_x), y(_y) {}
+    vector2(const vector2 &_v);
 
     inline float X() const { return x; }
     inline float Y() const { return y; }
     inline float &X() { return x; }
     inline float &Y() { return y; }
 
-    // element access by index
+    vector2 &copy(const vector2 &v);  // copy (all memebers)
+    vector2 &set(float _x, float _y);
+    vector2 &set(const vector2 &v);
+
+    ////////////////////////////////////////////////////
+
+    vector2 &add(const vector2 &v);   // member-wise addition
+    vector2 &sub(const vector2 &v);   // member-wise subtraction
+    vector2 &mul(const vector2 &v);   // member-wise multiplication
+    float cross(const vector2 &v1) const;
+
+    vector2 &negate();                   // 3-element negation (x=-x, y=-y, z=-z)
+    vector2 &negate(vector2 &dst) const; // 3-element negation (dst.x=-x, dst.y=-y, dst.z=-z)
+    vector2 operator-() const;  // negate
+
+    vector2 &scale(float scale); // multiply by scalar
+    vector2 &mul(float scale);   // multiply by scalar (same as scale(float))
+    vector2 &div(float scale);   // divide by scalar
+
+    float dot(const vector2 &v) const; // dot (inner) product
+    float squareMag() const;           // squared magnitude
+    float abs() const;                 // magnitude
+
+    const vector2 &normalize() { return mul(rsqrtf(squareMag())); }
+
+    vector2 &operator=(const vector2 &v);  // copy
+    vector2 &operator+=(const vector2 &v); // add
+    vector2 &operator-=(const vector2 &v); // sub
+    vector2 &operator*=(float scale);      // scale
+    vector2 &operator/=(float scale);      // scale(1/scale)
+
     float operator[](int n) const;
     float &operator[](int n);
 
-    void set(float _x, float _y)
-    {
-      x = _x;
-      y = _y;
-    }
-    void set(const stevesch::vector4 &v); // use x and y from stevesch::vector4
+    ////////////////////////////////////////////////////
 
-    float cross(const vector2 &v1) const
-    {
-      return (x * v1.y - y * v1.x);
-    }
-
-    float dot(const vector2 &v1) const
-    {
-      return x * v1.x + y * v1.y;
-    }
-
-    // 2-element squared-magnitude
-    float squareMag() const
-    {
-      return (x * x + y * y);
-    }
-
-    // 2-element magnitude
-    float abs() const
-    {
-      return sqrtf(squareMag());
-    }
-
-    vector2 operator+(const vector2 &v1) const
-    {
-      return vector2(x + v1.x, y + v1.y);
-    }
-
-    vector2 operator-(const vector2 &v1) const
-    {
-      return vector2(x - v1.x, y - v1.y);
-    }
-
-    vector2 operator*(float fScale) const
-    {
-      return vector2(x * fScale, y * fScale);
-    }
-
-    vector2 operator/(float fScale) const
-    {
-      float fRecip = recipf(fScale);
-      return vector2(x * fRecip, y * fRecip);
-    }
-
-    vector2 operator-() const
-    {
-      return vector2(-x, -y);
-    }
-
-    vector2 &operator+=(const vector2 &v1)
-    {
-      x += v1.x;
-      y += v1.y;
-      return *this;
-    }
-
-    vector2 &operator-=(const vector2 &v1)
-    {
-      x -= v1.x;
-      y -= v1.y;
-      return *this;
-    }
-
-    vector2 &operator+=(const stevesch::vector4 &v1); // add x and y of stevesch::vector4
-    vector2 &operator-=(const stevesch::vector4 &v1); // subtract x and y of stevesch::vector4
-
-    vector2 &operator*=(float fScale)
-    {
-      x *= fScale;
-      y *= fScale;
-      return *this;
-    }
+    friend inline vector2 operator+(const vector2 &v1, const vector2 &v2); // v1 + v2
+    friend inline vector2 operator-(const vector2 &v1, const vector2 &v2); // v1 - v2
+    friend vector2 operator*(const vector2 &v1, float s); // v1 * s
+    friend vector2 operator*(float s, const vector2 &v1); // s * v
+    friend inline vector2 operator/(const vector2 &v1, float d); // v1 / d
 
     //vector2& operator*=( const matrix2& crRight );		// v = v*m
     //vector2 operator*( const matrix2& crRight ) const;	// v*m
@@ -126,40 +86,36 @@ namespace stevesch
 
     static void transform(vector2 &vOut, const matrix2 &m, const vector2 &v); // vOut = m*v
 
-    vector2 &operator/=(float fScale)
-    {
-      float fRecip = recipf(fScale);
-      x *= fRecip;
-      y *= fRecip;
-      return *this;
-    }
+    // static methods
+    static inline void add(vector2 &dst, const vector2 &v1, const vector2 &v2); // dst = v1 + v2
+    static inline void sub(vector2 &dst, const vector2 &v1, const vector2 &v2); // dst = v1 - v2
+    static inline void mul(vector2 &dst, const vector2 &v1, const vector2 &v2); // dst = v1 * v2
+    static inline void div(vector2 &dst, const vector2 &v1, float s);           // dst = v1 / s
+    static inline void scale(vector2 &dst, const vector2 &v1, float s);         // dst = v1 * s
+    static inline float dot(const vector2 &v1, const vector2 &v2);              // dot (inner) product of v1 and v2
+    static inline float cross(const vector2 &v1, const vector2 &v2);            // 2D cross
 
-    static float squareDist(const vector2 &v0, const vector2 &v1)
-    {
-      float dx = v0.x - v1.x;
-      float dy = v0.y - v1.y;
-      return dx * dx + dy * dy;
-    }
+    static inline float squareDist(const vector2 &v1, const vector2 &v2);
 
-    // get sum of x and y components in v0 and v1
-    static void add(vector2 &vDst, const vector2 &v0, const vector2 &v1)
-    {
-      vDst.set(v0.x + v1.x, v0.y + v1.y);
-    }
+    static inline void min(vector2 &dst, const vector2 &v1, const vector2 &v2); // dst = min(v1, v2) per element
+    static inline void max(vector2 &dst, const vector2 &v1, const vector2 &v2); // dst = max(v1, v2) per element
 
-    // get difference of x and y components in v0 and v1
-    static void sub(vector2 &vDst, const vector2 &v0, const vector2 &v1)
-    {
-      vDst.set(v0.x - v1.x, v0.y - v1.y);
-    }
+    static inline void lerp(vector2 &dst, const vector2 &v1, const vector2 &v2, float t); // linear interpolation t=[0, 1] -> dst=[v1, v2]
 
-    // get difference of stevesch::vector4 x and y components in v0 and v1
+    static inline void addScaled(vector2 &dst, const vector2 &v1, const vector2 &v2, float s2);           // dst = v1 + v2*s2
+    static inline void addScaled(vector2 &dst, const vector2 &v1, float s1, const vector2 &v2, float s2); // dst = v1*s1 + v2*s2
+
+    friend vector2 operator+(const vector2 &v1, const vector2 &v2); // v1 + v2
+    friend vector2 operator-(const vector2 &v1, const vector2 &v2); // v1 - v2
+    friend vector2 operator*(const vector2 &v1, float s); // v1 * s
+    friend vector2 operator*(float s, const vector2 &v1); // s * v
+    friend vector2 operator/(const vector2 &v1, float d); // v1 / d
+
+    // vector4 helpers:
+    vector2 &set(const stevesch::vector4 &v); // use x and y from stevesch::vector4
+    vector2 &operator+=(const stevesch::vector4 &v1); // add x and y of stevesch::vector4
+    vector2 &operator-=(const stevesch::vector4 &v1); // subtract x and y of stevesch::vector4
     static void sub(vector2 &vDst, const stevesch::vector4 &v0, const stevesch::vector4 &v1);
-
-    static void addScaled(vector2 &dst, const vector2 &v1, const vector2 &v2, float s2);           // dst = v1 + v2*s2
-    static void addScaled(vector2 &dst, const vector2 &v1, float s1, const vector2 &v2, float s2); // dst = v1*s1 + v2*s2
-
-    static void lerp(vector2 &dst, const vector2 &v1, const vector2 &v2, float t); // linear interpolation t=[0, 1] -> dst=[v1, v2]
   };
 
   // SALIGN_DECL(16)

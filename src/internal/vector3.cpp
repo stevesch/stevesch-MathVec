@@ -42,7 +42,7 @@ namespace stevesch
   ////////////////////////////////////////////////////////////////////
 
   // v = M*v -- * 4x4 matrix
-  const vector3 &vector3::transform(const matrix4 &left)
+  vector3 &vector3::transform(const matrix4 &left)
   {
     vector4 v(x, y, z, 1.0f);
     matrix4 m;
@@ -56,7 +56,7 @@ namespace stevesch
   }
 
   // v = M*v -- * 3x3 matrix (as if w=0)
-  const vector3 &vector3::transformSub(const matrix4 &left)
+  vector3 &vector3::transformSub(const matrix4 &left)
   {
     vector4 v(x, y, z, 0.0f);
     matrix4 m;
