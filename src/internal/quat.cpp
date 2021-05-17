@@ -136,13 +136,23 @@ namespace stevesch
     }
   }
 
+  void quat::fromAxisAngle(const vector3 &vAxis, float angle)
+  {
+    float a = mod2pi(angle * 0.5f);
+    float s = sinf(a);
+
+    vector3 *pv = (vector3 *)&V();
+    vector3::scale(*pv, vAxis, s); // v = sin(angle/2) * axis
+    A() = cosf(a);                 // t = cos(angle/2)
+  }
+
   void quat::fromAxisAngle(const vector4 &vAxis, float angle)
   {
     float a = mod2pi(angle * 0.5f);
     float s = sinf(a);
 
     vector4::scale3(V(), vAxis, s); // v = sin(angle/2) * axis
-    A() = cosf(a);                 // t = cos(angle/2)
+    A() = cosf(a);                  // t = cos(angle/2)
   }
 
   void quat::toEuler(vector4 &vEuler) const
@@ -625,7 +635,7 @@ namespace stevesch
 
   // natural log (self)
   // (0.5 ln(t*t + v.v), atan(|v|/t)(v/|v|))
-  void quat::ln()
+  quat &quat::ln()
   {
     float fVectorSquareMag = V().squareMag3();
 
@@ -633,7 +643,7 @@ namespace stevesch
     {
       // quaternion is normalized
       V().mul3(atan2f(1.0f, A())); // v = v * atan(1/t)
-      A() = 0.0f;               // ln(1) == 0
+      A() = 0.0f;                  // ln(1) == 0
     }
     else
     {
@@ -644,6 +654,7 @@ namespace stevesch
       V().mul3(atan2f(fVectorMag, A()) / fVectorMag); // v *= atan(1/t) / |v|
       A() = a;
     }
+    return *this;
   }
 
   // natural log
@@ -656,7 +667,7 @@ namespace stevesch
     {
       // quaternion is normalized
       vector4::scale3(dst.V(), V(), atan2f(1.0f, A())); // v = v * atan(1/t)
-      dst.A() = 0.0f;                                  // ln(1) == 0
+      dst.A() = 0.0f;                                   // ln(1) == 0
     }
     else
     {
@@ -670,7 +681,7 @@ namespace stevesch
   }
 
   // exponential (self)-- e^(this)
-  void quat::exp()
+  quat &quat::exp()
   {
     float fVectorMag = V().abs3();
     float fExpT = expf(A());
@@ -687,6 +698,7 @@ namespace stevesch
     V().mul3(fExpT * fSinMag / fVectorMag);
 
     A() = fExpT * fCosMag;
+    return *this;
   }
 
   // exponential-- dst = e^(this)

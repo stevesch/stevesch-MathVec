@@ -34,6 +34,7 @@ namespace stevesch
     SQUATINLINE quat() {}
     SQUATINLINE quat(const quat &q);
 
+    explicit SQUATINLINE quat(const stevesch::vector3 &vAxis, float fAngle); // axis-angle initialization
     explicit SQUATINLINE quat(const stevesch::vector4 &vAxis, float fAngle); // axis-angle initialization
     explicit SQUATINLINE quat(const stevesch::matrix4 &m);                   // matrix-to-quaternion initialization
     explicit SQUATINLINE quat(const stevesch::vector3 &vEuler);              // euler-to-quaternion initialization
@@ -82,7 +83,7 @@ namespace stevesch
 
     SQUATINLINE quat &scale(float fScale); // same as *=(scalar)
 
-    SQUATINLINE void conj();                // Conjugate (self): q* = (t, -v)
+    SQUATINLINE quat &conj();               // Conjugate (self): q* = (t, -v)
     SQUATINLINE void conj(quat &dst) const; // Conjugate
 
     SQUATINLINE float norm() const;    // (q)(q*) == t*t + v.v
@@ -94,28 +95,29 @@ namespace stevesch
     SQUATINLINE float det() const;    // (t*t + v.v)^2
     SQUATINLINE float invDet() const; // 1.0 / [(t*t + v.v)^2]
 
-    SQUATINLINE void adj();                // Adjunct (self)-- (q*)[(q)(q*)]
+    SQUATINLINE quat &adj();               // Adjunct (self)-- (q*)[(q)(q*)]
     SQUATINLINE void adj(quat &dst) const; // Adjunct
 
-    SQUATINLINE void invert();
+    SQUATINLINE quat &invert();
     SQUATINLINE void invert(quat &dst) const;
 
-    void ln();                // natural log (self)
+    quat &ln();               // natural log (self)
     void ln(quat &dst) const; // natural log
 
-    void exp();                // exponential (self)-- e^(this)
+    quat &exp();               // exponential (self)-- e^(this)
     void exp(quat &dst) const; // exponential-- dst = e^(this)
 
-    SQUATINLINE void pow(const quat &q);                                    // power (self)-- this = this^q
+    SQUATINLINE quat &pow(const quat &q);                                   // power (self)-- this = this^q
     static SQUATINLINE void pow(quat &dst, const quat &q1, const quat &q2); // power-- dst = q1^q2
 
-    SQUATINLINE void pow(float fPower);    // power (self)-- this = this^fPower
-    SQUATINLINE void normalize();          // normalize (self)-- this = this/|this|
+    SQUATINLINE quat &pow(float fPower);   // power (self)-- this = this^fPower
+    SQUATINLINE quat &normalize();          // normalize (self)-- this = this/|this|
     SQUATINLINE void normalize(quat &dst); // normalize-- dst = this/|this|
 
     bool safeNormalize();                // normalize (self), setting value to identity if near 0.  returns 'true' if quaternion needed normalization
     bool safeNormalize(quat &dst) const; // normalize, setting value to identity if near 0.  returns 'true' if quaternion needed normalization
 
+    SQUATINLINE void rotate(stevesch::vector3 &dst, const stevesch::vector3 &src) const; // dst = q * <src, 1> * ~q
     SQUATINLINE void rotate(stevesch::vector4 &dst, const stevesch::vector4 &src) const; // dst = q * src * ~q
 
     stevesch::matrix4 &toMatrix(stevesch::matrix4 &m) const;                                        // Convert from quaternion to matrix
@@ -131,9 +133,10 @@ namespace stevesch
     float getAngle() const; // get rotation amount represented by quaternion (as in 'toAxisAngle')
     void toAxisAngle(stevesch::vector4 &vAxis, float &angle) const;
     void fromAxisAngle(const stevesch::vector4 &vAxis, float angle);
+    void fromAxisAngle(const stevesch::vector3 &vAxis, float angle);
 
-    SQUATINLINE void cross(const quat &q);   // cross product (self)-- this = this x q (Grassman outer product)
-    SQUATINLINE void dotQuat(const quat &q); // quaternion-result dot product (self)-- this = this . q (Euclidean inner product)
+    SQUATINLINE quat &cross(const quat &q);   // cross product (self)-- this = this x q (Grassman outer product)
+    SQUATINLINE quat &dotQuat(const quat &q); // quaternion-result dot product (self)-- this = this . q (Euclidean inner product)
                                              // (results in <0 0 0 scalar-dot>
 
     SQUATINLINE float dot(const quat &q) const; // standard euclidean inner (even) product

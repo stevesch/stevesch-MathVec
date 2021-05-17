@@ -35,12 +35,46 @@ Include in your code:
 Example code:
 ```
 using stevesch::vector3;
+using stevesch::matrix4;
+```
 
-. . .
-
-vector3 a(2.0f, 3.0f, 5.0f)
-vector3 b(7.0f, 11.0f, 13.0f);
-
-
+<br/>
+Vector addition:
 
 ```
+vector3 a(2.0f, 3.0f, 5.0f);
+vector3 b(7.0f, 11.0f, 13.0f);
+vector3 c;
+c = a + b; // c == <9, 14, 18>; equivalent: vector3::add(c, a, b);
+```
+
+<br/>
+Vector transformation by a matrix:
+
+```
+vector3 a, b;
+matrix4 m;
+b = a.transform(m); // b = m*a
+```
+
+<br/>
+Vector transformation by a quaternion:
+
+```
+quat q;
+vector3 axis(0.0f, 0.0f, 1.0f); // z axis (w ignored)
+// already normalized in our case, but if not: axis.normalize();
+
+// <axis> must be normalized for 'fromAxisAngle':
+q.fromAxisAngle(axis, stevesch::degToRad(30.0f));
+
+vector4 a(1.0f, 0.0f, 0.0f, 1.0f);
+vector4 b;
+q.rotate(b, a); // equivalent to b = m*a if q were converted to a matrix
+```
+<br/>
+Notes:
+
+- when in doubt about the w-component of a vector4, set it to 1.0f.
+
+- quaternions should almost always be normalized when using them as rotations.  If you create them properly (e.g. using fromAxisAngle or fromMatrix), this will usually not be a big issue, but if you see that a quaternion is not normalized, something has probably gone wrong.
