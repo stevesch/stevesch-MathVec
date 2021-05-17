@@ -35,7 +35,9 @@ Include in your code:
 Example code:
 ```
 using stevesch::vector3;
+using stevesch::vector4;
 using stevesch::matrix4;
+using stevesch::quat;
 ```
 
 <br/>
@@ -75,6 +77,6 @@ q.rotate(b, a); // equivalent to b = m*a if q were converted to a matrix
 <br/>
 Notes:
 
-- when in doubt about the w-component of a vector4, set it to 1.0f.
+- Some vector operations are only implemented for vector4 (not vector3).  When in doubt about the w-component of a vector4, set it to 1.0f.
 
 - quaternions should almost always be normalized when using them as rotations.  If you create them properly (e.g. using fromAxisAngle or fromMatrix), this will usually not be a big issue, but if you see that a quaternion is not normalized, something has probably gone wrong.
