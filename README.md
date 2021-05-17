@@ -79,4 +79,4 @@ Notes:
 
 - Some vector operations are only implemented for vector4 (not vector3).  When in doubt about the w-component of a vector4, set it to 1.0f.
 
-- quaternions should almost always be normalized when using them as rotations.  If you create them properly (e.g. using fromAxisAngle or fromMatrix), this will usually not be a big issue, but if you see that a quaternion is not normalized, something has probably gone wrong.
+- quaternions should almost always be normalized when using them as rotations.  If you create them properly (e.g. using fromAxisAngle or fromMatrix), this will usually not be a big issue, but if you see that a quaternion is not normalized (q.abs() should be about 1.0), something has probably gone wrong.
