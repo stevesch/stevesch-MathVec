@@ -22,13 +22,15 @@ Add library dependency, e.g.
 
 ```
 lib_deps = 
-  https://github.com/stevesch/stevesch-MathVec.git
+  stevesch/stevesch-MathBase
+  stevesch/stevesch-MathVec
 ```
 
 <br/>
 Include in your code:
 
 ```
+#include <stevesch-MathBase.h>
 #include <stevesch-MathVec.h>
 ```
 

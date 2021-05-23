@@ -1,5 +1,6 @@
 {
   "name": "stevesch-MathVec",
+  "version": "0.1.0",
   "keywords": "vector, matrix, quaternion",
   "description": "C++ vector, matrix, and quaternion classes",
   "repository":
@@ -13,10 +14,19 @@
   "authors":
   {
     "name": "Stephen Schlueter",
-    "url": "",
+    "url": "https://github.com/stevesch",
     "maintainer": true
   },
+  "examples": [
+    {
+      "name": "Minimal",
+      "base": "examples/minimal",
+      "files": [
+        "minimal.ino"
+      ]
+    }
+  ],
   "dependencies": [
-    "https://github.com/stevesch/stevesch-MathBase.git"
+    "stevesch/stevesch-MathBase@^0.1.0"
   ]
 }
