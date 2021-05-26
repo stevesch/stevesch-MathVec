@@ -17,6 +17,19 @@ Print& operator<<(Print& o, const vector3& v) { o.printf("<%5.2f, %5.2f, %5.2f>"
 Print& operator<<(Print& o, const vector4& v) { o.printf("<%5.2f, %5.2f, %5.2f, %5.2f>", v.x, v.y, v.z, v.w); return o; }
 Print& operator<<(Print& o, const quat& q) { o.printf("<%5.2f, %5.2f, %5.2f, %5.2f>", q.X(), q.Y(), q.Z(), q.A()); return o; }
 
+void printMxb(Print& o, const matrix4& m, const vector3& x, const vector3& b) {
+  vector4 r;
+  for (int i=0; i<4; ++i) {
+    r = m.getRow(i);
+    float xi = (i < 3) ? x[i] : 1.0f;
+    float bi = (i < 3) ? b[i] : 1.0f;
+    o.printf("[%5.2f, %5.2f, %5.2f, %5.2f][ %5.2f ] ", r.x, r.y, r.z, r.w, xi);
+    char ch = (i == 2) ? '=' : ' ';
+    o << ch << ' ';
+    o.printf("[ %5.2f ]\n", bi);
+  }
+}
+
 void printMxb(Print& o, const matrix4& m, const vector4& x, const vector4& b) {
   vector4 r;
   for (int i=0; i<4; ++i) {
@@ -44,7 +57,7 @@ void printqxqb(Print& o, const quat& q, const vector3& x, const vector3& b)
 }
 
 
-void printAddition()
+void printAdd3()
 {
   vector3 a(2.0f, 3.0f, 5.0f);
   vector3 b(7.0f, 11.0f, 13.0f);
@@ -56,16 +69,67 @@ void printAddition()
   Serial << "= c: " << c << '\n';
 }
 
+void printDot3()
+{
+  vector3 a(2.0f, 3.0f, 5.0f);
+  vector3 b(7.0f, 11.0f, 13.0f);
+  float c = a.dot(b);
+  Serial << "Vector dot:\n";
+  Serial << "  a: " << a << '\n';
+  Serial << ". b: " << b << '\n';
+  Serial << "= c: ";
+  Serial.print(c, 2);
+  Serial << " (expected 112.0)\n";
+}
 
-void printRotationMatrix()
+void printCross3()
+{
+  vector3 a(2.0f, 3.0f, 5.0f);
+  vector3 b(7.0f, 11.0f, 13.0f);
+  vector3 c;
+  vector3::cross(c, a, b);
+  Serial << "Vector cross:\n";
+  Serial << "  a: " << a << '\n';
+  Serial << "x b: " << b << '\n';
+  Serial << "= c: " << c << '\n';
+  Serial << "a . c = ";
+  Serial.print(a.dot(c), 2);
+  Serial << " (expected 0)\n";
+  Serial << "b . c = ";
+  Serial.print(b.dot(c), 2);
+  Serial << " (expected 0)\n";
+}
+
+void printRotationMatrix3()
+{
+  matrix4 mtxR;
+  mtxR.zMatrix(stevesch::degToRad(30.0f));
+  vector3 a(1.0f, 0.0f, 0.0f);
+  vector3 b(a);
+  b.transform(mtxR);    // b = R*<a, 1>
+  vector3 c = mtxR * a; // c = R*<a, 1>
+
+  Serial << "Rotation matrix, 30 degrees around z axis (using v3 .transform):\n";
+  printMxb(Serial, mtxR, a, b);
+
+  Serial << "Rotation matrix, 30 degrees around z axis (using v3 operator*):\n";
+  printMxb(Serial, mtxR, a, c);
+}
+
+void printRotationMatrix4()
 {
   matrix4 mtxR;
   mtxR.zMatrix(stevesch::degToRad(30.0f));
   vector4 a(1.0f, 0.0f, 0.0f, 1.0f);
   vector4 b(a);
-  b.transform(mtxR);  // b = R*a
-  Serial << "Rotation matrix, 30 degrees around z axis:\n";
+  b.transform(mtxR);    // b = R*a
+  vector4 c = mtxR * a; // c = R*a
+
+  Serial << "Rotation matrix, 30 degrees around z axis (using v4 .transform):\n";
   printMxb(Serial, mtxR, a, b);
+
+  Serial << "Rotation matrix, 30 degrees around z axis (using v4 operator*):\n";
+  printMxb(Serial, mtxR, a, c);
 }
 
 void printRotationQuat()
@@ -89,9 +153,12 @@ void setup()
   while (!Serial);
   Serial.println("Setup initializing...");
 
-  printAddition();
+  printAdd3();
+  printDot3();
+  printCross3();
   Serial.println();
-  printRotationMatrix();
+  printRotationMatrix3();
+  printRotationMatrix4();
   Serial.println();
   printRotationQuat();
 

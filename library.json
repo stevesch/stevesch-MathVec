@@ -1,6 +1,6 @@
 {
   "name": "stevesch-MathVec",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "keywords": "vector, matrix, quaternion",
   "description": "C++ vector, matrix, and quaternion classes",
   "repository":

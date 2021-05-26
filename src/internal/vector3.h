@@ -70,8 +70,6 @@ namespace stevesch
     vector3 &transform(const stevesch::matrix4 &mLeft);    // v = M*v -- * 4x4 matrix (w assumed=1.0f)
     vector3 &transformSub(const stevesch::matrix4 &mLeft); // v = M*v -- * 3x3 matrix (as if w=0)
 
-    //SVECINLINE vector3& operator *=(const stevesch::matrix4& mLeft);	// transform (full 4x4)
-
     SVECINLINE void rand();                                     // 3-element randomize (0.0f, 1.0f)
     SVECINLINE void randAB(const vector3 &a, const vector3 &b); // 3-element randomize (a.*, b.*)
 
@@ -108,6 +106,8 @@ namespace stevesch
     friend SVECINLINE vector3 operator*(const vector3 &v1, float s); // v1 * s
     friend SVECINLINE vector3 operator*(float s, const vector3 &v1); // s * v
     friend SVECINLINE vector3 operator/(const vector3 &v1, float d); // v1 / d
+
+    friend SVECINLINE vector3 operator*(const stevesch::matrix4 &M, const vector3 &v); // M*v -- multiply by 4x4 matrix (v.w assumed=1.0f)
   };
 
 } // namespace stevesch

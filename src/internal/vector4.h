@@ -77,17 +77,17 @@ namespace stevesch
 
     ////////////////////////////////////////////////////
 
-    const vector4 &add3(const vector4 &v);   // member-wise addition (3-element)
-    const vector4 &sub3(const vector4 &v);   // member-wise subtraction (3-element)
-    const vector4 &mul3(const vector4 &v);   // member-wise multiplication (3-element)
-    const vector4 &cross3(const vector4 &v); // 3-element cross (outer) product
+    const vector4 &add3(const vector4 &v);   // member-wise addition (3-element, w unchanged)
+    const vector4 &sub3(const vector4 &v);   // member-wise subtraction (3-element, w unchanged)
+    const vector4 &mul3(const vector4 &v);   // member-wise multiplication (3-element, w unchanged)
+    const vector4 &cross3(const vector4 &v); // 3-element cross (outer) product (w unchanged)
 
-    const vector4 &scale3(float scale); // multiply by scalar (3-element)
-    const vector4 &mul3(float scale);   // multiply by scalar (3-element) (same as scale(float))
-    const vector4 &div3(float scale);   // divide by scalar (3-element)
+    const vector4 &scale3(float scale); // multiply by scalar (3-element, w unchanged)
+    const vector4 &mul3(float scale);   // multiply by scalar (3-element, w unchanged) (same as scale(float))
+    const vector4 &div3(float scale);   // divide by scalar (3-element, w unchanged)
 
-    const vector4 &negate3();                   // 3-element negation (x=-x, y=-y, z=-z)
-    const vector4 &negate3(vector4 &dst) const; // 3-element negation (dst.x=-x, dst.y=-y, dst.z=-z)
+    const vector4 &negate3();                   // 3-element negation (x=-x, y=-y, z=-z, w unchanged)
+    const vector4 &negate3(vector4 &dst) const; // 3-element negation (dst.x=-x, dst.y=-y, dst.z=-z, NOTE: dst.w=w)
 
     float dot3(const vector4 &v) const; // dot (inner) product (3-element)
     float squareMag3() const;           // squared magnitude (3-element)
@@ -95,7 +95,7 @@ namespace stevesch
     float abs3() const;                 // magnitude (3-element)
     float recipAbs3() const;            // 1.0 / magnitude (3-element)
 
-    const vector4 &normalize3(); // normalize self (3-element)
+    const vector4 &normalize3(); // normalize self (3-element, w unchanged)
 
     void mad3(const vector4 &vm1, const vector4 &vm2); // *this += vm1*vm2 (3-element)
 
@@ -133,12 +133,6 @@ namespace stevesch
     // const vector4 &operator*=(float scale);      // scale (3-element)
     // const vector4 &operator/=(float scale);      // scale(1/scale) (3-element)
 
-    // friend vector4 operator+(const vector4 &v1, const vector4 &v2); // v1 + v2 (3-element)
-    // friend vector4 operator-(const vector4 &v1, const vector4 &v2); // v1 - v2 (3-element)
-    // friend vector4 operator*(const vector4 &v1, float s); // v1 * s (3-element)
-    // friend vector4 operator*(float s, const vector4 &v1); // s * v (3-element)
-    // friend vector4 operator/(const vector4 &v1, float d); // v1 / d (3-element)
-
     const float &operator[](int n) const;        // 0->x, 1->y, 2->z, 3->w
     float &operator[](int n);                    // 0->x, 1->y, 2->z, 3->w
 
@@ -148,8 +142,6 @@ namespace stevesch
     const vector4 &transformSub(const stevesch::matrix4 &mLeft);           // v = M*v --  3x3 matrix * vector (as 4x4*v as if v.w=0)
     const vector4 &transformSubTransposed(const stevesch::matrix4 &mLeft); // v = (M^T)*v -- transposed matrix * vector (as 4x4*v as if v.w=0)
     const vector4 &transformAff(const stevesch::matrix4 &mLeft);           // v = M*v -- 4x4 matrix * vector (as if w=1)
-
-    //const vector4& operator *=(const stevesch::matrix4& mRight);	// Mul (full 4x4)
 
     void rand3(stevesch::RandGen &r = S_RandGen);                                       // 3-element randomize (0.0f, 1.0f)
     void randAB3(const vector4 &a, const vector4 &b, stevesch::RandGen &r = S_RandGen); // 3-element randomize (a.*, b.*)
@@ -299,6 +291,14 @@ namespace stevesch
     // fDeltaSeconds must be non-zero
     static void instantaneousVelocity(vector4 &vVLinear, const vector4 &v0, const vector4 &v1, float fDeltaSeconds);
 
+    // Note: these are 4-element operations-- Make sure your w values are as intended.
+    friend vector4 operator+(const vector4 &v1, const vector4 &v2); // v1 + v2 (4-element)
+    friend vector4 operator-(const vector4 &v1, const vector4 &v2); // v1 - v2 (4-element)
+    friend vector4 operator*(const vector4 &v1, float s); // v1 * s (4-element)
+    friend vector4 operator*(float s, const vector4 &v1); // s * v (4-element)
+    friend vector4 operator/(const vector4 &v1, float d); // v1 / d (4-element)
+
+    friend vector4 operator*(const stevesch::matrix4 &M, const vector4 &v); // M*v -- multiply by 4x4 matrix (v 4-element)
   } /* SALIGN(16) */;
 
   extern const vector4 c_vUP;

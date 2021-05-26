@@ -745,6 +745,48 @@ namespace stevesch
     vVLinear.mul3(fInvDeltaSeconds);
   }
 
+  SVECINLINE vector4 operator+(const vector4 &v1, const vector4 &v2)
+  {
+    vector4 v;
+    vector4::add4(v, v1, v2);
+    return v;
+  }
+
+  SVECINLINE vector4 operator-(const vector4 &v1, const vector4 &v2)
+  {
+    vector4 v;
+    vector4::sub4(v, v1, v2);
+    return v;
+  }
+
+  SVECINLINE vector4 operator*(const vector4 &v1, float s)
+  {
+    vector4 v;
+    vector4::mul4(v, v1, s);
+    return v;
+  }
+
+  SVECINLINE vector4 operator*(float s, const vector4 &v1)
+  {
+    vector4 v;
+    vector4::mul4(v, v1, s);
+    return v;
+  }
+
+  SVECINLINE vector4 operator/(const vector4 &v1, float d)
+  {
+    vector4 v;
+    vector4::div4(v, v1, d);
+    return v;
+  }
+
+  SVECINLINE vector4 operator*(const stevesch::matrix4 &M, const vector4 &v)
+  {
+    vector4 vout;
+    vector4::transform(vout, M, v);
+    return vout;
+  }
+
 } // namespace SMath
 
 #include "vector4-ref-inline.h"

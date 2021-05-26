@@ -187,16 +187,6 @@ namespace stevesch
     add(a);
   }
 
-  ////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////
-
-  // transform
-  //SVECINLINE const vector3& vector3::operator *=(const stevesch::matrix4& mRight)
-  //{
-  //	return transform(mRight);
-  //}
-
-  ////////////////////////////////////////////////////
   ////////////////////////////////////////////////////
   // static methods
 
@@ -252,17 +242,17 @@ namespace stevesch
   }
 
   // dst = v * m (4x4)
-  SVECINLINE void vector3::transform(vector3 &dst, const stevesch::matrix4 &m, const vector3 &v)
+  SVECINLINE void vector3::transform(vector3 &dst, const stevesch::matrix4 &M, const vector3 &v)
   {
     dst = v;
-    dst.transform(m);
+    dst.transform(M);
   }
 
   // dst = v * m (4x4, as if v.w = 0.0)
-  SVECINLINE void vector3::transformSub(vector3 &dst, const stevesch::matrix4 &m, const vector3 &v)
+  SVECINLINE void vector3::transformSub(vector3 &dst, const stevesch::matrix4 &M, const vector3 &v)
   {
     dst = v;
-    dst.transformSub(m);
+    dst.transformSub(M);
   }
 
   // 3-element squared-distance
@@ -353,6 +343,13 @@ namespace stevesch
     vector3 v;
     vector3::div(v, v1, d);
     return v;
+  }
+
+  SVECINLINE vector3 operator*(const stevesch::matrix4 &M, const vector3 &v)
+  {
+    vector3 vout;
+    vector3::transform(vout, M, v);
+    return vout;
   }
 
   ////////////////////////////////////////////////////
