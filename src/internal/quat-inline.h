@@ -175,6 +175,13 @@ namespace stevesch
     mul_norm_norm(dst, q1, q2);
   }
 
+  SQUATINLINE quat operator*(const quat& q1, const quat& q2)
+  {
+    quat q;
+    quat::mul(q, q1, q2);
+    return q;
+  }
+
   // multiply all components by a scalar
   SQUATINLINE quat &quat::operator*=(float fScale)
   {

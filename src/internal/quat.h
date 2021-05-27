@@ -32,23 +32,23 @@ namespace stevesch
     // SOVERLOAD_NEW_ALIGNED(quat, 16)
 
     SQUATINLINE quat() {}
-    SQUATINLINE quat(const quat &q);
+    quat(const quat &q);
 
-    explicit SQUATINLINE quat(const stevesch::vector3 &vAxis, float fAngle); // axis-angle initialization
-    explicit SQUATINLINE quat(const stevesch::vector4 &vAxis, float fAngle); // axis-angle initialization
-    explicit SQUATINLINE quat(const stevesch::matrix4 &m);                   // matrix-to-quaternion initialization
-    explicit SQUATINLINE quat(const stevesch::vector3 &vEuler);              // euler-to-quaternion initialization
+    explicit quat(const stevesch::vector3 &vAxis, float fAngle); // axis-angle initialization
+    explicit quat(const stevesch::vector4 &vAxis, float fAngle); // axis-angle initialization
+    explicit quat(const stevesch::matrix4 &m);                   // matrix-to-quaternion initialization
+    explicit quat(const stevesch::vector3 &vEuler);              // euler-to-quaternion initialization
 
-    explicit SQUATINLINE quat(float x, float y, float z, float a); // explicit member initialization
-    explicit SQUATINLINE quat(float x, float y, float z);          // euler-to-quaternion initialization
-    explicit SQUATINLINE quat(bool bDummy);                        // initialize as an identity quaternion
+    explicit quat(float x, float y, float z, float a); // explicit member initialization
+    explicit quat(float x, float y, float z);          // euler-to-quaternion initialization
+    explicit quat(bool bDummy);                        // initialize as an identity quaternion
 
-    SQUATINLINE bool operator==(const quat &crOther) const;
-    SQUATINLINE bool operator!=(const quat &crOther) const;
+    bool operator==(const quat &crOther) const;
+    bool operator!=(const quat &crOther) const;
 
-    SQUATINLINE void identity(); // initialize as an identity quaternion
+    void identity(); // initialize as an identity quaternion
 
-    SQUATINLINE bool isIdentity() const; // returns 'true' if quaternion represents zero rotation
+    bool isIdentity() const; // returns 'true' if quaternion represents zero rotation
 
     SQUATINLINE const stevesch::vector4 &V() const { return m_vQuat; }
     SQUATINLINE stevesch::vector4 &V() { return m_vQuat; }
@@ -63,43 +63,45 @@ namespace stevesch
     SQUATINLINE float Z() const { return m_vQuat.z; }
     SQUATINLINE float A() const { return m_vQuat.w; }
 
-    SQUATINLINE quat &operator+=(const quat &r);
-    SQUATINLINE quat &operator-=(const quat &r);
-    SQUATINLINE quat &operator*=(const quat &r);
-    SQUATINLINE quat &operator*=(float fScale);
-    SQUATINLINE quat &operator=(const quat &q);
+    quat &operator+=(const quat &r);
+    quat &operator-=(const quat &r);
+    quat &operator*=(const quat &r);
+    quat &operator*=(float fScale);
+    quat &operator=(const quat &q);
 
-    SQUATINLINE quat &postMul_norm(const quat &qRight); // (*this) = (*this) * qRight
-    SQUATINLINE quat &preMul_norm(const quat &qLeft);   // (*this) = qLeft * (*this)
-    SQUATINLINE quat &postMul_conj(const quat &qRight); // (*this) = (*this) * qRight~
-    SQUATINLINE quat &preMul_conj(const quat &qLeft);   // (*this) = qLeft~ * (*this)
+    friend quat operator*(const quat& q1, const quat& q2);
 
-    SQUATINLINE static void mul(quat &dst, const quat &q1, const quat &q2);
+    quat &postMul_norm(const quat &qRight); // (*this) = (*this) * qRight
+    quat &preMul_norm(const quat &qLeft);   // (*this) = qLeft * (*this)
+    quat &postMul_conj(const quat &qRight); // (*this) = (*this) * qRight~
+    quat &preMul_conj(const quat &qLeft);   // (*this) = qLeft~ * (*this)
 
-    SQUATINLINE static void mul_norm_norm(quat &dst, const quat &q1, const quat &q2); // dst = q1 * q2 (standard product)
-    SQUATINLINE static void mul_conj_norm(quat &dst, const quat &q1, const quat &q2); // dst = q1~ * q2 (euclidean product)
-    SQUATINLINE static void mul_norm_conj(quat &dst, const quat &q1, const quat &q2); // dst = q1 * q2~
-    SQUATINLINE static void mul_conj_conj(quat &dst, const quat &q1, const quat &q2); // dst = q1~ * q2~
+    static void mul(quat &dst, const quat &q1, const quat &q2);
 
-    SQUATINLINE quat &scale(float fScale); // same as *=(scalar)
+    static void mul_norm_norm(quat &dst, const quat &q1, const quat &q2); // dst = q1 * q2 (standard product)
+    static void mul_conj_norm(quat &dst, const quat &q1, const quat &q2); // dst = q1~ * q2 (euclidean product)
+    static void mul_norm_conj(quat &dst, const quat &q1, const quat &q2); // dst = q1 * q2~
+    static void mul_conj_conj(quat &dst, const quat &q1, const quat &q2); // dst = q1~ * q2~
 
-    SQUATINLINE quat &conj();               // Conjugate (self): q* = (t, -v)
-    SQUATINLINE void conj(quat &dst) const; // Conjugate
+    quat &scale(float fScale); // same as *=(scalar)
 
-    SQUATINLINE float norm() const;    // (q)(q*) == t*t + v.v
-    SQUATINLINE float invNorm() const; // 1.0 / (q)(q*) == 1.0 / (t*t + v.v)
+    quat &conj();               // Conjugate (self): q* = (t, -v)
+    void conj(quat &dst) const; // Conjugate
 
-    SQUATINLINE float abs() const;    // sqrt(t*t + v.v)
-    SQUATINLINE float invAbs() const; // 1.0 / sqrt(t*t + v.v)
+    float norm() const;    // (q)(q*) == t*t + v.v
+    float invNorm() const; // 1.0 / (q)(q*) == 1.0 / (t*t + v.v)
 
-    SQUATINLINE float det() const;    // (t*t + v.v)^2
-    SQUATINLINE float invDet() const; // 1.0 / [(t*t + v.v)^2]
+    float abs() const;    // sqrt(t*t + v.v)
+    float invAbs() const; // 1.0 / sqrt(t*t + v.v)
 
-    SQUATINLINE quat &adj();               // Adjunct (self)-- (q*)[(q)(q*)]
-    SQUATINLINE void adj(quat &dst) const; // Adjunct
+    float det() const;    // (t*t + v.v)^2
+    float invDet() const; // 1.0 / [(t*t + v.v)^2]
 
-    SQUATINLINE quat &invert();
-    SQUATINLINE void invert(quat &dst) const;
+    quat &adj();               // Adjunct (self)-- (q*)[(q)(q*)]
+    void adj(quat &dst) const; // Adjunct
+
+    quat &invert(); // invert self
+    void invert(quat &dst) const;
 
     quat &ln();               // natural log (self)
     void ln(quat &dst) const; // natural log
@@ -107,18 +109,18 @@ namespace stevesch
     quat &exp();               // exponential (self)-- e^(this)
     void exp(quat &dst) const; // exponential-- dst = e^(this)
 
-    SQUATINLINE quat &pow(const quat &q);                                   // power (self)-- this = this^q
-    static SQUATINLINE void pow(quat &dst, const quat &q1, const quat &q2); // power-- dst = q1^q2
+    quat &pow(const quat &q);                                   // power (self)-- this = this^q
+    static void pow(quat &dst, const quat &q1, const quat &q2); // power-- dst = q1^q2
 
-    SQUATINLINE quat &pow(float fPower);   // power (self)-- this = this^fPower
-    SQUATINLINE quat &normalize();          // normalize (self)-- this = this/|this|
-    SQUATINLINE void normalize(quat &dst); // normalize-- dst = this/|this|
+    quat &pow(float fPower);   // power (self)-- this = this^fPower
+    quat &normalize();          // normalize (self)-- this = this/|this|
+    void normalize(quat &dst); // normalize-- dst = this/|this|
 
     bool safeNormalize();                // normalize (self), setting value to identity if near 0.  returns 'true' if quaternion needed normalization
     bool safeNormalize(quat &dst) const; // normalize, setting value to identity if near 0.  returns 'true' if quaternion needed normalization
 
-    SQUATINLINE void rotate(stevesch::vector3 &dst, const stevesch::vector3 &src) const; // dst = q * <src, 1> * ~q
-    SQUATINLINE void rotate(stevesch::vector4 &dst, const stevesch::vector4 &src) const; // dst = q * src * ~q
+    void rotate(stevesch::vector3 &dst, const stevesch::vector3 &src) const; // dst = q * <src, 1> * ~q
+    void rotate(stevesch::vector4 &dst, const stevesch::vector4 &src) const; // dst = q * src * ~q
 
     stevesch::matrix4 &toMatrix(stevesch::matrix4 &m) const;                                        // Convert from quaternion to matrix
     stevesch::matrix4 &toMatrix(stevesch::matrix4 &m, const stevesch::vector3 &vTranslation) const; // Convert from quaternion and translation to matrix
@@ -135,16 +137,16 @@ namespace stevesch
     void fromAxisAngle(const stevesch::vector4 &vAxis, float angle);
     void fromAxisAngle(const stevesch::vector3 &vAxis, float angle);
 
-    SQUATINLINE quat &cross(const quat &q);   // cross product (self)-- this = this x q (Grassman outer product)
-    SQUATINLINE quat &dotQuat(const quat &q); // quaternion-result dot product (self)-- this = this . q (Euclidean inner product)
-                                             // (results in <0 0 0 scalar-dot>
+    quat &cross(const quat &q);   // cross product (self)-- this = this x q (Grassman outer product)
+    quat &dotQuat(const quat &q); // quaternion-result dot product (self)-- this = this . q (Euclidean inner product)
+                                  // (results in <0 0 0 scalar-dot>
 
-    SQUATINLINE float dot(const quat &q) const; // standard euclidean inner (even) product
-                                                // [(q1*)(q2) + (q2)(q1*)] / 2
-                                                // == ( t*t' + v.v', 0 )
-                                                // *** Common dot product ***
+    float dot(const quat &q) const; // standard euclidean inner (even) product
+                                    // [(q1*)(q2) + (q2)(q1*)] / 2
+                                    // == ( t*t' + v.v', 0 )
+                                    // *** Common dot product ***
 
-    //		void ToBasisMatrix(stevesch::matrix4& dst) const;
+    // void ToBasisMatrix(stevesch::matrix4& dst) const;
 
   public:
     // public static functions
