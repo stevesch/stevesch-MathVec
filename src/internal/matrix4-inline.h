@@ -211,6 +211,13 @@ namespace stevesch
     return *this;
   }
 
+  matrix4 operator*(const matrix4& m1, const matrix4& m2)
+  {
+    matrix4 dst;
+    matrix4::mul(dst, m1, m2);
+    return dst;
+  }
+
   // translate by v (col[3] += v)
   SMATRIX4INLINE const matrix4 &matrix4::translate(const stevesch::vector4 &v)
   {

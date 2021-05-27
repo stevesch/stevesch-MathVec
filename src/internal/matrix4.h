@@ -206,6 +206,8 @@ namespace stevesch
 
     static void mulSub(matrix4 &dst, const matrix4 &m1, const matrix4 &m2) { mulSubA(dst, m1, m2); }
 
+    friend matrix4 operator*(const matrix4& m1, const matrix4& m2); // return m1 * m2
+
   public:
     static const matrix4 I; // identity matrix (4x4)
 
