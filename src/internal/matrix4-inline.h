@@ -211,7 +211,7 @@ namespace stevesch
     return *this;
   }
 
-  matrix4 operator*(const matrix4& m1, const matrix4& m2)
+  SMATRIX4INLINE matrix4 operator*(const matrix4& m1, const matrix4& m2)
   {
     matrix4 dst;
     matrix4::mul(dst, m1, m2);
