@@ -57,6 +57,8 @@ namespace stevesch
     matrix4(const stevesch::vector3 &vTranslation);                                                                              // translation matrix
     matrix4(const matrix4 &m);                                                                                                   // copy
     matrix4(const stevesch::vector4 &vx, const stevesch::vector4 &vy, const stevesch::vector4 &vz, const stevesch::vector4 &vw); // initialize by basis vector (column)
+    matrix4(eIdentity) { identity(); }
+    matrix4(eZero) { zero(); }
 
     matrix4(float _xx, float _xy, float _xz, float _xw,
             float _yx, float _yy, float _yz, float _yw,

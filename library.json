@@ -1,6 +1,6 @@
 {
   "name": "stevesch-MathVec",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "keywords": "vector, matrix, quaternion, linear algebra, transform, cross, dot, slerp, invert, inverse, lerp, 3D, geometry, physics, math",
   "description": "C++ vector (2-, 3-, and 4-element), matrix (4x4), and quaternion classes with common functions for 3D rendering and 3D geometry.",
   "repository":
@@ -27,6 +27,6 @@
     }
   ],
   "dependencies": [
-    "stevesch/stevesch-MathBase@^0.1.0"
+    "stevesch/stevesch-MathBase@^0.2.0"
   ]
 }

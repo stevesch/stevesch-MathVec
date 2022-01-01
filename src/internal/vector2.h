@@ -29,6 +29,8 @@ namespace stevesch
     vector2() {} // uninitialized
     vector2(float _x, float _y) : x(_x), y(_y) {}
     vector2(const vector2 &_v);
+    vector2(eZero) : x(0.0f), y(0.0f) {}
+    vector2(eOnes) : x(1.0f), y(1.0f) {}
 
     inline float X() const { return x; }
     inline float Y() const { return y; }
@@ -143,13 +145,9 @@ namespace stevesch
     vector2 &operator[](int n);             // access by column
 
     inline matrix2() {} // uninitialized
-
     inline matrix2(float _m00, float _m10, float _m01, float _m11) : m00(_m00), m10(_m10), m01(_m01), m11(_m11) {}
-
     inline matrix2(float fDiag) : m00(fDiag), m10(0.0f), m01(0.0f), m11(fDiag) {}
-
     inline matrix2(const vector2 &vRow0, const vector2 &vRow1) : m00(vRow0.x), m10(vRow0.y), m01(vRow1.x), m11(vRow1.y) {}
-
     inline matrix2(const matrix2 &r)
     {
       col[0] = r.col[0];
@@ -162,6 +160,10 @@ namespace stevesch
       return *this;
     } //{ V4 = r.V4; return *this; }
 
+    matrix2(eIdentity) { identity(); }
+    matrix2(eZero) { zero(); }
+
+
     // return 'NULL' failure occurs
     matrix2 *invert();                        // returns 'this' if success
     matrix2 *getInverse(matrix2 &rDst) const; // returns &rDst if success
@@ -169,11 +171,15 @@ namespace stevesch
     matrix2 &operator*=(const matrix2 &rRight);
     matrix2 operator*(const matrix2 &rRight);
 
+    const matrix2 &identity();
+    const matrix2 &zero();
+
     float det() const;
 
     void transpose();       // transpose self
     matrix2 getTranspose(); // return transpose
 
+    static const matrix2 I; // identity matrix (2x2)
   } /* SALIGN(16) */;
 
   //----------------------------------------------------------------------------
@@ -210,6 +216,11 @@ namespace stevesch
     matrix2 m_kM;
   };
 
+  // linear interpolation t=[0, 1] -> dst=[v1, v2]
+  inline void lerp(vector2 &dst, const vector2 &v1, const vector2 &v2, float t)
+  {
+    vector2::lerp(dst, v1, v2, t);
+  }
 } // namespace stevesch
 
 #include "vector2-inline.h"

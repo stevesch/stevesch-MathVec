@@ -8,6 +8,10 @@
 
 namespace stevesch
 {
+  enum class eZero { value }; // <0[, 0[, ...]]>
+  enum class eOnes { value }; // <1[, 1[, ...]]>
+  enum class eIdentity { value };
+
   namespace MathVec
   {
   }

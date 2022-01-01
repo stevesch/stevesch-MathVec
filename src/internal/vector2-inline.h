@@ -419,6 +419,19 @@ namespace stevesch
     return mtxOut;
   }
 
+
+  inline const matrix2 &matrix2::identity()
+  {
+    *this = matrix2::I;
+    return *this;
+  }
+
+  inline const matrix2 &matrix2::zero()
+  {
+    col[0].set(0.0f, 0.0f);
+    col[1].set(0.0f, 0.0f);
+    return *this;
+  }
 } // namespace stevesch
 
 #endif // STEVESCH_MATHVEC_INTERNAL_VECTOR2_INLINE_H_

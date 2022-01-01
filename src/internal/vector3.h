@@ -29,6 +29,8 @@ namespace stevesch
     SVECINLINE vector3() {}
     SVECINLINE vector3(float _x, float _y, float _z);
     SVECINLINE vector3(const vector3 &_v);
+    SVECINLINE vector3(eZero) : x(0.0f), y(0.0f), z(0.0f) {}
+    SVECINLINE vector3(eOnes) : x(1.0f), y(1.0f), z(1.0f) {}
 
     SVECINLINE operator const SVec3_t &() const { return *reinterpret_cast<const SVec3_t *>(this); }
     SVECINLINE operator SVec3_t &() { return *reinterpret_cast<SVec3_t *>(this); }
@@ -110,6 +112,11 @@ namespace stevesch
     friend SVECINLINE vector3 operator*(const stevesch::matrix4 &M, const vector3 &v); // M*v -- multiply by 4x4 matrix (v.w assumed=1.0f)
   };
 
+  // linear interpolation t=[0, 1] -> dst=[v1, v2]
+  SVECINLINE void lerp(vector3 &dst, const vector3 &v1, const vector3 &v2, float t)
+  {
+    vector3::lerp(dst, v1, v2, t);
+  }
 } // namespace stevesch
 
 #include "vector3-inline.h"

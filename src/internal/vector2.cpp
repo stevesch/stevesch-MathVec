@@ -2,6 +2,11 @@
 
 namespace stevesch
 {
+  const matrix2 matrix2::I(
+    1.0f, 0.0f,
+    0.0f, 1.0f
+  );
+
   hmQuadToSqr::hmQuadToSqr(const vector2 &rkP00,
                            const vector2 &rkP10, const vector2 &rkP11,
                            const vector2 &rkP01)
